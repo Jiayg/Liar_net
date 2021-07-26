@@ -26,7 +26,7 @@ namespace Liar.DbMigrator
                 .WriteTo.Async(c => c.Console())
                 .CreateLogger();
 
-            await CreateHostBuilder(args).RunConsoleAsync();
+            //await CreateHostBuilder(args).RunConsoleAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

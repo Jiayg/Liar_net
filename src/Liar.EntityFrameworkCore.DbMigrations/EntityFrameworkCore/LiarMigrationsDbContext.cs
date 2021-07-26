@@ -1,14 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
-using Volo.Abp.Identity;
-using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.IdentityServer.EntityFrameworkCore;
-using Volo.Abp.PermissionManagement.EntityFrameworkCore;
-using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Liar.EntityFrameworkCore
 {
@@ -19,7 +10,7 @@ namespace Liar.EntityFrameworkCore
      */
     public class LiarMigrationsDbContext : AbpDbContext<LiarMigrationsDbContext>
     {
-        public LiarMigrationsDbContext(DbContextOptions<LiarMigrationsDbContext> options) 
+        public LiarMigrationsDbContext(DbContextOptions<LiarMigrationsDbContext> options)
             : base(options)
         {
 
@@ -31,14 +22,14 @@ namespace Liar.EntityFrameworkCore
 
             /* Include modules to your migration db context */
 
-            builder.ConfigurePermissionManagement();
-            builder.ConfigureSettingManagement();
-            builder.ConfigureBackgroundJobs();
-            builder.ConfigureAuditLogging();
-            builder.ConfigureIdentity();
-            builder.ConfigureIdentityServer();
-            builder.ConfigureFeatureManagement();
-            builder.ConfigureTenantManagement();
+            //builder.ConfigurePermissionManagement();
+            //builder.ConfigureSettingManagement();
+            //builder.ConfigureBackgroundJobs();
+            //builder.ConfigureAuditLogging();
+            //builder.ConfigureIdentity();
+            //builder.ConfigureIdentityServer();
+            //builder.ConfigureFeatureManagement();
+            //builder.ConfigureTenantManagement();
 
             /* Configure your own tables/entities inside the ConfigureLiar method */
 

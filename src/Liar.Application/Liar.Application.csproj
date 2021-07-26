@@ -7,6 +7,10 @@
     <RootNamespace>Liar.Application</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Liar.HttpApi.Host\Liar.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
     <ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />

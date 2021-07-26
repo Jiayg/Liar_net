@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Liar.Data;
 using Volo.Abp.DependencyInjection;
 
 namespace Liar.EntityFrameworkCore
 {
     public class EntityFrameworkCoreLiarDbSchemaMigrator
-        : ILiarDbSchemaMigrator, ITransientDependency
+        : ITransientDependency
     {
         private readonly IServiceProvider _serviceProvider;
 

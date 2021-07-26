@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Volo.Abp.Identity;
-using Volo.Abp.ObjectExtending;
-using Volo.Abp.Threading;
+﻿using Volo.Abp.Threading;
 
 namespace Liar.EntityFrameworkCore
 {
@@ -11,8 +8,8 @@ namespace Liar.EntityFrameworkCore
 
         public static void Configure()
         {
-            LiarGlobalFeatureConfigurator.Configure();
-            LiarModuleExtensionConfigurator.Configure();
+            //LiarGlobalFeatureConfigurator.Configure();
+            //LiarModuleExtensionConfigurator.Configure();
 
             OneTimeRunner.Run(() =>
             {

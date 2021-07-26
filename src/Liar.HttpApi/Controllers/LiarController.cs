@@ -1,5 +1,4 @@
-﻿using Liar.Localization;
-using Volo.Abp.AspNetCore.Mvc;
+﻿using Volo.Abp.AspNetCore.Mvc;
 
 namespace Liar.Controllers
 {
@@ -8,8 +7,7 @@ namespace Liar.Controllers
     public abstract class LiarController : AbpController
     {
         protected LiarController()
-        {
-            LocalizationResource = typeof(LiarResource);
+        { 
         }
     }
 }

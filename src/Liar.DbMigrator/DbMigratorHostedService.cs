@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Liar.Data;
 using Serilog;
 using Volo.Abp;
 
@@ -27,10 +26,10 @@ namespace Liar.DbMigrator
             {
                 application.Initialize();
 
-                await application
-                    .ServiceProvider
-                    .GetRequiredService<LiarDbMigrationService>()
-                    .MigrateAsync();
+                //await application
+                //    .ServiceProvider
+                //    .GetRequiredService<LiarDbMigrationService>()
+                //    .MigrateAsync();
 
                 application.Shutdown();
 
