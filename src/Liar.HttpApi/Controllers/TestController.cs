@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Liar.Application.Contracts.IServices;
+﻿using Liar.Application.Contracts.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Liar.Controllers

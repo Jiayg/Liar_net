@@ -14,8 +14,7 @@ namespace Liar
     public class LiarApplicationContractsModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
-        {
-            LiarDtoExtensions.Configure();
+        { 
         }
     }
 }
