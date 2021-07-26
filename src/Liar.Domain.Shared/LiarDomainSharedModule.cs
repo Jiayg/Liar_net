@@ -1,10 +1,8 @@
-﻿using Volo.Abp.Identity;
-using Volo.Abp.Modularity;
+﻿using Volo.Abp.Modularity;
 
 namespace Liar
 {
-    [DependsOn(
-        typeof(AbpIdentityDomainSharedModule)
+    [DependsOn( 
         )]
     public class LiarDomainSharedModule : AbpModule
     {

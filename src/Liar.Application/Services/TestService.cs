@@ -2,7 +2,7 @@
 
 namespace Liar.Services
 {
-    public class TestService : LiarAppService, ITestService
+    public class TestService :  ITestService
     {
         public string get()
         {

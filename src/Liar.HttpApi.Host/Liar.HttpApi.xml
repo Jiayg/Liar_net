@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Liar.HttpApi</name>
+    </assembly>
+    <members>
+        <member name="M:Liar.HttpApi.Controllers.BlogController.InsertPostAsync(Liar.Application.Contracts.Dtos.Blog.PostDto)">
+            <summary>
+            添加博客
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Controllers.TestController.#ctor(Liar.Application.Contracts.IServices.ITestService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="testService"></param>
+        </member>
+        <member name="M:Liar.Controllers.TestController.Get">
+            <summary>
+            测试
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
