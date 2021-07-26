@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Liar.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -7,7 +8,17 @@ namespace Liar.EntityFrameworkCore
     [ConnectionStringName("MySQL")]
     public class LiarDbContext : AbpDbContext<LiarDbContext>
     {
-        //public DbSet<AppUser> Users { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<PostTag> PostTags { get; set; }
+
+        public DbSet<FriendLink> FriendLinks { get; set; }
+
 
         public LiarDbContext(DbContextOptions<LiarDbContext> options) : base(options)
         {
