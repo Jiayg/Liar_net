@@ -35,7 +35,7 @@
 	  <None Update="Liar.Application.Contracts.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Liar.HttpApi.xml">
+	  <None Update="Liar.Application.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

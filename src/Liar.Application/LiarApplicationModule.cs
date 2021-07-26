@@ -1,9 +1,13 @@
 ﻿using Volo.Abp.AutoMapper;
+using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 
 namespace Liar
 {
-    [DependsOn( 
+    [DependsOn(
+        typeof(AbpIdentityApplicationModule),
+        typeof(AbpPermissionManagementApplicationModule),
         typeof(LiarApplicationContractsModule),
         typeof(LiarDomainModule)
         )]
