@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Abp.AspNetCore.Mvc.ExceptionHandling;
 using Liar.EntityFrameworkCore;
 using Liar.HttpApi.Host.Filter;
 using Liar.HttpApi.Host.Middleware;
@@ -16,17 +15,16 @@ using Microsoft.OpenApi.Models;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.ExceptionHandling;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.VirtualFileSystem;
 
 namespace Liar
 {
     [DependsOn(
         typeof(AbpAutofacModule),
-        typeof(LiarHttpApiModule),
+        //typeof(LiarHttpApiModule),
         typeof(LiarApplicationModule),
         typeof(LiarEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpSwashbuckleModule)
@@ -97,7 +95,7 @@ namespace Liar
                options =>
                {
                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Liar API", Version = "v1" });
-                   options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.xml"));
+                   options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.Host.xml"));
                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.Application.Contracts.xml"));
                    //options.DocInclusionPredicate((docName, description) => true);
                    //options.CustomSchemaIds(type => type.FullName);

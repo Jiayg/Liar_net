@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Abp.Json;
 using Microsoft.AspNetCore.Http;
 
 namespace Liar.HttpApi.Host.Middleware
@@ -59,7 +56,7 @@ namespace Liar.HttpApi.Host.Middleware
             //var result = new ServiceResult();
             //result.IsFailed(message);
 
-            await context.Response.WriteAsync(message.ToJsonString());
+            await context.Response.WriteAsync(message);
         }
     }
 }
