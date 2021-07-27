@@ -1,10 +1,18 @@
 ﻿using System;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Liar.Domain.Entities
 {
-    public class Post : Entity<int>
+    public class Post : Entity
     {
+        public int Id { get; set; }
+
+        public override object[] GetKeys()
+        {
+            return new object[] { Id };
+        }
         /// <summary>
         /// 标题
         /// </summary>
@@ -35,9 +43,7 @@ namespace Liar.Domain.Entities
         /// </summary>
         public int CategoryId { get; set; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
         public DateTime CreationTime { get; set; }
+
     }
 }

@@ -6,9 +6,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Liar.EntityFrameworkCore
 {
     [ConnectionStringName("MySQL")]
-    public class LiarDbContext : AbpDbContext<LiarDbContext>
+    public class LiarDbContext : AbpDbContext<LiarDbContext>, IEfCoreDbContext
     {
-
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Category> Categories { get; set; }

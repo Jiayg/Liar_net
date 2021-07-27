@@ -2,74 +2,43 @@
 using Liar.Application.Contracts.Dtos;
 using Liar.Application.Contracts.IServices;
 using Liar.Domain.Entities;
-using Liar.Domain.Repositories;
+using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Services
 {
     public class BlogService : LiarAppService, IBlogService
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IRepository<Post> _postRepo;
 
-        public BlogService(IPostRepository postRepository)
+        public BlogService(IRepository<Post> postRepo)
         {
-            _postRepository = postRepository;
+            this._postRepo = postRepo;
         }
 
-        public async Task<bool> DeletePostAsync(int id)
+        public Task<bool> DeletePostAsync(int id)
         {
-            await _postRepository.DeleteAsync(id);
-
-            return true;
+            throw new System.NotImplementedException();
         }
 
         public async Task<PostDto> GetPostAsync(int id)
         {
-            var post = await _postRepository.GetAsync(id);
+            var entities = await _postRepo.GetAsync(x => x.Id.Equals(id));
 
-            return new PostDto
-            {
-                Title = post.Title,
-                Author = post.Author,
-                Url = post.Url,
-                Html = post.Html,
-                Markdown = post.Markdown,
-                CategoryId = post.CategoryId,
-                CreationTime = post.CreationTime
-            };
+            return ObjectMapper.Map<Post, PostDto>(entities);
+            //return new PostDto
+            //{
+            //    Title = entities.Title
+            //};
         }
 
-        public async Task<bool> InsertPostAsync(PostDto dto)
-        {
-            var entity = new Post
-            {
-                Title = dto.Title,
-                Author = dto.Author,
-                Url = dto.Url,
-                Html = dto.Html,
-                Markdown = dto.Markdown,
-                CategoryId = dto.CategoryId,
-                CreationTime = dto.CreationTime
-            };
-
-            var post = await _postRepository.InsertAsync(entity);
-            return post != null;
+        public Task<bool> InsertPostAsync(PostDto dto)
+        { 
+            throw new System.NotImplementedException();
         }
 
-        public async Task<bool> UpdatePostAsync(int id, PostDto dto)
+        public Task<bool> UpdatePostAsync(int id, PostDto dto)
         {
-            var post = await _postRepository.GetAsync(id);
-
-            post.Title = dto.Title;
-            post.Author = dto.Author;
-            post.Url = dto.Url;
-            post.Html = dto.Html;
-            post.Markdown = dto.Markdown;
-            post.CategoryId = dto.CategoryId;
-            post.CreationTime = dto.CreationTime;
-
-            await _postRepository.UpdateAsync(post);
-
-            return true;
+            throw new System.NotImplementedException();
         }
     }
 }

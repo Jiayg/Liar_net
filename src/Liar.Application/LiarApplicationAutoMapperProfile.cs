@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Liar.Application.Contracts.Dtos;
+using Liar.Domain.Entities;
 
 namespace Liar
 {
@@ -6,9 +8,7 @@ namespace Liar
     {
         public LiarApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateMap<Post, PostDto>(); 
         }
     }
 }

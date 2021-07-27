@@ -5,7 +5,8 @@ namespace Liar
 {
     [DependsOn(
         typeof(LiarApplicationContractsModule),
-        typeof(LiarDomainModule)
+        typeof(LiarDomainModule),
+        typeof(AbpAutoMapperModule)
         )]
     public class LiarApplicationModule : AbpModule
     {
@@ -13,7 +14,7 @@ namespace Liar
         {
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<LiarApplicationModule>();
+                options.AddMaps<LiarApplicationAutoMapperProfile>(validate: false);
             });
         }
     }

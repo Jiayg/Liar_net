@@ -6,7 +6,7 @@ using Liar.Application.Contracts.Dtos;
 
 namespace Liar.Application.Contracts.IServices
 {
-    public interface IBlogService
+    public interface IBlogService : ILiarAppService
     {
         /// <summary>
         /// 增

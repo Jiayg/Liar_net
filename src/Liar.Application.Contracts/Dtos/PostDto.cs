@@ -5,8 +5,8 @@ namespace Liar.Application.Contracts.Dtos
     public class PostDto
     {
         /// <summary>
-      /// 标题
-      /// </summary>
+        /// 标题
+        /// </summary>
         public string Title { get; set; }
 
         /// <summary>
@@ -33,10 +33,5 @@ namespace Liar.Application.Contracts.Dtos
         /// 分类Id
         /// </summary>
         public int CategoryId { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreationTime { get; set; }
     }
 }
