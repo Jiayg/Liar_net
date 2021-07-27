@@ -9,6 +9,8 @@ namespace Liar
         public LiarApplicationAutoMapperProfile()
         {
             CreateMap<UserCreationDto, SysUser>();
+
+            CreateMap<SysUser, UserProfileDto>();
         }
     }
 }
