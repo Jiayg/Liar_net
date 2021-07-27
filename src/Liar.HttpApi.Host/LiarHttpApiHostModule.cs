@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Liar.EntityFrameworkCore;
+using Liar.HangFire;
 using Liar.HttpApi.Host.Filter;
 using Liar.HttpApi.Host.Middleware;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,7 @@ namespace Liar
         typeof(LiarApplicationModule),
         typeof(LiarEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpSwashbuckleModule)
+    //typeof(LiarHangFireModule)
     )]
     public class LiarHttpApiHostModule : AbpModule
     {

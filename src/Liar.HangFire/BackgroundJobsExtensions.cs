@@ -15,7 +15,7 @@ namespace Liar.HangFire
         {
             var job = service.GetService<TestJob>();
 
-            RecurringJob.AddOrUpdate("壁纸数据抓取", () => job.ExecuteAsync(), CronType.Hour(1, 3));
+            RecurringJob.AddOrUpdate("测试", () => job.ExecuteAsync(), CronType.Hour(1, 3));
         }
     }
 }

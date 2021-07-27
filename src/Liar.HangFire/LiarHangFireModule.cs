@@ -10,9 +10,7 @@ using Volo.Abp.Modularity;
 
 namespace Liar.HangFire
 {
-    [DependsOn(
-        typeof(AbpBackgroundJobsHangfireModule)
-        )]
+    [DependsOn(typeof(AbpBackgroundJobsHangfireModule))]
     public class LiarHangFireModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
