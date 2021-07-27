@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Liar.Domain
+namespace Liar.Domain.Shared
 {
     /// <summary>
     /// appsettings.json配置文件数据读取类
@@ -22,6 +22,13 @@ namespace Liar.Domain
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                                     .AddJsonFile("appsettings.json", true, true);
             _config = builder.Build();
+        }
+
+        public static class Hangfire
+        {
+            public static string Login => _config["Hangfire:Login"];
+
+            public static string Password => _config["Hangfire:Password"];
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Liar.Domain;
+﻿using Liar.Domain.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
