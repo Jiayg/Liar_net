@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Abp.AspNetCore.Mvc.Controllers;
 using Liar.Application.Contracts.Dtos;
 using Liar.Application.Contracts.IServices;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc;
 
 namespace Liar.HttpApi.Controllers
 {

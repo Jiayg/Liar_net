@@ -1,20 +1,14 @@
-﻿using Volo.Abp.Identity;
-using Volo.Abp.Modularity;
-using Volo.Abp.ObjectExtending;
-using Volo.Abp.PermissionManagement;
+﻿using Volo.Abp.Modularity;
 
 namespace Liar
 {
     [DependsOn(
-        typeof(LiarDomainSharedModule), 
-        typeof(AbpIdentityApplicationContractsModule),
-        typeof(AbpPermissionManagementApplicationContractsModule), 
-        typeof(AbpObjectExtendingModule)
+        typeof(LiarDomainSharedModule)
     )]
     public class LiarApplicationContractsModule : AbpModule
     {
         public override void PreConfigureServices(ServiceConfigurationContext context)
-        { 
+        {
         }
     }
 }

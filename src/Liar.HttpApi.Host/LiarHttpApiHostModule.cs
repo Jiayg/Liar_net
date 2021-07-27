@@ -100,7 +100,7 @@ namespace Liar
                 options =>
                 {
                     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Liar API", Version = "v1" });
-                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.Application.xml"));
+                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.xml"));
                     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.Application.Contracts.xml"));
                     //options.DocInclusionPredicate((docName, description) => true);
                     //options.CustomSchemaIds(type => type.FullName);

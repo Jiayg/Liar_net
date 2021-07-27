@@ -12,11 +12,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
+	  <PackageReference Include="Abp.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Identity.HttpApi" Version="4.3.3" />
+		<ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
 	</ItemGroup>
-
+ 
 </Project>
