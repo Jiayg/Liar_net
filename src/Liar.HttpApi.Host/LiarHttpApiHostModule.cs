@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.ExceptionHandling;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
@@ -39,6 +40,11 @@ namespace Liar
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
+            Configure<AbpExceptionHandlingOptions>(options =>
+            {
+                options.SendExceptionsDetailsToClients = true;
+            });
+
             Configure<MvcOptions>(options =>
             {
                 var filterMetadata = options.Filters.FirstOrDefault(x => x is ServiceFilterAttribute attribute && attribute.ServiceType.Equals(typeof(AbpExceptionFilter)));
@@ -46,17 +52,9 @@ namespace Liar
                 // 移除 AbpExceptionFilter
                 options.Filters.Remove(filterMetadata);
 
-                // 添加自己实现的 MeowvBlogExceptionFilter
+                // 添加自己实现的 LiarExceptionFilter
                 options.Filters.Add(typeof(LiarExceptionFilter));
             });
-
-            Configure<AppUrlOptions>(options =>
-            {
-                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-                options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
-            });
-
-            ConfigureConventionalControllers();
 
             // 跨域配置
             context.Services.AddCors(options =>
@@ -104,38 +102,6 @@ namespace Liar
                    //options.DocInclusionPredicate((docName, description) => true);
                    //options.CustomSchemaIds(type => type.FullName);
                });
-        }
-
-        private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
-        {
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-            if (hostingEnvironment.IsDevelopment())
-            {
-                Configure<AbpVirtualFileSystemOptions>(options =>
-                {
-                    options.FileSets.ReplaceEmbeddedByPhysical<LiarDomainSharedModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Liar.Domain.Shared"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<LiarDomainModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Liar.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<LiarApplicationContractsModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Liar.Application.Contracts"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<LiarApplicationModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Liar.Application"));
-                });
-            }
-        }
-
-        private void ConfigureConventionalControllers()
-        {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(LiarApplicationModule).Assembly);
-            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -1,9 +1,11 @@
-﻿using Volo.Abp.Modularity;
+﻿using Volo.Abp.FluentValidation;
+using Volo.Abp.Modularity;
 
 namespace Liar
 {
     [DependsOn(
-        typeof(LiarDomainSharedModule)
+        typeof(LiarDomainSharedModule),
+        typeof(AbpFluentValidationModule)
     )]
     public class LiarApplicationContractsModule : AbpModule
     {

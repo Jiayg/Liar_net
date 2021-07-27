@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using NLog.Fluent;
 
 namespace Liar.HttpApi.Host.Filter
 {
