@@ -1,5 +1,6 @@
 ﻿using Liar.Domain.Entities;
 using Liar.Domain.Shared;
+using Liar.Domain.Sys;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using static Liar.Domain.Shared.LiarDbConsts;
@@ -11,50 +12,73 @@ namespace Liar.EntityFrameworkCore
         public static void ConfigureLiar(this ModelBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
-
-            builder.Entity<Post>(b =>
+             
+            builder.Entity<SysUser>(x =>
             {
-                b.ToTable(LiarConsts.DbTablePrefix + DbTableName.Posts);
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Title).HasMaxLength(200).IsRequired();
-                b.Property(x => x.Author).HasMaxLength(10);
-                b.Property(x => x.Url).HasMaxLength(100).IsRequired();
-                b.Property(x => x.Html).HasColumnType("longtext").IsRequired();
-                b.Property(x => x.Markdown).HasColumnType("longtext").IsRequired();
-                b.Property(x => x.CategoryId).HasColumnType("int");
-                b.Property(x => x.CreationTime).HasColumnType("datetime");
+                x.HasKey(x => x.Id);
+                x.Property(x => x.Account).IsRequired().HasMaxLength(16);
+                x.Property(x => x.Avatar).HasMaxLength(64);
+                x.Property(x => x.Email).HasMaxLength(32);
+                x.Property(x => x.Name).IsRequired().HasMaxLength(16);
+                x.Property(x => x.Password).IsRequired().HasMaxLength(32);
+                x.Property(x => x.Phone).HasMaxLength(11);
+                x.Property(x => x.RoleIds).HasMaxLength(72);
+                x.Property(x => x.Salt).IsRequired().HasMaxLength(6);
+
+                //一对多,SysDept没有UserId字段
+                x.HasOne(d => d.Dept)
+                   .WithMany(p => p.Users)
+                   .HasForeignKey(d => d.DeptId)
+                   .OnDelete(DeleteBehavior.SetNull);
             });
 
-            builder.Entity<Category>(b =>
+            builder.Entity<SysRole>(x =>
             {
-                b.ToTable(LiarConsts.DbTablePrefix + DbTableName.Categories);
-                b.HasKey(x => x.Id);
-                b.Property(x => x.CategoryName).HasMaxLength(50).IsRequired();
-                b.Property(x => x.DisplayName).HasMaxLength(50).IsRequired();
+                x.HasKey(x => x.Id);
+                x.Property(x => x.Name).IsRequired().HasMaxLength(32);
+                x.Property(x => x.Tips).HasMaxLength(64);
+
+                //一对多,SysDept没有UserId字段
+                x.HasMany(d => d.Relations)
+                       .WithOne(p => p.Role)
+                       .HasForeignKey(d => d.RoleId)
+                       .IsRequired()
+                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            builder.Entity<Tag>(b =>
+            builder.Entity<SysRelation>(x =>
             {
-                b.ToTable(LiarConsts.DbTablePrefix + DbTableName.Tags);
-                b.HasKey(x => x.Id);
-                b.Property(x => x.TagName).HasMaxLength(50).IsRequired();
-                b.Property(x => x.DisplayName).HasMaxLength(50).IsRequired();
+                x.HasKey(x => x.Id);
+                x.Property(x => x.RoleId).IsRequired();
+                x.Property(x => x.MenuId).IsRequired();
             });
 
-            builder.Entity<PostTag>(b =>
+            builder.Entity<SysMenu>(x =>
             {
-                b.ToTable(LiarConsts.DbTablePrefix + DbTableName.PostTags);
-                b.HasKey(x => x.Id);
-                b.Property(x => x.PostId).HasColumnType("int").IsRequired();
-                b.Property(x => x.TagId).HasColumnType("int").IsRequired();
+                x.HasKey(x => x.Id);
+                x.Property(x => x.Code).IsRequired().HasMaxLength(16);
+                x.Property(x => x.PCode).HasMaxLength(16);
+                x.Property(x => x.PCodes).HasMaxLength(128);
+                x.Property(x => x.Component).HasMaxLength(64);
+                x.Property(x => x.Icon).HasMaxLength(16);
+                x.Property(x => x.Name).IsRequired().HasMaxLength(16);
+                x.Property(x => x.Tips).HasMaxLength(32);
+                x.Property(x => x.Url).HasMaxLength(64);
+
+                x.HasMany(d => d.Relations)
+                       .WithOne(m => m.Menu)
+                       .HasForeignKey(d => d.MenuId)
+                       .IsRequired()
+                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            builder.Entity<FriendLink>(b =>
+            builder.Entity<SysDept>(x =>
             {
-                b.ToTable(LiarConsts.DbTablePrefix + DbTableName.Friendlinks);
-                b.HasKey(x => x.Id);
-                b.Property(x => x.Title).HasMaxLength(20).IsRequired();
-                b.Property(x => x.LinkUrl).HasMaxLength(100).IsRequired();
+                x.HasKey(x => x.Id);
+                x.Property(x => x.FullName).IsRequired().HasMaxLength(32);
+                x.Property(x => x.SimpleName).IsRequired().HasMaxLength(16);
+                x.Property(x => x.Tips).HasMaxLength(64);
+                x.Property(x => x.Pids).HasMaxLength(80);
             });
         }
     }

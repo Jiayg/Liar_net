@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liar.HttpApi.Host", "src\Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liar.HangFire", "src\Liar.HangFire\Liar.HangFire.csproj", "{C4CCD860-3C74-446F-B098-B47F52C6C829}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liar.Core", "src\Liar.Core\Liar.Core.csproj", "{82A6E91A-17A6-4CDD-8609-F44A6F623203}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{C4CCD860-3C74-446F-B098-B47F52C6C829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4CCD860-3C74-446F-B098-B47F52C6C829}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4CCD860-3C74-446F-B098-B47F52C6C829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A6E91A-17A6-4CDD-8609-F44A6F623203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A6E91A-17A6-4CDD-8609-F44A6F623203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A6E91A-17A6-4CDD-8609-F44A6F623203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A6E91A-17A6-4CDD-8609-F44A6F623203}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{520659C8-C734-4298-A3DA-B539DB9DFC0B} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{748584B1-BA69-4F6A-81AA-F4BDE6BCE29D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{C4CCD860-3C74-446F-B098-B47F52C6C829} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{82A6E91A-17A6-4CDD-8609-F44A6F623203} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

@@ -1,91 +1,57 @@
-﻿using System.Collections.Generic;
-using Liar.Domain.Shared.BaseModels;
+﻿using Liar.Application.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
+using ProblemDetails = Liar.Application.Contracts.ProblemDetails;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     public class BaseController : AbpController
     {
         [NonAction]
-        public ResultModel<T> Success<T>(T data, string msg = "成功")
+        protected virtual ObjectResult Problem(ProblemDetails problemDetails)
         {
-            return new ResultModel<T>()
-            {
-                success = true,
-                msg = msg,
-                data = data,
-            };
+            problemDetails.Instance = problemDetails.Instance ?? this.Request.Path.ToString();
+            return Problem(problemDetails.Detail
+                , problemDetails.Instance
+                , problemDetails.Status
+                , problemDetails.Title
+                , problemDetails.Type);
+        }
+
+        //[NonAction]
+        //protected virtual ObjectResult Problem(Refit.ApiException exception)
+        //{
+        //    var problemDetails = ((Refit.ValidationApiException)exception).Content;
+
+        //    return Problem(problemDetails.Detail
+        //            , problemDetails.Instance
+        //            , problemDetails.Status
+        //            , problemDetails.Title
+        //            , problemDetails.Type);
+        //}
+
+        [NonAction]
+        protected virtual ActionResult<TValue> Result<TValue>(AppSrvResult<TValue> appSrvResult)
+        {
+            if (appSrvResult.IsSuccess)
+                return appSrvResult.Content;
+            return Problem(appSrvResult.ProblemDetails);
         }
 
         [NonAction]
-        public ResultModel Success(string msg = "成功")
+        protected virtual ActionResult Result(AppSrvResult appSrvResult)
         {
-            return new ResultModel()
-            {
-                success = true,
-                msg = msg,
-                data = null,
-            };
+            if (appSrvResult.IsSuccess)
+                return NoContent();
+            return Problem(appSrvResult.ProblemDetails);
         }
 
         [NonAction]
-        public ResultModel<string> Failed(string msg = "失败", int status = 500)
+        protected virtual ActionResult<TValue> CreatedResult<TValue>(AppSrvResult<TValue> appSrvResult)
         {
-            return new ResultModel<string>()
-            {
-                success = false,
-                status = status,
-                msg = msg,
-                data = null,
-            };
+            if (appSrvResult.IsSuccess)
+                return Created(this.Request.Path, appSrvResult.Content);
+            return Problem(appSrvResult.ProblemDetails);
         }
-
-        [NonAction]
-        public ResultModel<T> Failed<T>(string msg = "失败", int status = 500)
-        {
-            return new ResultModel<T>()
-            {
-                success = false,
-                status = status,
-                msg = msg,
-                data = default,
-            };
-        }
-
-        [NonAction]
-        public ResultModel<PageModel<T>> SuccessPage<T>(int page, int dataCount, List<T> data, int pageCount, string msg = "获取成功")
-        {
-            return new ResultModel<PageModel<T>>()
-            {
-                success = true,
-                msg = msg,
-                data = new PageModel<T>()
-                {
-                    page = page,
-                    dataCount = dataCount,
-                    data = data,
-                    pageCount = pageCount,
-                }
-            };
-        }
-
-        [NonAction]
-        public ResultModel<PageModel<T>> SuccessPage<T>(PageModel<T> pageModel, string msg = "获取成功")
-        {
-            return new ResultModel<PageModel<T>>()
-            {
-                success = true,
-                msg = msg,
-                data = new PageModel<T>()
-                {
-                    page = pageModel.page,
-                    dataCount = pageModel.dataCount,
-                    data = pageModel.data,
-                    pageCount = pageModel.pageCount,
-                }
-            };
-        }
-
     }
 }

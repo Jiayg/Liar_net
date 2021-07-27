@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
     <ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
   </ItemGroup> 
 </Project>

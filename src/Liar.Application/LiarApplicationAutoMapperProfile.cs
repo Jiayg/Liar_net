@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Liar.Application.Contracts.Dtos;
-using Liar.Domain.Entities;
+using Liar.Application.Contracts.Dtos.Sys.User;
+using Liar.Domain.Sys;
 
 namespace Liar
 {
@@ -8,7 +8,7 @@ namespace Liar
     {
         public LiarApplicationAutoMapperProfile()
         {
-            CreateMap<Post, PostDto>(); 
+            CreateMap<UserCreationDto, SysUser>();
         }
     }
 }
