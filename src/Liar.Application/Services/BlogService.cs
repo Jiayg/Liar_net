@@ -25,14 +25,10 @@ namespace Liar.Application.Services
             var entities = await _postRepo.GetAsync(x => x.Id.Equals(id));
 
             return ObjectMapper.Map<Post, PostDto>(entities);
-            //return new PostDto
-            //{
-            //    Title = entities.Title
-            //};
         }
 
         public Task<bool> InsertPostAsync(PostDto dto)
-        { 
+        {
             throw new System.NotImplementedException();
         }
 

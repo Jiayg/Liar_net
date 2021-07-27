@@ -27,6 +27,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Liar.Application\Liar.Application.csproj" />
 		<ProjectReference Include="..\Liar.EntityFrameworkCore.DbMigrations\Liar.EntityFrameworkCore.DbMigrations.csproj" />
+		<ProjectReference Include="..\Liar.HangFire\Liar.HangFire.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

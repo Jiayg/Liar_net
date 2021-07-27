@@ -1,5 +1,7 @@
 ﻿using Liar.Domain.Shared;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Dapper;
+using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
@@ -15,17 +17,21 @@ namespace Liar.EntityFrameworkCore
         typeof(AbpEntityFrameworkCoreMySQLModule),
         typeof(AbpEntityFrameworkCoreSqlServerModule),
         typeof(AbpEntityFrameworkCorePostgreSqlModule),
-        typeof(AbpEntityFrameworkCoreSqliteModule)
+        typeof(AbpEntityFrameworkCoreSqliteModule),
+        typeof(AbpDapperModule)
         )]
     public class LiarEntityFrameworkCoreModule : AbpModule
     {
-        public override void PreConfigureServices(ServiceConfigurationContext context)
-        {
-            //LiarEfCoreEntityExtensionMappings.Configure();
-        }
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Configure<AbpDbConnectionOptions>(options =>
+            {
+                options.ConnectionStrings.Default = AppSettings.Default;
+
+                // 配置多个连接字符串在其他 模块中引用
+                //options.ConnectionStrings["AbpIdentityServer"] = AppSettings.IdentityServer;
+            });
+
             context.Services.AddAbpDbContext<LiarDbContext>(option =>
             {
                 option.AddDefaultRepositories(includeAllEntities: true);
@@ -33,7 +39,7 @@ namespace Liar.EntityFrameworkCore
 
             Configure<AbpDbContextOptions>(options =>
             {
-                switch (AppSettings.EnableDb)
+                switch (AppSettings.DBType)
                 {
                     case "MySQL":
                         options.UseMySQL();
@@ -51,8 +57,6 @@ namespace Liar.EntityFrameworkCore
                         options.UseMySQL();
                         break;
                 }
-
-                options.UseMySQL();
             });
         }
     }

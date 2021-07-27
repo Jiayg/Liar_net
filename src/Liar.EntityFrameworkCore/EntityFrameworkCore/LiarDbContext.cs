@@ -4,8 +4,7 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Liar.EntityFrameworkCore
-{
-    [ConnectionStringName("MySQL")]
+{ 
     public class LiarDbContext : AbpDbContext<LiarDbContext>, IEfCoreDbContext
     {
         public DbSet<Post> Posts { get; set; }
@@ -18,10 +17,8 @@ namespace Liar.EntityFrameworkCore
 
         public DbSet<FriendLink> FriendLinks { get; set; }
 
-
         public LiarDbContext(DbContextOptions<LiarDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

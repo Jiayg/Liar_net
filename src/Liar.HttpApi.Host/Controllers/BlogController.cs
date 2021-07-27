@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos;
 using Liar.Application.Contracts.IServices;
+using Liar.Domain.Shared.BaseModels;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BlogController : AbpController
+    public class BlogController : BaseController
     {
         private readonly IBlogService _blogService;
 
@@ -20,10 +17,14 @@ namespace Liar.HttpApi.Host.Controllers
             _blogService = blogService;
         }
 
+        /// <summary>
+        /// 测试 输出hello world
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<string> GetString()
+        public async Task<ResultModel<string>> GetString()
         {
-            return await Task.FromResult("hello world");
+            return Success<string>(await Task.FromResult("hello world"));
         }
 
         /// <summary>
@@ -32,9 +33,9 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<PostDto> GetPostAsync(int id)
+        public async Task<ResultModel<PostDto>> GetPostAsync(int id)
         {
-            return await _blogService.GetPostAsync(id);
+            return Success<PostDto>(await _blogService.GetPostAsync(id));
         }
     }
 }

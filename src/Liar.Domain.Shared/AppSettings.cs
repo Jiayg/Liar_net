@@ -34,11 +34,21 @@ namespace Liar.Domain.Shared
         /// <summary>
         /// EnableDb
         /// </summary>
-        public static string EnableDb => _config["ConnectionStrings:Enable"];
+        public static string DBType => _config["ConnectionStrings:DBType"];
+
+        /// <summary>
+        /// MainDb
+        /// </summary>
+        public static string Default => _config["ConnectionStrings:MainDb"];
+
+        /// <summary>
+        /// AbpIdentityServer
+        /// </summary>
+        public static string IdentityServer => _config["ConnectionStrings:AbpIdentityServer"];
 
         /// <summary>
         /// ConnectionStrings
         /// </summary>
-        public static string ConnectionStrings => _config.GetConnectionString(EnableDb);
+        public static string ConnectionStrings => _config.GetConnectionString(Default);
     }
 }

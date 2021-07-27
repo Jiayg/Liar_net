@@ -21,7 +21,7 @@ namespace Liar.HangFire
             {
                 var tablePrefix = LiarConsts.DbTablePrefix + "hangfire";
 
-                switch (AppSettings.EnableDb)
+                switch (AppSettings.DBType)
                 {
                     case "MySql":
                         config.UseStorage(

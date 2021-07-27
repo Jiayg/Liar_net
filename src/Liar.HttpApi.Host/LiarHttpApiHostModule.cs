@@ -24,7 +24,6 @@ namespace Liar
 {
     [DependsOn(
         typeof(AbpAutofacModule),
-        //typeof(LiarHttpApiModule),
         typeof(LiarApplicationModule),
         typeof(LiarEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpSwashbuckleModule)
