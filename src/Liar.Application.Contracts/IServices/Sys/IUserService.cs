@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.User;
-using Liar.Domain.Shared.BaseModels;
+using Liar.Domain.Shared;
 
 namespace Liar.Application.Contracts.IServices
 {

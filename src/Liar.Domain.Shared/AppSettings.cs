@@ -31,6 +31,14 @@ namespace Liar.Domain.Shared
             public static string Password => _config["Hangfire:Password"];
         }
 
+        public static class JwtAuth
+        {
+            public static string Audience => _config["JwtAuth:Audience"];
+            public static string Issuer => _config["JwtAuth:Issuer"];
+            public static string SecurityKey => _config["JwtAuth:SecurityKey"];
+            public static string TokenTime => _config["JwtAuth:TokenTime"];
+        }
+
         /// <summary>
         /// EnableDb
         /// </summary>

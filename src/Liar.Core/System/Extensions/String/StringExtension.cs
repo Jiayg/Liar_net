@@ -24,7 +24,7 @@ namespace System
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>true if null or empty, false if not.</returns>
-        public static bool IsNullOrEmpty(this string @this) => string.IsNullOrEmpty(@this);
+        //public static bool IsNullOrEmpty(this string @this) => string.IsNullOrEmpty(@this);
 
         /// <summary>
         ///     A string extension method that query if '@this' is not null and not empty.

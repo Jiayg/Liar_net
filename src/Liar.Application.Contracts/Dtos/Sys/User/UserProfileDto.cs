@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Liar.Domain.Shared.Dtos;
 
 namespace Liar.Application.Contracts.Dtos.Sys.User

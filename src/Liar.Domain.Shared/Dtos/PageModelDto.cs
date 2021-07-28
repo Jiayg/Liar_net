@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Liar.Domain.Shared.BaseModels
+namespace Liar.Domain.Shared
 {
     /// <summary>
     /// 通用分页信息类

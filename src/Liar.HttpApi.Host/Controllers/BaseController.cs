@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Liar.Application.Contracts;
-using Liar.Domain.Shared.BaseModels;
+using Liar.Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 

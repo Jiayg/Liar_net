@@ -10,7 +10,7 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Core.Extensions;
 using Liar.Core.Helper;
-using Liar.Domain.Shared.BaseModels;
+using Liar.Domain.Shared;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
 

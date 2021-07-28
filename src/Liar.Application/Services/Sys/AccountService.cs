@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
+using Liar.Core.Helper;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
 
@@ -29,6 +30,41 @@ namespace Liar.Application.Services.Sys
             this._roleRepository = roleRepository;
             this._menuRepository = menuRepository;
             this._relationRepository = relationRepository;
+        }
+
+        public async Task<ResultDetails<UserValidateDto>> LoginAsync(UserLoginDto input)
+        {
+            var user = _userRepository.Where(x => x.Account == input.Account).Select(x => new UserValidateDto
+            {
+                Id = x.Id,
+                Account = x.Account,
+                Password = x.Password,
+                Salt = x.Salt,
+                Status = x.Status,
+                Email = x.Email,
+                Name = x.Name,
+                RoleIds = x.RoleIds
+            }).FirstOrDefault();
+
+            if (user == null)
+                return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+
+            var httpContext = HttpContextUtility.GetCurrentHttpContext();
+
+            if (user.Status != 1) 
+                return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "账号已锁定"); 
+
+            var failLoginCount = 2;
+            if (failLoginCount == 5)
+                return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+
+            if (HashHelper.GetHashedString(HashType.MD5, input.Password, user.Salt) != user.Password)
+                return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+
+            if (user.RoleIds.IsNullOrEmpty())
+                return Fail<UserValidateDto>(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+
+            return Success(await Task.FromResult(user));
         }
 
         /// <summary>
@@ -85,5 +121,6 @@ namespace Liar.Application.Services.Sys
                 return Fail<UserInfoDto>(HttpStatusCode.BadRequest, "未找到账户信息");
             }
         }
+
     }
 }
