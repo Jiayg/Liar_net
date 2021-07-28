@@ -113,8 +113,6 @@ namespace Liar
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAbpRequestLocalization();
-
             if (!env.IsDevelopment())
             {
                 //app.UseErrorPage();

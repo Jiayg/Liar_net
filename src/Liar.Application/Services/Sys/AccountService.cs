@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Dynamic.Core;
+using System.Net;
 using System.Threading.Tasks;
+using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Sys;
@@ -13,10 +15,19 @@ namespace Liar.Application.Services.Sys
     public class AccountService : LiarAppService, IAccountService
     {
         private readonly IRepository<SysUser> _userRepository;
+        private readonly IRepository<SysRole> _roleRepository;
+        private readonly IRepository<SysMenu> _menuRepository;
+        private readonly IRepository<SysRelation> _relationRepository;
 
-        public AccountService(IRepository<SysUser> userRepository)
+        public AccountService(IRepository<SysUser> userRepository,
+            IRepository<SysRole> roleRepository,
+            IRepository<SysMenu> menuRepository,
+            IRepository<SysRelation> relationRepository)
         {
             this._userRepository = userRepository;
+            this._roleRepository = roleRepository;
+            this._menuRepository = menuRepository;
+            this._relationRepository = relationRepository;
         }
 
         /// <summary>
@@ -24,37 +35,59 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<UserInfoDto> GetUserInfoAsync(long id)
+        public async Task<AppSrvResult<UserInfoDto>> GetUserInfoAsync(long id)
         {
-            var user = await _userRepository.FirstAsync(x => x.Id == id);
-            var userProfile = ObjectMapper.Map<SysUser, UserProfileDto>(user);
+            try
+            { 
+                var user = await _userRepository.FirstAsync(x => x.Id == id);
+                var userProfile = ObjectMapper.Map<SysUser, UserProfileDto>(user);
 
-            if (userProfile == null)
-                return null;
+                if (userProfile == null)
+                    return null;
 
-            var userInfoDto = new UserInfoDto { Id = id, Profile = userProfile };
+                var userInfoDto = new UserInfoDto { Id = id, Profile = userProfile };
 
-            if (userProfile.RoleIds.IsNotNullOrEmpty())
-            {
-                var roleIds = userProfile.RoleIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
-                //var roles = await _roleRepository
-                //                  .Where(x => roleIds.Contains(x.Id))
-                //                  .Select(r => new { r.Id, r.Tips, r.Name })
-                //                  .ToListAsync();
-                //foreach (var role in roles)
-                //{
-                //    userInfoDto.Roles.Add(role.Tips);
-                //    userInfoDto.Profile.Roles.Add(role.Name);
-                //}
+                if (userProfile.RoleIds.IsNotNullOrEmpty())
+                {
+                    var roleIds = userProfile.RoleIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
 
-                //var roleMenus = await _menuRepository.GetMenusByRoleIdsAsync(roleIds.ToArray(), true);
-                //if (roleMenus?.Count > 0)
-                //{
-                //    userInfoDto.Permissions.AddRange(roleMenus.Select(x => x.Url).Distinct());
-                //}
+                    var roles = from role in await _roleRepository.GetListAsync()
+                                where roleIds.Contains(role.Id)
+                                select new
+                                {
+                                    role.Id,
+                                    role.Tips,
+                                    role.Name
+                                };
+
+                    foreach (var role in roles)
+                    {
+                        userInfoDto.Roles.Add(role.Tips);
+                        userInfoDto.Profile.Roles.Add(role.Name);
+                    }
+
+                    // 查询出所有角色菜单关系
+                    var relations = from relation in await _relationRepository.GetListAsync()
+                                    where roleIds.Contains(relation.RoleId)
+                                    select relation.MenuId;
+
+                    // 查询菜单
+                    var roleMenus = (from menu in await _menuRepository.GetListAsync()
+                                     where relations.Contains(menu.Id)
+                                     select menu.Url).Distinct().ToList();
+
+                    if (roleMenus?.Count > 0)
+                    {
+                        userInfoDto.Permissions.AddRange(roleMenus);
+                    }
+                }
+
+                return userInfoDto;
             }
-
-            return userInfoDto;
+            catch (Exception)
+            {
+                return Problem(HttpStatusCode.BadRequest, "未找到账户信息");
+            }
         }
     }
 }

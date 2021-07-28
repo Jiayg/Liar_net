@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Microsoft.AspNetCore.Http;
@@ -28,12 +29,7 @@ namespace Liar.HttpApi.Host.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<UserInfoDto>> GetCurrentUserInfoAsync([FromRoute] long id)
         {
-            var result = await _accountService.GetUserInfoAsync(id);
-
-            if (result != null)
-                return result;
-
-            return NotFound();
+            return Result(await _accountService.GetUserInfoAsync(id));
         }
     }
 }

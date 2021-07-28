@@ -14,6 +14,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Liar.Domain.Shared\Liar.Domain.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
 	</ItemGroup> 
 
 </Project>

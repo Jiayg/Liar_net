@@ -10,6 +10,6 @@ namespace Liar.Application.Contracts.IServices.Sys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<UserInfoDto> GetUserInfoAsync(long id);
+        Task<AppSrvResult<UserInfoDto>> GetUserInfoAsync(long id);
     }
 }
