@@ -1,21 +1,19 @@
 ﻿using Liar.Application.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
-using ProblemDetails = Liar.Application.Contracts.ProblemDetails;
+using ResultDetails = Liar.Application.Contracts.ResultDetails;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     public class BaseController : AbpController
     {
         [NonAction]
-        protected virtual ObjectResult Problem(ProblemDetails problemDetails)
+        protected virtual ObjectResult Result(ResultDetails result)
         {
-            problemDetails.Instance = problemDetails.Instance ?? this.Request.Path.ToString();
-            return Problem(problemDetails.Detail
-                , problemDetails.Instance
-                , problemDetails.Status
-                , problemDetails.Title
-                , problemDetails.Type);
+            return Result(new ResultDetails(result.Status
+                , result.Success
+                , result.Data
+                , result.Msg));
         }
 
         //[NonAction]
@@ -35,7 +33,7 @@ namespace Liar.HttpApi.Host.Controllers
         {
             if (appSrvResult.IsSuccess)
                 return appSrvResult.Content;
-            return Problem(appSrvResult.ProblemDetails);
+            return Result(appSrvResult.ResultDetails);
         }
 
         [NonAction]
@@ -43,7 +41,7 @@ namespace Liar.HttpApi.Host.Controllers
         {
             if (appSrvResult.IsSuccess)
                 return NoContent();
-            return Problem(appSrvResult.ProblemDetails);
+            return Result(appSrvResult.ResultDetails);
         }
 
         [NonAction]
@@ -51,7 +49,7 @@ namespace Liar.HttpApi.Host.Controllers
         {
             if (appSrvResult.IsSuccess)
                 return Created(this.Request.Path, appSrvResult.Content);
-            return Problem(appSrvResult.ProblemDetails);
+            return Result(appSrvResult.ResultDetails);
         }
     }
 }

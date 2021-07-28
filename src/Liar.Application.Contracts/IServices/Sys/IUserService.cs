@@ -5,7 +5,7 @@ using Liar.Domain.Shared.BaseModels;
 
 namespace Liar.Application.Contracts.IServices
 {
-    public interface IUserService : ILiarAppService
+    public interface IUserService : IAppService
     {
         /// <summary>
         /// 新增用户

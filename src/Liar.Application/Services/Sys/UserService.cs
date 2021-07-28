@@ -15,7 +15,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Services.Sys
 {
-    public class UserService : LiarAppService, IUserService
+    public class UserService : AppService, IUserService
     {
         private readonly IRepository<SysUser> _userRepository;
 
@@ -42,7 +42,7 @@ namespace Liar.Application.Services.Sys
         public async Task<AppSrvResult<long>> CreateAsync(UserCreationDto input)
         {
             if (await _userRepository.AllAsync(x => x.Account == input.Account))
-                return Problem(HttpStatusCode.BadRequest, "账号已经存在");
+                return Fail(HttpStatusCode.BadRequest, "账号已经存在");
 
             var user = ObjectMapper.Map<UserCreationDto, SysUser>(input);
             user.Id = 1600000000001;

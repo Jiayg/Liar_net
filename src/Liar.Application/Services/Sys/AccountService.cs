@@ -12,7 +12,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Services.Sys
 {
-    public class AccountService : LiarAppService, IAccountService
+    public class AccountService : AppService, IAccountService
     {
         private readonly IRepository<SysUser> _userRepository;
         private readonly IRepository<SysRole> _roleRepository;
@@ -38,7 +38,7 @@ namespace Liar.Application.Services.Sys
         public async Task<AppSrvResult<UserInfoDto>> GetUserInfoAsync(long id)
         {
             try
-            { 
+            {
                 var user = await _userRepository.FirstAsync(x => x.Id == id);
                 var userProfile = ObjectMapper.Map<SysUser, UserProfileDto>(user);
 
@@ -86,7 +86,7 @@ namespace Liar.Application.Services.Sys
             }
             catch (Exception)
             {
-                return Problem(HttpStatusCode.BadRequest, "未找到账户信息");
+                return Fail(HttpStatusCode.BadRequest, "未找到账户信息");
             }
         }
     }

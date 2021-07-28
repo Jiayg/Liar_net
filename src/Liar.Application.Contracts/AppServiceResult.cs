@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using JetBrains.Annotations;
 
 namespace Liar.Application.Contracts
 {
-
     /// <summary>
     /// Application返回结果包装类,无返回类型(void,task)
     /// </summary>
@@ -15,26 +12,26 @@ namespace Liar.Application.Contracts
         {
         }
 
-        public AppSrvResult([NotNull] ProblemDetails problemDetails)
+        public AppSrvResult([NotNull] ResultDetails resultDetails)
         {
-            ProblemDetails = problemDetails;
+            ResultDetails = resultDetails;
         }
 
         public bool IsSuccess
         {
             get
             {
-                return ProblemDetails == null;
+                return ResultDetails == null;
             }
         }
 
-        public ProblemDetails ProblemDetails { get; set; }
+        public ResultDetails ResultDetails { get; set; }
 
-        public static implicit operator AppSrvResult([NotNull] ProblemDetails problemDetails)
+        public static implicit operator AppSrvResult([NotNull] ResultDetails resultDetails)
         {
             return new AppSrvResult
             {
-                ProblemDetails = problemDetails
+                ResultDetails = resultDetails
             };
         }
     }
@@ -54,22 +51,22 @@ namespace Liar.Application.Contracts
             Content = value;
         }
 
-        public AppSrvResult([NotNull] ProblemDetails problemDetails)
+        public AppSrvResult([NotNull] ResultDetails resultDetails)
         {
-            ProblemDetails = problemDetails;
+            ResultDetails = resultDetails;
         }
 
         public bool IsSuccess
         {
             get
             {
-                return ProblemDetails == null && Content != null;
+                return ResultDetails == null && Content != null;
             }
         }
 
         public TValue Content { get; set; }
 
-        public ProblemDetails ProblemDetails { get; set; }
+        public ResultDetails ResultDetails { get; set; }
 
         public static implicit operator AppSrvResult<TValue>(AppSrvResult result)
         {
@@ -77,17 +74,17 @@ namespace Liar.Application.Contracts
             {
                 Content = default
                 ,
-                ProblemDetails = result.ProblemDetails
+                ResultDetails = result.ResultDetails
             };
         }
 
-        public static implicit operator AppSrvResult<TValue>(ProblemDetails problemDetails)
+        public static implicit operator AppSrvResult<TValue>(ResultDetails resultDetails)
         {
             return new AppSrvResult<TValue>
             {
                 Content = default
                 ,
-                ProblemDetails = problemDetails
+                ResultDetails = resultDetails
             };
         }
 
