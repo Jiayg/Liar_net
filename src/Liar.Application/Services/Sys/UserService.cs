@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Liar.Application.Contracts;
@@ -10,18 +8,17 @@ using Liar.Application.Contracts.IServices;
 using Liar.Core.Helper;
 using Liar.Domain.Shared.BaseModels;
 using Liar.Domain.Sys;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Services.Sys
 {
     public class UserService : AppService, IUserService
     {
-        private readonly IRepository<SysUser> _userRepository;
+        private readonly IRepository<SysUser> _userRepository; 
 
-        public UserService(IRepository<SysUser> userRepository)
+        public UserService(IRepository<SysUser> userRepository )
         {
-            this._userRepository = userRepository;
+            this._userRepository = userRepository; 
         }
 
         public Task<AppSrvResult> ChangeStatusAsync(long id, int status)
@@ -45,7 +42,7 @@ namespace Liar.Application.Services.Sys
                 return Fail(HttpStatusCode.BadRequest, "账号已经存在");
 
             var user = ObjectMapper.Map<UserCreationDto, SysUser>(input);
-            user.Id = 1600000000001;
+            user.Id = IdGenerater.GetNextId();
             user.Account = user.Account.ToLower();
             user.Salt = SecurityHelper.GenerateRandomCode(5);
             user.Password = HashHelper.GetHashedString(HashType.MD5, user.Password, user.Salt);

@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\common.props" />
+	<Import Project="..\..\common.props" />
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Liar.Application</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<RootNamespace>Liar.Application</RootNamespace>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="4.3.3" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="4.3.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AutoMapper" Version="4.3.3" />
+		<PackageReference Include="Volo.Abp.Ddd.Application" Version="4.3.3" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
-  </ItemGroup> 
+	<ItemGroup>
+		<ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
+		<ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
+	</ItemGroup>
 </Project>

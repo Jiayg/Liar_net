@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Autofac.Core;
 using Liar.EntityFrameworkCore;
 using Liar.HttpApi.Host.Filter;
 using Liar.HttpApi.Host.Middleware;
@@ -26,7 +27,7 @@ namespace Liar
         typeof(AbpAutofacModule),
         typeof(LiarApplicationModule),
         typeof(LiarEntityFrameworkCoreDbMigrationsModule),
-        typeof(AbpSwashbuckleModule) 
+        typeof(AbpSwashbuckleModule)
     )]
     public class LiarHttpApiHostModule : AbpModule
     {
@@ -99,6 +100,7 @@ namespace Liar
                    //options.DocInclusionPredicate((docName, description) => true);
                    //options.CustomSchemaIds(type => type.FullName);
                });
+
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
