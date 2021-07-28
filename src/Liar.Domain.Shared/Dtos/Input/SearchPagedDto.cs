@@ -2,44 +2,44 @@
 {
     public abstract class SearchPagedDto : ISearchPagedDto
     {
-        private int _pageIndex;
-        private int _pageSize;
+        private int _limit;
+        private int _offset;
 
         /// <summary>
         /// 页码
         /// </summary>
-        public int PageIndex
+        public int Limit
         {
             get
             {
-                return _pageIndex < 1 ? 1 : _pageIndex;
+                return _limit < 1 ? 1 : _limit;
             }
             set
             {
-                _pageIndex = value;
+                _limit = value;
             }
         }
 
         /// <summary>
         /// 每页显示条数
         /// </summary>
-        public int PageSize
+        public int Offset
         {
             get
             {
-                if (_pageSize < 5) _pageSize = 5;
-                if (_pageSize > 100) _pageSize = 100;
-                return _pageSize;
+                if (_offset < 5) _offset = 5;
+                if (_offset > 100) _offset = 100;
+                return _offset;
             }
             set
             {
-                _pageSize = value;
+                _offset = value;
             }
         }
 
         public int SkipRows()
         {
-            return (this.PageIndex - 1) * this.PageSize;
+            return (this.Limit - 1) * this.Offset;
         }
     }
 }

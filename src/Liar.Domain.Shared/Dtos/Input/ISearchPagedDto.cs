@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Liar.Domain.Shared.Dtos
+﻿namespace Liar.Domain.Shared.Dtos
 {
     public interface ISearchPagedDto : IDto
     {
         /// <summary>
         /// 页码
         /// </summary>
-        public int PageIndex { get; set; }
+        public int Limit { get; set; }
 
         /// <summary>
         /// 每页显示条数
         /// </summary>
-        public int PageSize { get; set; }
+        public int Offset { get; set; }
     }
 }

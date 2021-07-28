@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
+using Liar.Core.Extensions;
 using Liar.Core.Helper;
 using Liar.Domain.Shared.BaseModels;
 using Liar.Domain.Sys;
@@ -14,21 +18,46 @@ namespace Liar.Application.Services.Sys
 {
     public class UserService : AppService, IUserService
     {
-        private readonly IRepository<SysUser> _userRepository; 
+        private readonly IRepository<SysUser> _userRepository;
 
-        public UserService(IRepository<SysUser> userRepository )
+        public UserService(IRepository<SysUser> userRepository)
         {
-            this._userRepository = userRepository; 
+            this._userRepository = userRepository;
         }
 
-        public Task<AppSrvResult> ChangeStatusAsync(long id, int status)
+        /// <summary>
+        /// 修改用户状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public async Task<bool> ChangeStatusAsync(long id, int status)
         {
-            throw new NotImplementedException();
+            var model = await _userRepository.UpdateAsync(new SysUser { Id = id, Status = status });
+            return model != null;
         }
 
-        public Task<AppSrvResult> ChangeStatusAsync(IEnumerable<long> id, int status)
+        /// <summary>
+        /// 批量修改用户状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public async Task<bool> ChangeStatusAsync(IEnumerable<long> ids, int status)
         {
-            throw new NotImplementedException();
+            var users = new List<SysUser>();
+            foreach (var item in ids)
+            {
+                users.Add(new SysUser()
+                {
+                    Id = item,
+                    Status = status
+                });
+            }
+
+            await _userRepository.UpdateManyAsync(users);
+
+            return true;
         }
 
         /// <summary>
@@ -36,10 +65,10 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<AppSrvResult<long>> CreateAsync(UserCreationDto input)
+        public async Task<ResultDetails<long>> CreateAsync(UserCreationDto input)
         {
             if (await _userRepository.AllAsync(x => x.Account == input.Account))
-                return Fail(HttpStatusCode.BadRequest, "账号已经存在");
+                return Fail<long>(HttpStatusCode.BadRequest, "账号已经存在");
 
             var user = ObjectMapper.Map<UserCreationDto, SysUser>(input);
             user.Id = IdGenerater.GetNextId();
@@ -51,30 +80,78 @@ namespace Liar.Application.Services.Sys
 
             await _userRepository.InsertAsync(user);
 
-            return user.Id;
+            return Success(user.Id);
         }
 
-        public Task<AppSrvResult> DeleteAsync(long id)
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAsync(long id)
         {
-            throw new NotImplementedException();
+            await _userRepository.DeleteAsync(x => x.Id == id);
+            return true;
         }
 
-        public Task<PageModelDto<UserDto>> GetPagedAsync(UserSearchPagedDto search)
+        /// <summary>
+        /// 分页获取列表
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public async Task<PageModelDto<UserDto>> GetPagedAsync(UserSearchPagedDto search)
         {
-            throw new NotImplementedException();
+            Expression<Func<SysUser, bool>> whereCdn = x => true;
+
+            if (search.Account.IsNotEmpty())
+                whereCdn.And(x => x.Account.Contains(search.Account));
+
+            if (search.Name.IsNotEmpty())
+                whereCdn.And(x => x.Name.Contains(search.Name));
+
+            var query = _userRepository.Where(whereCdn).Take(search.Limit, search.Offset).ToList();
+
+            var result = new PageModelDto<UserDto>()
+            {
+                Total = _userRepository.Count(),
+                Item = ObjectMapper.Map<List<SysUser>, List<UserDto>>(query)
+            };
+
+            return await Task.FromResult(result);
         }
 
+        /// <summary>
+        /// 获取当前用户是否拥有指定权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="permissions"></param>
+        /// <returns></returns>
         public Task<List<string>> GetPermissionsAsync(long userId, IEnumerable<string> permissions)
         {
             throw new NotImplementedException();
         }
 
-        public Task<AppSrvResult> SetRoleAsync(long id, UserSetRoleDto input)
+        /// <summary>
+        /// 设置用户角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<bool> SetRoleAsync(long id, UserSetRoleDto input)
         {
-            throw new NotImplementedException();
+            var roleIdStr = input.RoleIds == null ? null : string.Join(",", input.RoleIds);
+            var model = await _userRepository.UpdateAsync(new SysUser() { Id = id, RoleIds = roleIdStr });
+
+            return model != null;
         }
 
-        public Task<AppSrvResult> UpdateAsync(long id, UserUpdationDto input)
+        /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<bool> UpdateAsync(long id, UserUpdationDto input)
         {
             throw new NotImplementedException();
         }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
-using Liar.Core.Helper;
+using Liar.Domain.Shared.BaseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +22,40 @@ namespace Liar.HttpApi.Host.Controllers
             this._userService = userService;
         }
 
+        /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<long>> CreateAsync([FromBody] UserCreationDto input)
+        public async Task<ResultDetails<long>> CreateAsync([FromBody] UserCreationDto input)
         {
-            return CreatedResult(await _userService.CreateAsync(input));
+            return await _userService.CreateAsync(input);
+        }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id">用户ID</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ResultDetails<bool>> DeleteAsync([FromRoute] long id)
+        {
+            return Result(await _userService.DeleteAsync(id));
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="search">查询条件</param>
+        /// <returns></returns>
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ResultDetails<PageModelDto<UserDto>>> GetPagedAsync([FromQuery] UserSearchPagedDto search)
+        {
+            return Result(await _userService.GetPagedAsync(search));
         }
     }
 }

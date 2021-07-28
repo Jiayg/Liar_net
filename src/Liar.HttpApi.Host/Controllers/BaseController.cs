@@ -1,55 +1,112 @@
-﻿using Liar.Application.Contracts;
+﻿using System.Collections.Generic;
+using Liar.Application.Contracts;
+using Liar.Domain.Shared.BaseModels;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
-using ResultDetails = Liar.Application.Contracts.ResultDetails;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     public class BaseController : AbpController
     {
-        [NonAction]
-        protected virtual ObjectResult Result(ResultDetails result)
-        {
-            return Result(new ResultDetails(result.Status
-                , result.Success
-                , result.Data
-                , result.Msg));
-        }
-
-        //[NonAction]
-        //protected virtual ObjectResult Problem(Refit.ApiException exception)
-        //{
-        //    var problemDetails = ((Refit.ValidationApiException)exception).Content;
-
-        //    return Problem(problemDetails.Detail
-        //            , problemDetails.Instance
-        //            , problemDetails.Status
-        //            , problemDetails.Title
-        //            , problemDetails.Type);
-        //}
 
         [NonAction]
-        protected virtual ActionResult<TValue> Result<TValue>(AppSrvResult<TValue> appSrvResult)
+        public ResultDetails<T> Result<T>(T data)
         {
-            if (appSrvResult.IsSuccess)
-                return appSrvResult.Content;
-            return Result(appSrvResult.ResultDetails);
+            return new ResultDetails<T>()
+            {
+                IsSuccess = true,
+                Msg = string.Empty,
+                Data = data
+            };
         }
 
         [NonAction]
-        protected virtual ActionResult Result(AppSrvResult appSrvResult)
+        public ResultDetails Result(object data)
         {
-            if (appSrvResult.IsSuccess)
-                return NoContent();
-            return Result(appSrvResult.ResultDetails);
+            return new ResultDetails()
+            {
+                IsSuccess = true,
+                Msg = string.Empty,
+                Data = data
+            };
         }
 
         [NonAction]
-        protected virtual ActionResult<TValue> CreatedResult<TValue>(AppSrvResult<TValue> appSrvResult)
+        public ResultDetails<T> Success<T>(T data, string msg = "成功")
         {
-            if (appSrvResult.IsSuccess)
-                return Created(this.Request.Path, appSrvResult.Content);
-            return Result(appSrvResult.ResultDetails);
+            return new ResultDetails<T>()
+            {
+                IsSuccess = true,
+                Msg = msg,
+                Data = data
+            };
+        }
+
+        [NonAction]
+        public ResultDetails Success(string msg = "成功")
+        {
+            return new ResultDetails()
+            {
+                IsSuccess = true,
+                Msg = msg,
+                Data = null
+            };
+        }
+
+        [NonAction]
+        public ResultDetails<string> Failed(string msg = "失败", int status = 500)
+        {
+            return new ResultDetails<string>()
+            {
+                IsSuccess = false,
+                Status = status,
+                Msg = msg,
+                Data = null
+            };
+        }
+
+        [NonAction]
+        public ResultDetails<T> Failed<T>(string msg = "失败", int status = 500)
+        {
+            return new ResultDetails<T>()
+            {
+                IsSuccess = false,
+                Status = status,
+                Msg = msg,
+                Data = default
+            };
+        }
+
+        [NonAction]
+        public ResultDetails<PageModelDto<T>> SuccessPage<T>(int total, List<T> item, string msg = "请求成功")
+        {
+
+            return new ResultDetails<PageModelDto<T>>()
+            {
+                IsSuccess = true,
+                Msg = msg,
+                Data = new PageModelDto<T>()
+                {
+                    Total = total,
+                    Item = item
+                }
+            };
+        }
+
+        [NonAction]
+        public ResultDetails<PageModelDto<T>> SuccessPage<T>(PageModelDto<T> pageModel, string msg = "请求成功")
+        {
+
+            return new ResultDetails<PageModelDto<T>>()
+            {
+                IsSuccess = true,
+                Msg = msg,
+                Data = new PageModelDto<T>()
+                {
+                    Total = pageModel.Total,
+                    Item = pageModel.Item
+                }
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Net;
@@ -35,7 +36,7 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<AppSrvResult<UserInfoDto>> GetUserInfoAsync(long id)
+        public async Task<ResultDetails<UserInfoDto>> GetUserInfoAsync(long id)
         {
             try
             {
@@ -51,14 +52,13 @@ namespace Liar.Application.Services.Sys
                 {
                     var roleIds = userProfile.RoleIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
 
-                    var roles = from role in await _roleRepository.GetListAsync()
-                                where roleIds.Contains(role.Id)
-                                select new
-                                {
-                                    role.Id,
-                                    role.Tips,
-                                    role.Name
-                                };
+                    var roles = _roleRepository.Where(x => roleIds.Contains(x.Id)).Select(x => new
+                    {
+                        x.Id,
+                        x.Tips,
+                        x.Name
+                    }).ToList();
+
 
                     foreach (var role in roles)
                     {
@@ -67,14 +67,10 @@ namespace Liar.Application.Services.Sys
                     }
 
                     // 查询出所有角色菜单关系
-                    var relations = from relation in await _relationRepository.GetListAsync()
-                                    where roleIds.Contains(relation.RoleId)
-                                    select relation.MenuId;
+                    var relations = _relationRepository.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.MenuId).ToList();
 
                     // 查询菜单
-                    var roleMenus = (from menu in await _menuRepository.GetListAsync()
-                                     where relations.Contains(menu.Id)
-                                     select menu.Url).Distinct().ToList();
+                    var roleMenus = _menuRepository.Where(x => relations.Contains(x.Id)).Select(x => x.Url).Distinct().ToList();
 
                     if (roleMenus?.Count > 0)
                     {
@@ -82,11 +78,11 @@ namespace Liar.Application.Services.Sys
                     }
                 }
 
-                return userInfoDto;
+                return Success(userInfoDto);
             }
             catch (Exception)
             {
-                return Fail(HttpStatusCode.BadRequest, "未找到账户信息");
+                return Fail<UserInfoDto>(HttpStatusCode.BadRequest, "未找到账户信息");
             }
         }
     }
