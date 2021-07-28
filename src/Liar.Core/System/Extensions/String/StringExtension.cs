@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -39,14 +39,14 @@ namespace System
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>true if null or whiteSpace, false if not.</returns>
-        public static bool IsNullOrWhiteSpace(this string @this) => string.IsNullOrWhiteSpace(@this);
+        public static bool IsEmpty(this string @this) => string.IsNullOrWhiteSpace(@this);
 
         /// <summary>
         ///     A string extension method that query if '@this' is not null and not whiteSpace.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>false if null or whiteSpace, true if not.</returns>
-        public static bool IsNotNullOrWhiteSpace(this string @this) => !string.IsNullOrWhiteSpace(@this);
+        public static bool IsNotEmpty(this string @this) => !string.IsNullOrWhiteSpace(@this);
 
         /// <summary>
         ///     Creates a new instance of  with the same value as a specified .

@@ -10,7 +10,7 @@ namespace Liar.Core.Helper.IdGeneraterInternal
         public static byte YitterSeqBitLength { get { return 6; } }
         public static ushort MaxWorkerId { get { return (ushort)(Math.Pow(2.0, YitterWorkerIdBitLength) - 1); } }
 
-        private static short _currentWorkerId = 46;//唯一码
+        private static short _currentWorkerId = 1;//唯一码
 
         public static short CurrentWorkerId
         {
