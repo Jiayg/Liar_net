@@ -32,7 +32,7 @@ namespace Liar.Application.Services.Sys
             this._relationRepository = relationRepository;
         }
 
-        public async Task<ResultDetails<UserValidateDto>> LoginAsync(UserLoginDto input)
+        public async Task<UserValidateDto> LoginAsync(UserLoginDto input)
         {
             var user = _userRepository.Where(x => x.Account == input.Account).Select(x => new UserValidateDto
             {
@@ -46,25 +46,38 @@ namespace Liar.Application.Services.Sys
                 RoleIds = x.RoleIds
             }).FirstOrDefault();
 
+            // 自动映射模型，服务层引用_mapper出错
+            //var user = _userRepository.Where(x => x.Account == input.Account).ProjectTo<UserValidateDto>(_mapper.ConfigurationProvider).FirstOrDefault();
+
             if (user == null)
-                return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+            {
+                //return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+            }
 
             var httpContext = HttpContextUtility.GetCurrentHttpContext();
 
-            if (user.Status != 1) 
-                return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "账号已锁定"); 
+            if (user.Status != 1)
+            {
+                //return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "账号已锁定");
+            }
 
             var failLoginCount = 2;
             if (failLoginCount == 5)
-                return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+            {
+                //return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+            }
 
             if (HashHelper.GetHashedString(HashType.MD5, input.Password, user.Salt) != user.Password)
-                return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+            {
+                //return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+            }
 
             if (user.RoleIds.IsNullOrEmpty())
-                return Fail<UserValidateDto>(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+            {
+                //return Fail<UserValidateDto>(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+            }
 
-            return Success(await Task.FromResult(user));
+            return await Task.FromResult(user);
         }
 
         /// <summary>

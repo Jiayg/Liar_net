@@ -10,7 +10,7 @@ namespace Liar.Application.Contracts.IServices.Sys
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ResultDetails<UserValidateDto>> LoginAsync(UserLoginDto input);
+        Task<UserValidateDto> LoginAsync(UserLoginDto input);
 
         /// <summary>
         /// 获取用户信息

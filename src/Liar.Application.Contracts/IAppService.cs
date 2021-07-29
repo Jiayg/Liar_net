@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Volo.Abp.Application.Services;
+﻿using Volo.Abp.Application.Services;
 
 namespace Liar.Application.Contracts
 {

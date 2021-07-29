@@ -2,8 +2,7 @@
 using Liar.Domain.Shared.Dtos;
 
 namespace Liar.Application.Contracts.Dtos.Sys.User
-{
-    [Serializable]
+{ 
     public class UserValidateDto : OutputDto
     {
         public override long Id { get; set; }

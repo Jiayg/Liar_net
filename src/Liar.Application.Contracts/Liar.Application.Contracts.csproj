@@ -11,8 +11,7 @@
 		<DocumentationFile>..\Liar.HttpApi.Host\bin\Debug\net5.0\Liar.Application.Contracts.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.AutoMapper" Version="4.3.3" />
+	<ItemGroup> 
 		<PackageReference Include="Volo.Abp.Core" Version="4.3.3" />
 		<PackageReference Include="Volo.Abp.FluentValidation" Version="4.3.3" />
 		<PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="4.3.3" />

@@ -1,4 +1,7 @@
-﻿using Liar.Domain.Shared;
+﻿using Liar.Core.Microsoft.Extensions.Configuration;
+using Liar.Domain.Shared;
+using Liar.Domain.Shared.ConfigModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Dapper;
 using Volo.Abp.Data;
@@ -24,12 +27,13 @@ namespace Liar.EntityFrameworkCore
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            var configuration = context.Services.GetConfiguration();
+
+            var mysqlConfig = configuration.GetMysqlSection().Get<MysqlConfig>();
+
             Configure<AbpDbConnectionOptions>(options =>
             {
-                options.ConnectionStrings.Default = AppSettings.Default;
-
-                // 配置多个连接字符串在其他 模块中引用
-                //options.ConnectionStrings["AbpIdentityServer"] = AppSettings.IdentityServer;
+                options.ConnectionStrings.Default = mysqlConfig.ConnectionString; 
             });
 
             context.Services.AddAbpDbContext<LiarDbContext>(option =>
@@ -39,7 +43,7 @@ namespace Liar.EntityFrameworkCore
 
             Configure<AbpDbContextOptions>(options =>
             {
-                switch (AppSettings.DBType)
+                switch (mysqlConfig.DBType)
                 {
                     case "MySQL":
                         options.UseMySQL();
