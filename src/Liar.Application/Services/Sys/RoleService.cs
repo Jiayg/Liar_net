@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Liar.Application.Contracts.Dtos.Sys.Menu;
 using Liar.Application.Contracts.Dtos.Sys.Role;
+using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Extensions;
@@ -81,7 +83,11 @@ namespace Liar.Application.Services.Sys
 
             var pagedModel = _roleRepository.Where(whereCondition).Take(input.Limit, input.Offset).OrderBy(o => o.Ordinal).ToList();
 
-            var result = ObjectMapper.Map<List<SysRole>, PageModelDto<RoleDto>>(pagedModel);
+            var result = new PageModelDto<RoleDto>()
+            {
+                Total = _userRepository.Count(),
+                Item = ObjectMapper.Map<List<SysRole>, List<RoleDto>>(pagedModel)
+            };
 
             return await Task.FromResult(result);
         }
