@@ -29,9 +29,9 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ResultDetails<long>> CreateAsync([FromBody] UserCreationDto input)
+        public async Task<ActionResult<long>> CreateAsync([FromBody] UserCreationDto input)
         {
-            return await _userService.CreateAsync(input);
+            return CreatedResult(await _userService.CreateAsync(input));
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ResultDetails<bool>> DeleteAsync([FromRoute] long id)
+        public async Task<ActionResult<bool>> DeleteAsync([FromRoute] long id)
         {
             return Result(await _userService.DeleteAsync(id));
         }
@@ -53,9 +53,9 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ResultDetails<PageModelDto<UserDto>>> GetPagedAsync([FromQuery] UserSearchPagedDto search)
+        public async Task<ActionResult<PageModelDto<UserDto>>> GetPagedAsync([FromQuery] UserSearchPagedDto search)
         {
-            return Result(await _userService.GetPagedAsync(search));
+            return await _userService.GetPagedAsync(search);
         }
     }
 }

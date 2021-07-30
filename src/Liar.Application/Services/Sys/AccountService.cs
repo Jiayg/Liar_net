@@ -5,9 +5,9 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Threading.Tasks;
-using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
+using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
@@ -32,7 +32,12 @@ namespace Liar.Application.Services.Sys
             this._relationRepository = relationRepository;
         }
 
-        public async Task<UserValidateDto> LoginAsync(UserLoginDto input)
+        /// <summary>
+        /// 登录获取用户信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<AppSrvResult<UserValidateDto>> LoginAsync(UserLoginDto input)
         {
             var user = _userRepository.Where(x => x.Account == input.Account).Select(x => new UserValidateDto
             {
@@ -51,30 +56,30 @@ namespace Liar.Application.Services.Sys
 
             if (user == null)
             {
-                //return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+                return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");
             }
 
             var httpContext = HttpContextUtility.GetCurrentHttpContext();
 
             if (user.Status != 1)
             {
-                //return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "账号已锁定");
+                return ProblemFail(HttpStatusCode.TooManyRequests, "账号已锁定");
             }
 
             var failLoginCount = 2;
             if (failLoginCount == 5)
             {
-                //return Fail<UserValidateDto>(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+                return ProblemFail(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
             }
 
             if (HashHelper.GetHashedString(HashType.MD5, input.Password, user.Salt) != user.Password)
             {
-                //return Fail<UserValidateDto>(HttpStatusCode.BadRequest, "用户名或密码错误");
+                return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");
             }
 
             if (user.RoleIds.IsNullOrEmpty())
             {
-                //return Fail<UserValidateDto>(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+                return ProblemFail(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
             }
 
             return await Task.FromResult(user);
@@ -85,54 +90,47 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ResultDetails<UserInfoDto>> GetUserInfoAsync(long id)
+        public async Task<UserInfoDto> GetUserInfoAsync(long id)
         {
-            try
+            var user = await _userRepository.FirstAsync(x => x.Id == id);
+            var userProfile = ObjectMapper.Map<SysUser, UserProfileDto>(user);
+
+            if (userProfile == null)
+                return null;
+
+            var userInfoDto = new UserInfoDto { Id = id, Profile = userProfile };
+
+            if (userProfile.RoleIds.IsNotNullOrEmpty())
             {
-                var user = await _userRepository.FirstAsync(x => x.Id == id);
-                var userProfile = ObjectMapper.Map<SysUser, UserProfileDto>(user);
+                var roleIds = userProfile.RoleIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
 
-                if (userProfile == null)
-                    return null;
-
-                var userInfoDto = new UserInfoDto { Id = id, Profile = userProfile };
-
-                if (userProfile.RoleIds.IsNotNullOrEmpty())
+                var roles = _roleRepository.Where(x => roleIds.Contains(x.Id)).Select(x => new
                 {
-                    var roleIds = userProfile.RoleIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
-
-                    var roles = _roleRepository.Where(x => roleIds.Contains(x.Id)).Select(x => new
-                    {
-                        x.Id,
-                        x.Tips,
-                        x.Name
-                    }).ToList();
+                    x.Id,
+                    x.Tips,
+                    x.Name
+                }).ToList();
 
 
-                    foreach (var role in roles)
-                    {
-                        userInfoDto.Roles.Add(role.Tips);
-                        userInfoDto.Profile.Roles.Add(role.Name);
-                    }
-
-                    // 查询出所有角色菜单关系
-                    var relations = _relationRepository.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.MenuId).ToList();
-
-                    // 查询菜单
-                    var roleMenus = _menuRepository.Where(x => relations.Contains(x.Id)).Select(x => x.Url).Distinct().ToList();
-
-                    if (roleMenus?.Count > 0)
-                    {
-                        userInfoDto.Permissions.AddRange(roleMenus);
-                    }
+                foreach (var role in roles)
+                {
+                    userInfoDto.Roles.Add(role.Tips);
+                    userInfoDto.Profile.Roles.Add(role.Name);
                 }
 
-                return Success(userInfoDto);
+                // 查询出所有角色菜单关系
+                var relations = _relationRepository.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.MenuId).ToList();
+
+                // 查询菜单
+                var roleMenus = _menuRepository.Where(x => relations.Contains(x.Id)).Select(x => x.Url).Distinct().ToList();
+
+                if (roleMenus?.Count > 0)
+                {
+                    userInfoDto.Permissions.AddRange(roleMenus);
+                }
             }
-            catch (Exception)
-            {
-                return Fail<UserInfoDto>(HttpStatusCode.BadRequest, "未找到账户信息");
-            }
+
+            return userInfoDto;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.User;
+using Liar.Application.Contracts.ServiceResult;
 using Liar.Domain.Shared;
 
 namespace Liar.Application.Contracts.IServices
@@ -12,7 +13,7 @@ namespace Liar.Application.Contracts.IServices
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<ResultDetails<long>> CreateAsync(UserCreationDto input);
+        Task<AppSrvResult<long>> CreateAsync(UserCreationDto input);
 
         /// <summary>
         /// 修改用户
@@ -20,14 +21,14 @@ namespace Liar.Application.Contracts.IServices
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(long id, UserUpdationDto input);
+        Task<AppSrvResult> UpdateAsync(long id, UserUpdationDto input);
 
         /// <summary>
         /// 删除用户
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<bool> DeleteAsync(long id);
+        Task<AppSrvResult> DeleteAsync(long id);
 
         /// <summary>
         /// 设置用户角色
@@ -35,7 +36,7 @@ namespace Liar.Application.Contracts.IServices
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<bool> SetRoleAsync(long id, UserSetRoleDto input);
+        Task<AppSrvResult> SetRoleAsync(long id, UserSetRoleDto input);
 
         /// <summary>
         /// 修改用户状态
@@ -43,7 +44,7 @@ namespace Liar.Application.Contracts.IServices
         /// <param name="id"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        Task<bool> ChangeStatusAsync(long id, int status);
+        Task<AppSrvResult> ChangeStatusAsync(long id, int status);
 
         /// <summary>
         /// 修改用户状态
@@ -51,7 +52,7 @@ namespace Liar.Application.Contracts.IServices
         /// <param name="id"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        Task<bool> ChangeStatusAsync(IEnumerable<long> id, int status);
+        Task<AppSrvResult> ChangeStatusAsync(IEnumerable<long> id, int status);
 
         /// <summary>
         /// 获取当前用户是否拥有指定权限

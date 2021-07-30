@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
-using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
+using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Extensions;
 using Liar.Core.Helper;
 using Liar.Domain.Shared;
@@ -31,19 +30,20 @@ namespace Liar.Application.Services.Sys
         /// <param name="id"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public async Task<bool> ChangeStatusAsync(long id, int status)
+        public async Task<AppSrvResult> ChangeStatusAsync(long id, int status)
         {
-            var model = await _userRepository.UpdateAsync(new SysUser { Id = id, Status = status });
-            return model != null;
+            await _userRepository.UpdateAsync(new SysUser { Id = id, Status = status });
+
+            return AppSrvResult();
         }
 
         /// <summary>
-        /// 批量修改用户状态
+        /// 修改用户状态
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="ids"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public async Task<bool> ChangeStatusAsync(IEnumerable<long> ids, int status)
+        public async Task<AppSrvResult> ChangeStatusAsync(IEnumerable<long> ids, int status)
         {
             var users = new List<SysUser>();
             foreach (var item in ids)
@@ -57,7 +57,7 @@ namespace Liar.Application.Services.Sys
 
             await _userRepository.UpdateManyAsync(users);
 
-            return true;
+            return AppSrvResult();
         }
 
         /// <summary>
@@ -65,22 +65,20 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<ResultDetails<long>> CreateAsync(UserCreationDto input)
+        public async Task<AppSrvResult<long>> CreateAsync(UserCreationDto input)
         {
-            if (await _userRepository.AllAsync(x => x.Account == input.Account))
-                return Fail<long>(HttpStatusCode.BadRequest, "账号已经存在");
+            if (await _userRepository.AnyAsync(x => x.Account == input.Account))
+                return ProblemFail(HttpStatusCode.BadRequest, "账号已经存在");
 
             var user = ObjectMapper.Map<UserCreationDto, SysUser>(input);
             user.Id = IdGenerater.GetNextId();
             user.Account = user.Account.ToLower();
             user.Salt = SecurityHelper.GenerateRandomCode(5);
             user.Password = HashHelper.GetHashedString(HashType.MD5, user.Password, user.Salt);
-            user.CreateBy = 1600000000000;
-            user.CreateTime = DateTime.Now;
 
             await _userRepository.InsertAsync(user);
 
-            return Success(user.Id);
+            return user.Id;
         }
 
         /// <summary>
@@ -88,10 +86,11 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(long id)
+        public async Task<AppSrvResult> DeleteAsync(long id)
         {
             await _userRepository.DeleteAsync(x => x.Id == id);
-            return true;
+
+            return AppSrvResult();
         }
 
         /// <summary>
@@ -137,12 +136,13 @@ namespace Liar.Application.Services.Sys
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<bool> SetRoleAsync(long id, UserSetRoleDto input)
+        public async Task<AppSrvResult> SetRoleAsync(long id, UserSetRoleDto input)
         {
             var roleIdStr = input.RoleIds == null ? null : string.Join(",", input.RoleIds);
-            var model = await _userRepository.UpdateAsync(new SysUser() { Id = id, RoleIds = roleIdStr });
 
-            return model != null;
+            await _userRepository.UpdateAsync(new SysUser() { Id = id, RoleIds = roleIdStr });
+
+            return AppSrvResult();
         }
 
         /// <summary>
@@ -151,9 +151,15 @@ namespace Liar.Application.Services.Sys
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<bool> UpdateAsync(long id, UserUpdationDto input)
+        public async Task<AppSrvResult> UpdateAsync(long id, UserUpdationDto input)
         {
-            throw new NotImplementedException();
+            var user = ObjectMapper.Map<UserUpdationDto, SysUser>(input);
+
+            user.Id = id;
+
+            await _userRepository.UpdateAsync(user);
+
+            return AppSrvResult();
         }
     }
 }

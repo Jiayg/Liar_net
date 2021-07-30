@@ -33,7 +33,7 @@ namespace Liar.EntityFrameworkCore
 
             Configure<AbpDbConnectionOptions>(options =>
             {
-                options.ConnectionStrings.Default = mysqlConfig.ConnectionString; 
+                options.ConnectionStrings.Default = mysqlConfig.ConnectionString;
             });
 
             context.Services.AddAbpDbContext<LiarDbContext>(option =>

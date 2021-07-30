@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Liar.Application.Contracts.Dtos.Sys.User;
-using Liar.Domain.Shared;
+using Liar.Domain.Shared.ConfigModels;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Liar.Liar.HttpApi.Host.Helper
@@ -21,7 +21,7 @@ namespace Liar.Liar.HttpApi.Host.Helper
     {
         public static string CreateToken(JwtConfig jwtConfig, Claim[] claims, TokenType tokenType)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecurityKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SymmetricSecurityKey));
 
             string issuer = jwtConfig.Issuer;
             string audience = tokenType.Equals(TokenType.AccessToken) ? jwtConfig.Audience : jwtConfig.RefreshTokenAudience;

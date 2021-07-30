@@ -41,7 +41,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ResultDetails<UserInfoDto>> GetCurrentUserInfoAsync([FromRoute] long id)
+        public async Task<ActionResult<UserInfoDto>> GetCurrentUserInfoAsync([FromRoute] long id)
         {
             return await _accountService.GetUserInfoAsync(id);
         }
@@ -63,14 +63,14 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpGet("IdGenerater")]
         [AllowAnonymous]
-        public async Task<ResultDetails<List<long>>> NextId()
+        public async Task<ActionResult<List<long>>> NextId()
         {
             var ids = new List<long>();
             for (int i = 0; i < 10000; i++)
             {
                 ids.Add(IdGenerater.GetNextId());
             }
-            return Result(await Task.FromResult(ids));
+            return await Task.FromResult(ids);
         }
     }
 }

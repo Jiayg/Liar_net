@@ -1,112 +1,68 @@
-﻿using System.Collections.Generic;
-using Liar.Application.Contracts;
-using Liar.Domain.Shared;
+﻿using Liar.Application.Contracts.ServiceResult;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Liar.HttpApi.Host.Controllers
 {
-    public class BaseController : AbpController
+    public abstract class BaseController : AbpController
     {
 
+        /// <summary>
+        /// Adnc.Application.Shared.Services.ProblemDetails.ProblemDetails => Problem
+        /// </summary>
+        /// <param name="problemDetails"><see cref="Adnc.Application.Shared.Services.ProblemDetails"/></param>
+        /// <returns><see cref="ObjectResult"/></returns>
         [NonAction]
-        public ResultDetails<T> Result<T>(T data)
+        protected virtual ObjectResult Problem(Application.Contracts.ServiceResult.ProblemDetails problemDetails)
         {
-            return new ResultDetails<T>()
-            {
-                IsSuccess = true,
-                Msg = string.Empty,
-                Data = data
-            };
+            problemDetails.Instance = problemDetails.Instance ?? this.Request.Path.ToString();
+            return Problem(problemDetails.Detail
+                , problemDetails.Instance
+                , problemDetails.Status
+                , problemDetails.Title
+                , problemDetails.Type);
         }
 
+
+        /// <summary>
+        /// AppSrvResult<TValue> => ActionResult<TValue>
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="appSrvResult"><see cref="AppSrvResult{TValue}"/></param>
+        /// <returns><see cref="ActionResult{TValue}"/> if normal return status 200</returns>
         [NonAction]
-        public ResultDetails Result(object data)
+        protected virtual ActionResult<TValue> Result<TValue>(AppSrvResult<TValue> appSrvResult)
         {
-            return new ResultDetails()
-            {
-                IsSuccess = true,
-                Msg = string.Empty,
-                Data = data
-            };
+            if (appSrvResult.IsSuccess)
+                return appSrvResult.Content;
+            return Problem(appSrvResult.ProblemDetails);
         }
 
+        /// <summary>
+        /// AppSrvResult => ActionResult
+        /// </summary>
+        /// <param name="appSrvResult"><see cref="AppSrvResult"/></param>
+        /// <returns><see cref="ActionResult"/> if normal return statuscode 204</returns>
         [NonAction]
-        public ResultDetails<T> Success<T>(T data, string msg = "成功")
+        protected virtual ActionResult Result(AppSrvResult appSrvResult)
         {
-            return new ResultDetails<T>()
-            {
-                IsSuccess = true,
-                Msg = msg,
-                Data = data
-            };
+            if (appSrvResult.IsSuccess)
+                return NoContent();
+            return Problem(appSrvResult.ProblemDetails);
         }
 
+        /// <summary>
+        /// AppSrvResult<TValue> => ActionResult<TValue>
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="appSrvResult"><see cref="AppSrvResult{TValue}"/></param>
+        /// <returns><see cref="ActionResult{TValue}"/> if normal return statuscode 201</returns>
         [NonAction]
-        public ResultDetails Success(string msg = "成功")
+        protected virtual ActionResult<TValue> CreatedResult<TValue>(AppSrvResult<TValue> appSrvResult)
         {
-            return new ResultDetails()
-            {
-                IsSuccess = true,
-                Msg = msg,
-                Data = null
-            };
-        }
-
-        [NonAction]
-        public ResultDetails<string> Failed(string msg = "失败", int status = 500)
-        {
-            return new ResultDetails<string>()
-            {
-                IsSuccess = false,
-                Status = status,
-                Msg = msg,
-                Data = null
-            };
-        }
-
-        [NonAction]
-        public ResultDetails<T> Failed<T>(string msg = "失败", int status = 500)
-        {
-            return new ResultDetails<T>()
-            {
-                IsSuccess = false,
-                Status = status,
-                Msg = msg,
-                Data = default
-            };
-        }
-
-        [NonAction]
-        public ResultDetails<PageModelDto<T>> SuccessPage<T>(int total, List<T> item, string msg = "请求成功")
-        {
-
-            return new ResultDetails<PageModelDto<T>>()
-            {
-                IsSuccess = true,
-                Msg = msg,
-                Data = new PageModelDto<T>()
-                {
-                    Total = total,
-                    Item = item
-                }
-            };
-        }
-
-        [NonAction]
-        public ResultDetails<PageModelDto<T>> SuccessPage<T>(PageModelDto<T> pageModel, string msg = "请求成功")
-        {
-
-            return new ResultDetails<PageModelDto<T>>()
-            {
-                IsSuccess = true,
-                Msg = msg,
-                Data = new PageModelDto<T>()
-                {
-                    Total = pageModel.Total,
-                    Item = pageModel.Item
-                }
-            };
+            if (appSrvResult.IsSuccess)
+                return Created(this.Request.Path, appSrvResult.Content);
+            return Problem(appSrvResult.ProblemDetails);
         }
     }
 }

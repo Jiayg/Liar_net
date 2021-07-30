@@ -7,8 +7,7 @@
 		<RootNamespace>Liar.Domain</RootNamespace>
 	</PropertyGroup>
 
-	<ItemGroup> 
-		<PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="4.3.3" />
+	<ItemGroup>  
 		<PackageReference Include="Volo.Abp.Ddd.Domain" Version="4.3.3" />
 	</ItemGroup>
 
