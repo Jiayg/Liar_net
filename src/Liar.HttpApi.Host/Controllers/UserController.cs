@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Domain.Shared;
+using Liar.HttpApi.Host.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog.Fluent;
 
 namespace Liar.HttpApi.Host.Controllers
 {
@@ -35,6 +39,19 @@ namespace Liar.HttpApi.Host.Controllers
         }
 
         /// <summary>
+        /// 修改用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> UpdateAsync([FromRoute] long id, [FromBody] UserUpdationDto input)
+        {
+            return Result(await _userService.UpdateAsync(id, input));
+        }
+
+        /// <summary>
         /// 删除用户
         /// </summary>
         /// <param name="id">用户ID</param>
@@ -45,6 +62,60 @@ namespace Liar.HttpApi.Host.Controllers
         {
             return Result(await _userService.DeleteAsync(id));
         }
+
+        /// <summary>
+        /// 设置用户角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="roleIds"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/roles")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> SetRoleAsync([FromRoute] long id, [FromBody] long[] roleIds)
+        {
+            return Result(await _userService.SetRoleAsync(id, new UserSetRoleDto() { RoleIds = roleIds }));
+        }
+
+        /// <summary>
+        /// 变更用户状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/status")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ChangeStatus([FromRoute] long id, [FromBody] int status)
+        {
+            return Result(await _userService.ChangeStatusAsync(id, status));
+        }
+
+        /// <summary>
+        /// 批量变更用户状态
+        /// </summary>
+        /// <param name="input">用户Ids与状态</param>
+        /// <returns></returns>
+        [HttpPut("batch/status")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ChangeStatus([FromBody] UserChangeStatusDto input)
+        {
+            return Result(await _userService.ChangeStatusAsync(input.UserIds, input.Status));
+        }
+
+        /// <summary>
+        /// 获取当前用户是否拥有指定权限
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <param name="permissions"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/permissions")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<string>>> GetCurrenUserPermissions([FromRoute] long id, [FromQuery] IEnumerable<string> permissions)
+        {
+            //TODO 此处应取UserContext.id
+            var result = await _userService.GetPermissionsAsync(id, permissions);
+            return result?.Any() == true ? result : new List<string>();
+        }
+
 
         /// <summary>
         /// 获取用户列表

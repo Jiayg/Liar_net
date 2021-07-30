@@ -11,6 +11,8 @@ namespace Liar
             CreateMap<UserCreationDto, SysUser>();
 
             CreateMap<SysUser, UserProfileDto>();
+
+            CreateMap<SysUser, UserValidateDto>();
              
             CreateMap<SysUser, UserDto>();
         }

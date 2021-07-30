@@ -5,7 +5,7 @@ using Volo.Abp.AspNetCore.Mvc;
 namespace Liar.HttpApi.Host.Controllers
 {
     public abstract class BaseController : AbpController
-    {
+    { 
         [NonAction]
         protected virtual ObjectResult Problem(Application.Contracts.ServiceResult.ProblemDetails problemDetails)
         {

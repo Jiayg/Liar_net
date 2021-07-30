@@ -82,6 +82,8 @@ namespace Liar.Application.Services.Sys
                 return ProblemFail(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
             }
 
+            //TODO 登录数据存入缓存
+
             return await Task.FromResult(user);
         }
 
@@ -133,5 +135,45 @@ namespace Liar.Application.Services.Sys
             return userInfoDto;
         }
 
+        /// <summary>
+        /// 获取登录信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<UserValidateDto> GetUserValidateInfoAsync(long id)
+        {
+            // TODO 此处应先取缓存信息 判断缓存登录信息是否完整 缓存不存在则把数据存进去
+
+            var user = await _userRepository.FirstAsync(x => x.Id == id);
+
+            return ObjectMapper.Map<SysUser, UserValidateDto>(user);
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<AppSrvResult> UpdatePasswordAsync(long id, UserChangePwdDto input)
+        {
+            // TODO 此处应先取缓存信息 判断缓存登录信息是否完整
+
+            //if (user == null)
+            //    return Problem(HttpStatusCode.NotFound, "用户不存在,参数信息不完整");
+
+
+            var user = await _userRepository.FirstAsync(x => x.Id == id);
+
+            var md5OldPwdString = HashHelper.GetHashedString(HashType.MD5, input.OldPassword, user.Salt);
+            if (!md5OldPwdString.EqualsIgnoreCase(user.Password))
+                return Problem(HttpStatusCode.BadRequest, "旧密码输入错误");
+
+            var newPwdString = HashHelper.GetHashedString(HashType.MD5, input.Password, user.Salt);
+
+            await _userRepository.UpdateAsync(new SysUser { Id = user.Id, Password = newPwdString });
+
+            return AppSrvResult();
+        }
     }
 }

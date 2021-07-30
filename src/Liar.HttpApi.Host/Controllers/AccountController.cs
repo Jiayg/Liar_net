@@ -4,6 +4,7 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Core.Helper;
 using Liar.Domain.Shared.ConfigModels;
+using Liar.Domain.Shared.UserContext;
 using Liar.Liar.HttpApi.Host.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace Liar.HttpApi.Host.Controllers
 {
-    [Route("account")]
+    [Route("account")] 
     [ApiController]
     public class AccountController : BaseController
     {
@@ -26,6 +27,7 @@ namespace Liar.HttpApi.Host.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
         {
             var result = await _accountService.LoginAsync(input);
@@ -60,7 +62,39 @@ namespace Liar.HttpApi.Host.Controllers
         }
 
         /// <summary>
-        /// 生成1w 有序id
+        /// 刷新token
+        /// </summary>
+        [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserTokenInfoDto>> RefreshAccessTokenAsync([FromBody] UserRefreshTokenDto input)
+        {
+            var result = await _accountService.GetUserValidateInfoAsync(input.Id);
+
+            if (result == null)
+                return Ok(new UserTokenInfoDto
+                {
+                    Token = JwtTokenHelper.CreateAccessToken(_jwtConfig, result, input.RefreshToken),
+                    RefreshToken = input.RefreshToken
+                });
+
+            return NotFound();
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPatch("password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> ChangePassword([FromBody] UserChangePwdDto input)
+        {
+            long id = 0;
+            return Result(await _accountService.UpdatePasswordAsync(id, input));
+        }
+
+        /// <summary>
+        /// 测试生成10w有序id
         /// </summary>
         /// <returns></returns>
         [HttpGet("IdGenerater")]
@@ -68,7 +102,7 @@ namespace Liar.HttpApi.Host.Controllers
         public async Task<ActionResult<List<long>>> NextId()
         {
             var ids = new List<long>();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 ids.Add(IdGenerater.GetNextId());
             }

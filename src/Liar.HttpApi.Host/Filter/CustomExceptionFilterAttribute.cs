@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Liar.Core.Extensions;
+using Liar.Domain.Shared.UserContext;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Mvc.Filters
@@ -12,7 +14,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             var status = 500;
             var exception = context.Exception;
             var eventId = new EventId(exception.HResult);
-            //var userContext = context.HttpContext.RequestServices.GetService<IUserContext>();
+            var userContext = context.HttpContext.RequestServices.GetService<IUserContext>();
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
             //string className = descriptor.ControllerName;
             //string method = descriptor.ActionName;
@@ -35,14 +37,10 @@ namespace Microsoft.AspNetCore.Mvc.Filters
 
             var problemDetails = new ProblemDetails
             {
-                Title = title
-                ,
-                Detail = detial
-                ,
-                Type = type
-                ,
-                Status = status
-                ,
+                Title = title,
+                Detail = detial,
+                Type = type,
+                Status = status,
                 Instance = requestUrl
             };
 
