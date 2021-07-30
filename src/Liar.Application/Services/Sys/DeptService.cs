@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using AutoMapper;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.ObjectMapping;
 
 namespace Liar.Application.Services.Sys
 {
@@ -31,8 +27,8 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult<long>> CreateAsync(DeptCreationDto input)
         {
-            var isExists = await _deptRepository.GetAsync(x => x.FullName == input.FullName);
-            if (isExists != null)
+            var isExists = _deptRepository.Where(x => x.FullName == input.FullName).Any();
+            if (isExists)
                 return Problem(HttpStatusCode.BadRequest, "该部门全称已经存在");
 
             var dept = ObjectMapper.Map<DeptCreationDto, SysDept>(input);
@@ -112,9 +108,7 @@ namespace Liar.Application.Services.Sys
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<AppSrvResult> UpdateAsync(long id, DeptUpdationDto input)
-        {
-            //var allDepts = await _cacheService.GetAllDeptsFromCacheAsync();
-
+        { 
             var allDepts = await _deptRepository.GetListAsync();
 
             var oldDeptDto = allDepts.FirstOrDefault(x => x.Id == id);
