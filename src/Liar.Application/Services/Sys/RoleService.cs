@@ -81,12 +81,12 @@ namespace Liar.Application.Services.Sys
                 whereCondition = whereCondition.And(x => x.Name.Contains(input.RoleName));
             }
 
-            var pagedModel = _roleRepository.Where(whereCondition).Take(input.Limit, input.Offset).OrderBy(o => o.Ordinal).ToList();
+            var query = _roleRepository.Where(whereCondition).Take(input.Limit, input.Offset).OrderBy(o => o.Ordinal).ToList();
 
             var result = new PageModelDto<RoleDto>()
             {
-                Total = _userRepository.Count(),
-                Item = ObjectMapper.Map<List<SysRole>, List<RoleDto>>(pagedModel)
+                Total = _roleRepository.Count(),
+                Item = ObjectMapper.Map<List<SysRole>, List<RoleDto>>(query)
             };
 
             return await Task.FromResult(result);

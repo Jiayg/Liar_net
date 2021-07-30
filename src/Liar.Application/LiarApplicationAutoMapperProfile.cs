@@ -30,7 +30,7 @@ namespace Liar
             CreateMap<SysMenu, MenuRouterDto>();
 
             CreateMap<RoleCreationDto, SysRole>();
-            CreateMap<List<SysRole>, PageModelDto<RoleDto>>();
+            CreateMap<SysRole, RoleDto>();
         }
     }
 }
