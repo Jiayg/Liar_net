@@ -15,11 +15,11 @@ namespace Liar.HttpApi.Host.Extensions
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Liar API", Version = "v1" });
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.Host.xml"));
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.Application.Contracts.xml"));
-                //options.DocInclusionPredicate((docName, description) => true);
-                //options.CustomSchemaIds(type => type.FullName);
+                options.DocInclusionPredicate((docName, description) => true);
+                options.CustomSchemaIds(type => type.FullName);
                 // 开启加权小锁
                 options.OperationFilter<AddResponseHeadersFilter>();
                 options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();

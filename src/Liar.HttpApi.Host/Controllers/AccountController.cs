@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
-using Liar.Core.Helper;
 using Liar.Domain.Shared.ConfigModels;
-using Liar.Domain.Shared.UserContext;
 using Liar.Liar.HttpApi.Host.Helper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Liar.HttpApi.Host.Controllers
 {
-    [Route("account")] 
+    [Route("account")]
     [ApiController]
     public class AccountController : BaseController
     {
@@ -91,22 +87,6 @@ namespace Liar.HttpApi.Host.Controllers
         {
             long id = 0;
             return Result(await _accountService.UpdatePasswordAsync(id, input));
-        }
-
-        /// <summary>
-        /// 测试生成10w有序id
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("IdGenerater")]
-        [AllowAnonymous]
-        public async Task<ActionResult<List<long>>> NextId()
-        {
-            var ids = new List<long>();
-            for (int i = 0; i < 100000; i++)
-            {
-                ids.Add(IdGenerater.GetNextId());
-            }
-            return await Task.FromResult(ids);
         }
     }
 }

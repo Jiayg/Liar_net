@@ -3,7 +3,9 @@ using System.Linq;
 using AutoMapper;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.Dtos.Sys.Menu;
+using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.Dtos.Sys.User;
+using Liar.Domain.Shared;
 using Liar.Domain.Sys;
 
 namespace Liar
@@ -27,6 +29,8 @@ namespace Liar
             CreateMap<List<ZTreeNodeDto<long, dynamic>>, List<Node<long>>>();
             CreateMap<SysMenu, MenuRouterDto>();
 
+            CreateMap<RoleCreationDto, SysRole>();
+            CreateMap<List<SysRole>, PageModelDto<RoleDto>>();
         }
     }
 }
