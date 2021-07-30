@@ -23,16 +23,17 @@ namespace Liar.Liar.HttpApi.Host.Helper
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SymmetricSecurityKey));
 
-            string issuer = jwtConfig.Issuer;
             string audience = tokenType.Equals(TokenType.AccessToken) ? jwtConfig.Audience : jwtConfig.RefreshTokenAudience;
             int expires = tokenType.Equals(TokenType.AccessToken) ? jwtConfig.Expire : jwtConfig.RefreshTokenExpire;
 
+            var now = DateTime.Now;
+
             var token = new JwtSecurityToken(
-                issuer: issuer,
+                issuer: jwtConfig.Issuer,
                 audience: audience,
                 claims: claims,
-                notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(expires),
+                notBefore: now,
+                expires: now.AddMinutes(expires),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 
@@ -45,8 +46,8 @@ namespace Liar.Liar.HttpApi.Host.Helper
         {
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Account),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Account),
                 new Claim(ClaimTypes.Name, user.Name),
                 //new Claim(ClaimTypes.Role, user.RoleIds??"0")
                 //new Claim(JwtRegisteredClaimNames.Email, user.Email),

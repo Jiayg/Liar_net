@@ -1,39 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Liar.Application.Contracts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Core.Helper;
-using Liar.Domain.Shared;
-using Liar.HttpApi.Host.Authorize;
+using Liar.Domain.Shared.ConfigModels;
 using Liar.Liar.HttpApi.Host.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Liar.HttpApi.Host.Controllers
 {
-    [Route("sys/account")]
+    [Route("account")]
     [ApiController]
     public class AccountController : BaseController
     {
+        private readonly JwtConfig _jwtConfig;
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService)
         {
+            this._jwtConfig = jwtConfig.Value;
             this._accountService = accountService;
         }
 
-        //public async Task<ResultDetails<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
-        //{
-        //    var result = await _accountService.LoginAsync(input);
+        [HttpPost]
+        public async Task<ActionResult<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
+        {
+            var result = await _accountService.LoginAsync(input);
 
-        //    //return new UserTokenInfoDto
-        //    //{
-        //    //    Token = JwtTokenHelper.CreateAccessToken(new , result.Content),
-        //    //    RefreshToken = JwtTokenHelper.CreateRefreshToken(_jwtConfig, result.Content)
-        //    //}; 
-        //}
+            return new UserTokenInfoDto
+            {
+                Token = JwtTokenHelper.CreateAccessToken(_jwtConfig, result.Content),
+                RefreshToken = JwtTokenHelper.CreateRefreshToken(_jwtConfig, result.Content)
+            };
+        }
 
         /// <summary>
         /// 获取个人信息

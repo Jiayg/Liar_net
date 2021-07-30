@@ -1,5 +1,4 @@
 ﻿using Liar.Core.Microsoft.Extensions.Configuration;
-using Liar.Domain.Shared;
 using Liar.Domain.Shared.ConfigModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

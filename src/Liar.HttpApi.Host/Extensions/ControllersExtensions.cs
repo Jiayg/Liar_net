@@ -4,7 +4,6 @@ using Liar.Core.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
 
 namespace Liar.HttpApi.Host.Extensions
@@ -14,7 +13,7 @@ namespace Liar.HttpApi.Host.Extensions
         public static void AddControllersSetup(this IServiceCollection services)
         {
             services.AddControllers(options =>
-            { 
+            {
                 var filterMetadata = options.Filters.FirstOrDefault(x => x is ServiceFilterAttribute attribute && attribute.ServiceType.Equals(typeof(AbpExceptionFilter)));
 
                 // 移除 AbpExceptionFilter

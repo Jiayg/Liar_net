@@ -1,9 +1,6 @@
-﻿using Liar.Domain.Entities;
-using Liar.Domain.Shared;
-using Liar.Domain.Sys;
+﻿using Liar.Domain.Sys;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
-using static Liar.Domain.Shared.LiarDbConsts;
 
 namespace Liar.EntityFrameworkCore
 {

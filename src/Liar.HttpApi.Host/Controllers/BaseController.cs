@@ -6,12 +6,6 @@ namespace Liar.HttpApi.Host.Controllers
 {
     public abstract class BaseController : AbpController
     {
-
-        /// <summary>
-        /// Adnc.Application.Shared.Services.ProblemDetails.ProblemDetails => Problem
-        /// </summary>
-        /// <param name="problemDetails"><see cref="Adnc.Application.Shared.Services.ProblemDetails"/></param>
-        /// <returns><see cref="ObjectResult"/></returns>
         [NonAction]
         protected virtual ObjectResult Problem(Application.Contracts.ServiceResult.ProblemDetails problemDetails)
         {
@@ -23,13 +17,6 @@ namespace Liar.HttpApi.Host.Controllers
                 , problemDetails.Type);
         }
 
-
-        /// <summary>
-        /// AppSrvResult<TValue> => ActionResult<TValue>
-        /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="appSrvResult"><see cref="AppSrvResult{TValue}"/></param>
-        /// <returns><see cref="ActionResult{TValue}"/> if normal return status 200</returns>
         [NonAction]
         protected virtual ActionResult<TValue> Result<TValue>(AppSrvResult<TValue> appSrvResult)
         {
@@ -39,10 +26,10 @@ namespace Liar.HttpApi.Host.Controllers
         }
 
         /// <summary>
-        /// AppSrvResult => ActionResult
+        /// return statuscode 204
         /// </summary>
-        /// <param name="appSrvResult"><see cref="AppSrvResult"/></param>
-        /// <returns><see cref="ActionResult"/> if normal return statuscode 204</returns>
+        /// <param name="appSrvResult"></param>
+        /// <returns></returns>
         [NonAction]
         protected virtual ActionResult Result(AppSrvResult appSrvResult)
         {
@@ -52,11 +39,11 @@ namespace Liar.HttpApi.Host.Controllers
         }
 
         /// <summary>
-        /// AppSrvResult<TValue> => ActionResult<TValue>
+        ///  return statuscode 201
         /// </summary>
         /// <typeparam name="TValue"></typeparam>
-        /// <param name="appSrvResult"><see cref="AppSrvResult{TValue}"/></param>
-        /// <returns><see cref="ActionResult{TValue}"/> if normal return statuscode 201</returns>
+        /// <param name="appSrvResult"></param>
+        /// <returns></returns>
         [NonAction]
         protected virtual ActionResult<TValue> CreatedResult<TValue>(AppSrvResult<TValue> appSrvResult)
         {
