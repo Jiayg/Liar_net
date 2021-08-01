@@ -4,6 +4,15 @@ namespace Liar.Core.Microsoft.Extensions.Configuration
 {
     public static partial class ConfigurationExtensions
     {
+        /// <summary>
+        /// 获取项目配置
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IConfigurationSection GetAppSection(this IConfiguration configuration)
+        { 
+            return configuration.GetSection("App");
+        }
 
         /// <summary>
         /// 获取跨域配置
