@@ -1,15 +1,19 @@
-﻿using Liar.Application.Contracts.ServiceResult;
+﻿using Abp.AspNetCore.Mvc.Controllers;
+using Liar.Application.Contracts.ServiceResult;
+using Liar.Core.Consts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc;
 
 namespace Liar.HttpApi.Host.Controllers
 {
+    [Authorize(Policy = "PermissionCheck")]
+    [ApiExplorerSettings(GroupName = LiarApiVersionConsts.v1)]
     public abstract class BaseController : AbpController
-    { 
+    {
         [NonAction]
         protected virtual ObjectResult Problem(Application.Contracts.ServiceResult.ProblemDetails problemDetails)
         {
-            problemDetails.Instance = problemDetails.Instance ?? this.Request.Path.ToString();
+            problemDetails.Instance ??= this.Request.Path.ToString();
             return Problem(problemDetails.Detail
                 , problemDetails.Instance
                 , problemDetails.Status

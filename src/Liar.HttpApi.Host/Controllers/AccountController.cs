@@ -1,16 +1,18 @@
-﻿using System.Threading.Tasks;
-using Liar.Application.Contracts.Dtos.Sys.User;
+﻿using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared.ConfigModels;
-using Liar.Liar.HttpApi.Host.Helper;
+using Liar.HttpApi.Host.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     [Route("account")]
     [ApiController]
+    [AllowAnonymous]
     public class AccountController : BaseController
     {
         private readonly JwtConfig _jwtConfig;

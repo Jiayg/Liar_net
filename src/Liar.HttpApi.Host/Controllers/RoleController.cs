@@ -2,6 +2,7 @@
 using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace Liar.HttpApi.Host.Controllers
     /// 角色管理
     /// </summary>
     [Route("usr/roles")]
-    [ApiController]
+    [ApiController] 
     public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;

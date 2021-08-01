@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Liar.Core.Consts;
 using Liar.Core.Helper;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     [Route("test")]
     [ApiController]
-    public class TestController : AbpController
+    [ApiExplorerSettings(GroupName = LiarApiVersionConsts.v2)]
+    public class TestController
     {
         /// <summary>
         /// get testing

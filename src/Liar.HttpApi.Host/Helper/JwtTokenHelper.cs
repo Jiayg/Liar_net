@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Liar.Application.Contracts.Dtos.Sys.User;
+using Liar.Domain.Shared.ConfigModels;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Liar.Application.Contracts.Dtos.Sys.User;
-using Liar.Domain.Shared.ConfigModels;
-using Microsoft.IdentityModel.Tokens;
 
-namespace Liar.Liar.HttpApi.Host.Helper
+namespace Liar.HttpApi.Host.Helper
 {
     //认证服务器安装：System.IdentityModel.Tokens.Jwt
     //资源服务器安装：Microsoft.AspNetCore.Authentication.JwtBearer
@@ -46,11 +46,9 @@ namespace Liar.Liar.HttpApi.Host.Helper
         {
             var claims = new Claim[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Account),
                 new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Account),
                 new Claim(ClaimTypes.Name, user.Name),
-                //new Claim(ClaimTypes.Role, user.RoleIds??"0")
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email),
             };
             return CreateToken(jwtConfig, claims, TokenType.AccessToken);
         }
