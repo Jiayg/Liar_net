@@ -21,7 +21,15 @@ namespace Liar.HttpApi.Shared.Authorize
 
             if (context.Resource is HttpContext httpContext)
             {
-                var codes = httpContext.GetEndpoint().Metadata.GetMetadata<PermissionAttribute>().Codes;
+                var meta = httpContext.GetEndpoint().Metadata.GetMetadata<PermissionAttribute>();
+
+                if (meta == null)
+                {
+                    context.Succeed(requirement);
+                    return;
+                }
+
+                var codes = meta.Codes;
                 var result = await CheckUserPermissions(userId, codes);
                 if (result)
                 {

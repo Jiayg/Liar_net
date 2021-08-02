@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.Menu;
 using Liar.Application.Contracts.IServices.Sys;
+using Liar.Domain.Shared.UserContext;
 using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@ namespace Liar.HttpApi.Host.Controllers
     {
         private readonly IMenuService _menuService;
         private readonly IAccountService _accountService;
+        private readonly IUserContext _userContext;
 
-        public MenuController(IMenuService menuService, IAccountService accountService)
+        public MenuController(IMenuService menuService, IAccountService accountService, IUserContext userContext)
         {
             this._menuService = menuService;
             this._accountService = accountService;
+            this._userContext = userContext;
         }
 
         /// <summary>
@@ -85,8 +88,7 @@ namespace Liar.HttpApi.Host.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<MenuRouterDto>>> GetMenusForRouterAsync()
         {
-            long id = 0;
-            var userValidateInfo = await _accountService.GetUserValidateInfoAsync(id);
+            var userValidateInfo = await _accountService.GetUserValidateInfoAsync(_userContext.Id);
             var roleIds = userValidateInfo.RoleIds.Split(",", System.StringSplitOptions.RemoveEmptyEntries).ToList();
             return await _menuService.GetMenusForRouterAsync(roleIds.Select(x => long.Parse(x)));
         }

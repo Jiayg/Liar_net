@@ -44,11 +44,11 @@ namespace Liar.HttpApi.Host.Controllers
         /// 获取个人信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserInfoDto>> GetCurrentUserInfoAsync([FromRoute] long id)
+        public async Task<ActionResult<UserInfoDto>> GetCurrentUserInfoAsync()
         {
-            return await _accountService.GetUserInfoAsync(id);
+            return await _accountService.GetUserInfoAsync(_userContext.Id);
         }
 
         /// <summary>

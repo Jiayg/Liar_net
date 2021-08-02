@@ -99,7 +99,7 @@ namespace Liar
                 options.AppendTrailingSlash = true;
             });
 
-            context.Services.AddTransient<IUserContext, UserContext>();
+            context.Services.AddSingleton<IUserContext, UserContext>();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
