@@ -1,10 +1,11 @@
-﻿using Liar.Application.Contracts.Dtos.Sys.Menu;
-using Liar.Application.Contracts.IServices.Sys;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Liar.Application.Contracts.Dtos.Sys.Menu;
+using Liar.Application.Contracts.IServices.Sys;
+using Liar.HttpApi.Shared.Authorize;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Liar.HttpApi.Host.Controllers
 {
@@ -30,6 +31,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="menuDto">菜单</param>
         /// <returns></returns>
         [HttpPost]
+        [Permission("menuAdd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<long>> CreateAsync([FromBody] MenuCreationDto menuDto)
         {
@@ -43,6 +45,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">菜单</param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Permission("menuEdit")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateAsync([FromRoute] long id, [FromBody] MenuUpdationDto input)
         {
@@ -55,6 +58,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="id">菜单ID</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Permission("menuDelete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteAsync([FromRoute] long id)
         {
@@ -66,6 +70,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
+        [Permission("menuList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<MenuNodeDto>>> GetlistAsync()
         {

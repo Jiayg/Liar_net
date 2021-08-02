@@ -1,6 +1,7 @@
 ﻿using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared.ConfigModels;
+using Liar.Domain.Shared.UserContext;
 using Liar.HttpApi.Host.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,19 +13,21 @@ namespace Liar.HttpApi.Host.Controllers
 {
     [Route("account")]
     [ApiController]
-    [AllowAnonymous]
     public class AccountController : BaseController
     {
         private readonly JwtConfig _jwtConfig;
         private readonly IAccountService _accountService;
+        private readonly IUserContext _userContext;
 
-        public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService)
+        public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService, IUserContext userContext)
         {
             this._jwtConfig = jwtConfig.Value;
             this._accountService = accountService;
+            this._userContext = userContext;
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
         {
@@ -53,6 +56,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete()]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult Logout()
         {
@@ -87,8 +91,7 @@ namespace Liar.HttpApi.Host.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> ChangePassword([FromBody] UserChangePwdDto input)
         {
-            long id = 0;
-            return Result(await _accountService.UpdatePasswordAsync(id, input));
+            return Result(await _accountService.UpdatePasswordAsync(_userContext.Id, input));
         }
     }
 }

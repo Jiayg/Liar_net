@@ -1,4 +1,5 @@
-﻿using Liar.Application.Contracts.Dtos.Sys.User;
+﻿using Liar.Application.Contracts.Dtos.Sys.Role;
+using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
@@ -18,10 +19,12 @@ namespace Liar.Application.Services.Sys
     public class UserService : AppService, IUserService
     {
         private readonly IRepository<SysUser> _userRepository;
+        private readonly IRepository<SysRelation> _relationRepositoory;
 
-        public UserService(IRepository<SysUser> userRepository)
+        public UserService(IRepository<SysUser> userRepository, IRepository<SysRelation> relationRepositoory)
         {
             this._userRepository = userRepository;
+            this._relationRepositoory = relationRepositoory;
         }
 
         /// <summary>
@@ -125,9 +128,41 @@ namespace Liar.Application.Services.Sys
         /// <param name="userId"></param>
         /// <param name="permissions"></param>
         /// <returns></returns>
-        public Task<List<string>> GetPermissionsAsync(long userId, IEnumerable<string> permissions)
+        public async Task<List<string>> GetPermissionsAsync(long userId, IEnumerable<string> permissions)
         {
-            throw new NotImplementedException();
+            var userValidateInfo = _userRepository.Where(x => x.Id == userId).Select(s => new UserValidateDto()
+            {
+                Id = s.Id,
+                Account = s.Account,
+                Password = s.Password,
+                Salt = s.Salt,
+                Status = s.Status,
+                Email = s.Email,
+                Name = s.Name,
+                RoleIds = s.RoleIds
+            }).FirstOrDefault();
+
+            if (string.IsNullOrWhiteSpace(userValidateInfo.RoleIds))
+                return default;
+
+            if (userValidateInfo.Status != 1)
+                return default;
+
+            var roleIds = userValidateInfo.RoleIds.Trim().Split(",", StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
+
+            var allMenuCodes = _relationRepositoory
+                .Where(x => x.Menu.Status == true)
+                .Select(x => new RoleMenuCodesDto { RoleId = x.RoleId, Code = x.Menu.Code })
+                .Distinct().ToList();
+
+            var codes = allMenuCodes?.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.Code.ToUpper());
+            if (codes != null && codes.Any())
+            {
+                var result = codes.Intersect(permissions.Select(x => x.ToUpper())).ToList();
+                return await Task.FromResult(result);
+            }
+
+            return default;
         }
 
         /// <summary>

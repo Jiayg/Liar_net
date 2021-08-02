@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.IServices.Sys;
+using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="id">部门ID</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Permission("deptDelete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> Delete([FromRoute] long id)
         {
@@ -39,6 +41,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">部门</param>
         /// <returns></returns>
         [HttpPost]
+        [Permission("deptAdd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<long>> CreateAsync([FromBody] DeptCreationDto input)
         {
@@ -52,6 +55,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">部门</param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Permission("deptEdit")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<long>> UpdateAsync([FromRoute] long id, [FromBody] DeptUpdationDto input)
         {
@@ -63,6 +67,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
+        [Permission("deptList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<DeptTreeDto>>> GetListAsync()
         {

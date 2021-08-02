@@ -3,6 +3,7 @@ using Liar.Domain.Shared.ConfigModels;
 using Liar.Domain.Shared.UserContext;
 using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,8 +80,8 @@ namespace Liar.HttpApi.Shared.Extensions
                     {
                         var userContext = context.HttpContext.RequestServices.GetService<IUserContext>();
                         var claims = context.Principal.Claims;
-                         
-                        userContext.Id = claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+
+                        userContext.Id = long.Parse(claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
                         userContext.Account = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                         userContext.Name = claims.First(x => x.Type == ClaimTypes.Name).Value;
                         userContext.RemoteIpAddress = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
@@ -96,22 +98,13 @@ namespace Liar.HttpApi.Shared.Extensions
         /// 认证授权
         /// </summary>
         /// <param name="services"></param>
-        public static void AddAuthorizationSetup(this IServiceCollection services)
+        public static void AddAuthorization<THandler>(this IServiceCollection services) where THandler : PermissionHandler
         {
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Permission.Policy, policy => policy.Requirements.Add(new PermissionRequirement()));
             });
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("customizePermisson",
-            //      policy => policy
-            //        .Requirements
-            //        .Add(new PermissionRequirement()));
-            //});
-
-            //context.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+            services.AddScoped<IAuthorizationHandler, THandler>();
         }
     }
 }

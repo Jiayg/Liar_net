@@ -1,54 +1,36 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Liar.HttpApi.Shared.Authorize
 {
     public abstract class PermissionHandler : AuthorizationHandler<PermissionRequirement>
     {
-        public IAuthenticationSchemeProvider Schemes { get; set; }
-        private readonly IHttpContextAccessor _accessor;
-
-        public PermissionHandler(IAuthenticationSchemeProvider schemes, IHttpContextAccessor accessor)
-        {
-            Schemes = schemes;
-            this._accessor = accessor;
-        }
-
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            var httpContext = _accessor.HttpContext;
-
-            if (httpContext != null)
+            if (!context.User.Identity.IsAuthenticated)
             {
-                var questUrl = httpContext.Request.Path.Value.ToLower();
-                httpContext.Features.Set<IAuthenticationFeature>(new AuthenticationFeature
-                {
-                    OriginalPath = httpContext.Request.Path,
-                    OriginalPathBase = httpContext.Request.PathBase
-                });
+                context.Fail();
+                return;
+            }
 
-                // 主要作用是: 判断当前是否需要进行远程验证，如果是就进行远程验证
-                var handlers = httpContext.RequestServices.GetRequiredService<IAuthenticationHandlerProvider>();
-                foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
-                {
-                    if (await handlers.GetHandlerAsync(httpContext, scheme.Name) is IAuthenticationRequestHandler handler && await handler.HandleRequestAsync())
-                    {
-                        context.Fail();
-                        return;
-                    }
-                }
+            var userId = long.Parse(context.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
 
-                var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
-                if (defaultAuthenticate != null)
-                {  
+            if (context.Resource is HttpContext httpContext)
+            {
+                var codes = httpContext.GetEndpoint().Metadata.GetMetadata<PermissionAttribute>().Codes;
+                var result = await CheckUserPermissions(userId, codes);
+                if (result)
+                {
+                    context.Succeed(requirement);
+                    return;
                 }
-            } 
+            }
+            context.Fail();
         }
-
         protected abstract Task<bool> CheckUserPermissions(long userId, IEnumerable<string> codes);
     }
 }

@@ -2,7 +2,7 @@
 using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared;
-using Microsoft.AspNetCore.Authorization;
+using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +12,7 @@ namespace Liar.HttpApi.Host.Controllers
     /// 角色管理
     /// </summary>
     [Route("usr/roles")]
-    [ApiController] 
+    [ApiController]
     public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;
@@ -28,6 +28,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">角色查询条件</param>
         /// <returns></returns>
         [HttpGet()]
+        [Permission("roleList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PageModelDto<RoleDto>>> GetPagedAsync([FromQuery] RolePagedSearchDto input)
         {
@@ -52,6 +53,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="id">角色ID</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Permission("roleDelete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> DeleteAsync([FromRoute] long id)
         {
@@ -65,6 +67,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="permissions">用户权限Ids</param>
         /// <returns></returns>
         [HttpPut("{id}/permissons")]
+        [Permission("roleSetAuthority")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SetPermissonsAsync([FromRoute] long id, [FromBody] long[] permissions)
         {
@@ -77,6 +80,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">角色</param>
         /// <returns></returns>
         [HttpPost]
+        [Permission("roleAdd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<long>> CreateAsync([FromBody] RoleCreationDto input)
         {
@@ -90,6 +94,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">角色</param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Permission("roleEdit")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateAsync([FromRoute] long id, [FromBody] RoleUpdationDto input)
         {

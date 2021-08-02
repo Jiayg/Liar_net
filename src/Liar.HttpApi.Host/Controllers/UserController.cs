@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Domain.Shared;
+using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
+        [Permission("userAdd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<long>> CreateAsync([FromBody] UserCreationDto input)
         {
@@ -43,6 +45,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Permission("userEdit")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdateAsync([FromRoute] long id, [FromBody] UserUpdationDto input)
         {
@@ -55,6 +58,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="id">用户ID</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Permission("userDelete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute] long id)
         {
@@ -68,6 +72,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="roleIds"></param>
         /// <returns></returns>
         [HttpPut("{id}/roles")]
+        [Permission("userSetRole")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SetRoleAsync([FromRoute] long id, [FromBody] long[] roleIds)
         {
@@ -81,6 +86,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="status"></param>
         /// <returns></returns>
         [HttpPut("{id}/status")]
+        [Permission("userFreeze")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> ChangeStatus([FromRoute] long id, [FromBody] int status)
         {
@@ -93,6 +99,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="input">用户Ids与状态</param>
         /// <returns></returns>
         [HttpPut("batch/status")]
+        [Permission("userFreeze")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> ChangeStatus([FromBody] UserChangeStatusDto input)
         {
@@ -121,6 +128,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// <param name="search">查询条件</param>
         /// <returns></returns>
         [HttpGet()]
+        [Permission("userList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PageModelDto<UserDto>>> GetPagedAsync([FromQuery] UserSearchPagedDto search)
         {

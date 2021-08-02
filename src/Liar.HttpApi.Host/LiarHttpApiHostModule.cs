@@ -1,8 +1,13 @@
+using System;
+using System.Linq;
+using System.Text.Json;
 using Abp.AspNetCore.Mvc.ExceptionHandling;
 using Liar.Core.Helper;
 using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.UserContext;
 using Liar.EntityFrameworkCore;
+using Liar.HttpApi.Host.Authorize;
+using Liar.HttpApi.Shared.Extensions;
 using Liar.HttpApi.Shared.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -10,9 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Linq;
-using System.Text.Json;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.ExceptionHandling;
 using Volo.Abp.Autofac;
@@ -24,7 +26,6 @@ namespace Liar
         typeof(AbpAutofacModule),
         typeof(LiarApplicationModule),
         typeof(LiarConfigModule),
-        typeof(LiarAuthModule),
         typeof(LiarSwaggerModule),
         typeof(LiarEntityFrameworkCoreDbMigrationsModule)
     )]
@@ -42,6 +43,9 @@ namespace Liar
             {
                 options.SendExceptionsDetailsToClients = true;
             });
+
+            context.Services.AddHttpContextAccessor();
+            context.Services.AddMemoryCache();
 
             // Ä¬ÈÏÀ¹½Ø
             context.Services.AddControllers(options =>
@@ -81,7 +85,10 @@ namespace Liar
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
-            }); ;
+            });
+
+            context.Services.AddAuthenticationSetup(configuration);
+            context.Services.AddAuthorization<PermissionHandlerLocal>();
 
             // Â·ÓÉÅäÖÃ
             context.Services.AddRouting(options =>

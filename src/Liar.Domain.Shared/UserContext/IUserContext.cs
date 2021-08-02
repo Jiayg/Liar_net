@@ -2,7 +2,7 @@
 {
     public interface IUserContext
     {
-        string Id { get; set; }
+        long Id { get; set; }
         string Account { get; set; }
         string Name { get; set; }
         string RemoteIpAddress { get; set; }
@@ -13,7 +13,7 @@
 
     public class UserContext : IUserContext
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Account { get; set; }
         public string Name { get; set; }
         public string RemoteIpAddress { get; set; }

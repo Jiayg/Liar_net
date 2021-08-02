@@ -4,6 +4,6 @@ namespace Liar.HttpApi.Shared.Authorize
 {
     public class PermissionRequirement : IAuthorizationRequirement
     {
-
+        public PermissionRequirement() { }
     }
 }

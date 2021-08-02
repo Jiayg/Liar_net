@@ -1,20 +1,21 @@
 ﻿using Liar.Core.Consts;
 using Liar.Core.Helper;
+using Liar.HttpApi.Shared.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace Liar.HttpApi.Host.Controllers
 {
     [Route("test")]
-    [ApiController]
-    [ApiExplorerSettings(GroupName = LiarApiVersionConsts.v2)]
-    public class TestController
+    [ApiController] 
+    public class TestController : BaseController
     {
         /// <summary>
         /// get testing
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Permission("testget")]
         public string get()
         {
             return "this is get request";
@@ -25,6 +26,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Permission("testpost")]
         public string post()
         {
             return "this is post request";
@@ -35,6 +37,7 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Idgenerater")]
+        [Permission("testid")]
         public ActionResult<List<long>> NextId()
         {
             var ids = new List<long>();
