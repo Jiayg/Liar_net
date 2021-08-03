@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Threading.Tasks;
+using Liar.Application.Caching;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
@@ -20,16 +21,18 @@ namespace Liar.Application.Services.Sys
         private readonly IRepository<SysRole> _roleRepository;
         private readonly IRepository<SysMenu> _menuRepository;
         private readonly IRepository<SysRelation> _relationRepository;
+        private readonly TestCachingService _testCachingService;
 
         public AccountService(IRepository<SysUser> userRepository,
             IRepository<SysRole> roleRepository,
             IRepository<SysMenu> menuRepository,
-            IRepository<SysRelation> relationRepository)
+            IRepository<SysRelation> relationRepository, TestCachingService testCachingService)
         {
             this._userRepository = userRepository;
             this._roleRepository = roleRepository;
             this._menuRepository = menuRepository;
             this._relationRepository = relationRepository;
+            this._testCachingService = testCachingService;
         }
 
         /// <summary>
@@ -39,6 +42,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult<UserValidateDto>> LoginAsync(UserLoginDto input)
         {
+            var val = _testCachingService.getLong();
             var user = _userRepository.Where(x => x.Account == input.Account).Select(x => new UserValidateDto
             {
                 Id = x.Id,

@@ -119,17 +119,6 @@ namespace Liar
 
             app.UseCors(DefaultCorsPolicyName);
 
-            //app.UseSwagger();
-            //app.UseAbpSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Liar API");
-
-            //    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            //    c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            //    c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            //    c.OAuthScopes("Liar");
-            //});
-
             app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();

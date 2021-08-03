@@ -1,20 +1,16 @@
-﻿namespace Liar.Domain.Shared.ConfigModels
+﻿using System.Collections.Generic;
+
+namespace Liar.Domain.Shared.ConfigModels
 {
-    /// <summary>
-    /// RedisConfig配置
-    /// </summary>
     public class RedisConfig
     {
-        public int MaxRdSecond { get; set; }
-        public bool EnableLogging { get; set; }
-        public int LockMs { get; set; }
-        public int SleepMs { get; set; }
-        public Dbconfig dbconfig { get; set; }
+        public List<RedisClientOptions> Clients { get; set; }
+    }
+    public class RedisClientOptions
+    {
+        public string Name { get; set; }
+
+        public string[] ConnectionStrings { get; set; }
     }
 
-    public class Dbconfig
-    {
-        public string ConnectionString { get; set; }
-        public bool ReadOnly { get; set; }
-    }
 }
