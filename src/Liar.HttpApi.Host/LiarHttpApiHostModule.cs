@@ -117,16 +117,22 @@ namespace Liar
 
             app.UseStaticFiles();
 
+            app.UseCustomExceptionHandler();
+
+            app.UseRealIp(x =>
+            {
+                x.HeaderKeys = new string[] { "X-Forwarded-For", "X-Real-IP" };
+            });
+
             app.UseCors(DefaultCorsPolicyName);
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseUnitOfWork();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseConfiguredEndpoints();
             // Â·ÓÉÓ³Éä
             app.UseEndpoints(endpoints =>
             {

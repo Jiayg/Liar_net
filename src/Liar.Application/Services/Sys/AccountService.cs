@@ -12,6 +12,7 @@ using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 
 namespace Liar.Application.Services.Sys
 {
@@ -26,7 +27,8 @@ namespace Liar.Application.Services.Sys
         public AccountService(IRepository<SysUser> userRepository,
             IRepository<SysRole> roleRepository,
             IRepository<SysMenu> menuRepository,
-            IRepository<SysRelation> relationRepository, TestCachingService testCachingService)
+            IRepository<SysRelation> relationRepository,
+            TestCachingService testCachingService)
         {
             this._userRepository = userRepository;
             this._roleRepository = roleRepository;
@@ -40,6 +42,7 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task<AppSrvResult<UserValidateDto>> LoginAsync(UserLoginDto input)
         {
             var val = _testCachingService.getLong();
