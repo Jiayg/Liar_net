@@ -17,7 +17,7 @@ namespace Liar.Core.Helper
                 {
                     Version = "1.0.0",
                     Title = "Liar Api v1",
-                    Description = "Liar Api Document!"
+                    Description = "Liar Api v1 Document!"
                 }
             },
              new SwaggerApiInfo
@@ -28,7 +28,7 @@ namespace Liar.Core.Helper
                 {
                     Version = "1.0.0",
                     Title = "Liar Api v2",
-                    Description = "Liar Api Document!"
+                    Description = "Liar Api v2 Document!"
                 }
             }
         };

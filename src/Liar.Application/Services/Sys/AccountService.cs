@@ -55,9 +55,6 @@ namespace Liar.Application.Services.Sys
                 RoleIds = x.RoleIds
             }).FirstOrDefault();
 
-            // 自动映射模型，服务层引用_mapper出错
-            //var user = _userRepository.Where(x => x.Account == input.Account).ProjectTo<UserValidateDto>(_mapper.ConfigurationProvider).FirstOrDefault();
-
             if (user == null)
             {
                 return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");

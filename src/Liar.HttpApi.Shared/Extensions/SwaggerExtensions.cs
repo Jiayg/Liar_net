@@ -21,7 +21,6 @@ namespace Liar.HttpApi.Shared.Extensions
                     options.SwaggerDoc(x.UrlPrefix, x.OpenApiInfo);
                 });
 
-
                 var security = new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -33,35 +32,25 @@ namespace Liar.HttpApi.Shared.Extensions
                 };
                 options.AddSecurityDefinition("oauth2", security);
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement { { security, new List<string>() } });
-                //options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //            Reference = new OpenApiReference
-                //            {
-                //                Type = ReferenceType.SecurityScheme,
-                //                Id = "Bearer"
-                //            }
-                //        },
-                //        Array.Empty<string>()
-                //    }
-                //});
+
                 options.OperationFilter<AddResponseHeadersFilter>();
                 options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
 
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.Host.xml"));
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.HttpApi.Host.xml"), true);
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Liar.Application.Contracts.xml"));
-                options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
+                //options.DocInclusionPredicate((docName, description) => true);
+                //options.CustomSchemaIds(type => type.FullName);
 
             });
         }
 
         public static void UseSwaggerUI(this IApplicationBuilder app)
         {
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
             app.UseSwaggerUI(options =>
             {
                 // 遍历分组信息，生成Json

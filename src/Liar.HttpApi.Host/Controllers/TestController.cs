@@ -7,8 +7,9 @@ using System.Collections.Generic;
 namespace Liar.HttpApi.Host.Controllers
 {
     [Route("test")]
-    [ApiController] 
-    public class TestController : BaseController
+    [ApiController]
+    [ApiExplorerSettings(GroupName = LiarApiVersionConsts.v2)]
+    public class TestController
     {
         /// <summary>
         /// get testing

@@ -20,7 +20,7 @@ namespace Liar
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
-            context.GetApplicationBuilder().UseSwagger().UseSwaggerUI();
+            context.GetApplicationBuilder().UseSwaggerUI();
         }
     }
 }

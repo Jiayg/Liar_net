@@ -65,7 +65,7 @@ namespace Liar.HttpApi.Shared.Extensions
                         context.Response.ContentType = "application/json;charset=utf-8";
                         context.Response.StatusCode = StatusCodes.Status200OK;
 
-                        await context.Response.WriteAsync("UnAuthorized!!!!!!");
+                        await context.Response.WriteAsync("获取授权失败,请先登录！");
                     },
                     OnAuthenticationFailed = context =>
                     {

@@ -1,7 +1,6 @@
 ﻿using Abp.AspNetCore.Mvc.Controllers;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Consts;
-using Liar.Domain.Shared.UserContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
