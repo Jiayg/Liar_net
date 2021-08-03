@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Threading.Tasks;
-using Liar.Application.Caching;
+using Liar.Application.Caching.Caching;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
@@ -22,19 +22,19 @@ namespace Liar.Application.Services.Sys
         private readonly IRepository<SysRole> _roleRepository;
         private readonly IRepository<SysMenu> _menuRepository;
         private readonly IRepository<SysRelation> _relationRepository;
-        private readonly TestCachingService _testCachingService;
+        private readonly SysCachingService _sysCachingService;
 
         public AccountService(IRepository<SysUser> userRepository,
             IRepository<SysRole> roleRepository,
             IRepository<SysMenu> menuRepository,
             IRepository<SysRelation> relationRepository,
-            TestCachingService testCachingService)
+            SysCachingService sysCachingService)
         {
             this._userRepository = userRepository;
             this._roleRepository = roleRepository;
             this._menuRepository = menuRepository;
             this._relationRepository = relationRepository;
-            this._testCachingService = testCachingService;
+            this._sysCachingService = sysCachingService;
         }
 
         /// <summary>
@@ -45,7 +45,6 @@ namespace Liar.Application.Services.Sys
         [UnitOfWork]
         public async Task<AppSrvResult<UserValidateDto>> LoginAsync(UserLoginDto input)
         {
-            var val = _testCachingService.getLong();
             var user = _userRepository.Where(x => x.Account == input.Account).Select(x => new UserValidateDto
             {
                 Id = x.Id,
@@ -146,11 +145,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<UserValidateDto> GetUserValidateInfoAsync(long id)
         {
-            // TODO 此处应先取缓存信息 判断缓存登录信息是否完整 缓存不存在则把数据存进去
-
-            var user = await _userRepository.FirstAsync(x => x.Id == id);
-
-            return ObjectMapper.Map<SysUser, UserValidateDto>(user);
+            return await _sysCachingService.GetUserValidateInfoFromCacheAsync(id);
         }
 
         /// <summary>
@@ -161,13 +156,10 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult> UpdatePasswordAsync(long id, UserChangePwdDto input)
         {
-            // TODO 此处应先取缓存信息 判断缓存登录信息是否完整
+            var user = await _sysCachingService.GetUserValidateInfoFromCacheAsync(id);
 
-            //if (user == null)
-            //    return Problem(HttpStatusCode.NotFound, "用户不存在,参数信息不完整");
-
-
-            var user = await _userRepository.FirstAsync(x => x.Id == id);
+            if (user == null)
+                return Problem(HttpStatusCode.NotFound, "用户不存在,参数信息不完整");
 
             var md5OldPwdString = HashHelper.GetHashedString(HashType.MD5, input.OldPassword, user.Salt);
             if (!md5OldPwdString.EqualsIgnoreCase(user.Password))
