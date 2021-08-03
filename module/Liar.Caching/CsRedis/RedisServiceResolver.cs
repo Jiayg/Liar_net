@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CSRedis;
 using Liar.Caching.Abstractions;
 using Microsoft.Extensions.Options;
@@ -24,6 +22,9 @@ namespace Liar.Caching.CsRedis
 
                 // 支持热更新，需要重新
                 // 释放已有连接(暂时没找到对应的方法)，这里可能会有问题
+
+                this.Dispose();
+
                 // 创建新连接
                 this.InitialRedisServices();
             });
@@ -31,6 +32,11 @@ namespace Liar.Caching.CsRedis
             this._optionsMonitor.CurrentValue.Check();
 
             this.InitialRedisServices();
+        }
+
+        private void Dispose()
+        {
+            _redis.Dispose();
         }
 
         private RedisService CreateRedisService(RedisClientOptions e)
@@ -75,7 +81,7 @@ namespace Liar.Caching.CsRedis
             }
             else
             {
-                throw new Exception("未找到客户端");
+                throw new Exception("未找到客户端DB");
             }
         }
     }

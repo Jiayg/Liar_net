@@ -10,7 +10,7 @@ namespace Liar.Caching.CsRedis
 {
     public partial class RedisService : IRedisService
     {
-        private CSRedisClient Instance;
+        private readonly CSRedisClient Instance;
 
         public RedisService(CSRedisClient Instance)
         {
