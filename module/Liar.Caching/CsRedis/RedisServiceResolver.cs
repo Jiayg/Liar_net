@@ -25,15 +25,15 @@ namespace Liar.Caching.CsRedis
                 // 支持热更新，需要重新
                 // 释放已有连接(暂时没找到对应的方法)，这里可能会有问题
                 // 创建新连接
-                this.initialRedisServices();
+                this.InitialRedisServices();
             });
             this._optionsMonitor = optionsMonitor;
             this._optionsMonitor.CurrentValue.Check();
 
-            this.initialRedisServices();
+            this.InitialRedisServices();
         }
 
-        private RedisService createRedisService(RedisClientOptions e)
+        private RedisService CreateRedisService(RedisClientOptions e)
         {
             CSRedisClient redisClient;
             if (e.ConnectionStrings.Length == 1)
@@ -49,14 +49,14 @@ namespace Liar.Caching.CsRedis
             return new RedisService(redisClient);
         }
 
-        private void initialRedisServices()
+        private void InitialRedisServices()
         {
             _redisMap = new ConcurrentDictionary<string, IRedisService>();
             _redis = new BlockingCollection<IRedisService>();
 
             this._optionsMonitor.CurrentValue.Clients.ForEach(e =>
             {
-                var redisService = createRedisService(e);
+                var redisService = CreateRedisService(e);
                 _redisMap.TryAdd(e.Name, redisService);
                 _redis.Add(redisService);
             });

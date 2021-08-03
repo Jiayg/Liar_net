@@ -33,9 +33,7 @@ namespace Liar.Caching.Abstractions
     {
         public static void Check(this RedisOptions options)
         {
-            if (options == null ||
-                options.Clients == null ||
-                options.Clients.Count == 0)
+            if (options == null || options.Clients == null || options.Clients.Count == 0)
             {
                 throw new RedisConfigException("客户端未配置");
             }
