@@ -1,6 +1,6 @@
 ﻿using Liar.Domain.Shared.Consts;
 
-namespace Liar.Application.Caching.Consts
+namespace Liar.Application.Contracts.CacheConsts
 {
     public class SysCachingConsts : CachingConsts
     {

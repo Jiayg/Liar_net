@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Liar.Application.Caching.Consts;
+using Liar.Application.Contracts.CacheConsts;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Caching.Abstractions;
 using Liar.Domain.Shared.Consts;
