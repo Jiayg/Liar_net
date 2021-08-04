@@ -1,4 +1,4 @@
-﻿using Liar.Domain.Entities;
+﻿using Liar.Domain.IEntities;
 
 namespace Liar.Domain.Sys
 {

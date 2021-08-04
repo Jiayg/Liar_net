@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Liar.Domain.Entities
+namespace Liar.Domain.IEntities
 {
     public abstract class EfFullAuditEntity : EfEntity, IFullAuditInfo
     {

@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.Domain.Entities;
 
-namespace Liar.Domain.Entities
+namespace Liar.Domain.IEntities
 {
     public class Entity : IEntity<long>
     {

@@ -7,16 +7,18 @@
 		<RootNamespace>Liar.Domain</RootNamespace>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="Services\**" />
+	  <EmbeddedResource Remove="Services\**" />
+	  <None Remove="Services\**" />
+	</ItemGroup>
+
 	<ItemGroup>  
 		<PackageReference Include="Volo.Abp.Ddd.Domain" Version="4.3.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Liar.Domain.Shared\Liar.Domain.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>
