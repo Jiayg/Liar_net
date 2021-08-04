@@ -3,7 +3,7 @@ using Liar.Caching.CsRedis;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.Modularity;
 
-namespace Liar.Caching
+namespace Liar
 {
     public class LiarCachingModule : AbpModule
     {

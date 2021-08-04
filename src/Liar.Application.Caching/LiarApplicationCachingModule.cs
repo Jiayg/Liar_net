@@ -1,10 +1,9 @@
-﻿using Liar.Caching;
-using Liar.Caching.Abstractions;
+﻿using Liar.Caching.Abstractions;
 using Liar.Core.Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 
-namespace Liar.Application.Caching
+namespace Liar
 {
     [DependsOn(
         typeof(LiarCachingModule),

@@ -11,7 +11,7 @@ using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 
-namespace Liar.EntityFrameworkCore
+namespace Liar
 {
     [DependsOn(
         typeof(LiarDomainModule),
