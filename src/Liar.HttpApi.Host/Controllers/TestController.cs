@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Liar.Application.EventBus;
 using Liar.Core.Consts;
 using Liar.Core.Helper;
 using Liar.HttpApi.Shared.Authorize;
@@ -15,10 +17,12 @@ namespace Liar.HttpApi.Host.Controllers
     public class TestController
     {
         private readonly ILogger<TestController> _logger;
+        private readonly TestBusPublish busPublish;
 
-        public TestController(ILogger<TestController> logger)
+        public TestController(ILogger<TestController> logger, TestBusPublish busPublish)
         {
             this._logger = logger;
+            this.busPublish = busPublish;
         }
 
         /// <summary>
@@ -26,8 +30,10 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string get()
+        public async Task<string> get()
         {
+            await busPublish.ChangeStockCountAsync("11111111", 0);
+
             _logger.LogInformation("LogInformation");
             _logger.LogDebug("LogDebug");
             _logger.LogWarning("LogWarning");

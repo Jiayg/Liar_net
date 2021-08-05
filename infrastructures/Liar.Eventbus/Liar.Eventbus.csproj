@@ -5,14 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="LocalEventBus\" />
     <Folder Include="RabbitMqEventBus\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.EventBus" Version="4.3.3" />
     <PackageReference Include="Volo.Abp.EventBus.Abstractions" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="4.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Liar.Domain.Shared\Liar.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Liar.Core\Liar.Core.csproj" />
   </ItemGroup>
 
 </Project>
