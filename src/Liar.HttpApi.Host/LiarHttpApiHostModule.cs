@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using Abp.AspNetCore.Mvc.ExceptionHandling;
 using Liar.Core.Helper;
@@ -48,28 +49,43 @@ namespace Liar
             context.Services.AddMemoryCache();
 
             // 默认拦截
-            context.Services.AddControllers(options =>
+            context.Services.AddControllers(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)))
+                            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                                options.JsonSerializerOptions.Converters.Add(new DateTimeNullableConverter());
+                                options.JsonSerializerOptions.Encoder = SystemTextJsonHelper.GetAdncDefaultEncoder();
+                                //该值指示是否允许、不允许或跳过注释。
+                                options.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+                                //dynamic与匿名类型序列化设置
+                                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                                //dynamic
+                                options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                                //匿名类型
+                                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                            });
+            context.Services.Configure<ApiBehaviorOptions>(options =>
             {
-                var filterMetadata = options.Filters.FirstOrDefault(x => x is ServiceFilterAttribute attribute && attribute.ServiceType.Equals(typeof(AbpExceptionFilter)));
+                //关闭自动验证
+                //options.SuppressModelStateInvalidFilter = true;
+                //格式化验证信息
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    var problemDetails = new ProblemDetails
+                    {
+                        Detail = context.ModelState.GetValidationSummary("<br>"),
+                        Title = "参数错误",
+                        Status = (int)HttpStatusCode.BadRequest,
+                        Type = "https://httpstatuses.com/400",
+                        Instance = context.HttpContext.Request.Path
+                    };
 
-                // 移除 AbpExceptionFilter
-                //options.Filters.Remove(abpfilter);
-                options.Filters.Remove(filterMetadata);
-                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-            }).AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-                options.JsonSerializerOptions.Converters.Add(new DateTimeNullableConverter());
-                options.JsonSerializerOptions.Encoder = SystemTextJsonHelper.GetAdncDefaultEncoder();
-                //该值指示是否允许、不允许或跳过注释。
-                options.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
-                //dynamic与匿名类型序列化设置
-                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                //dynamic
-                options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-                //匿名类型
-                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            }); ;
+                    return new ObjectResult(problemDetails)
+                    {
+                        StatusCode = problemDetails.Status
+                    };
+                };
+            });
 
             // 跨域配置
             context.Services.AddCors(options =>

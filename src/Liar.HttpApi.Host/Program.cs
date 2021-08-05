@@ -29,6 +29,7 @@ namespace Liar
                       {
                           logging.ClearProviders();
                           logging.AddConsole();
+                          logging.SetMinimumLevel(LogLevel.Information);
                       })
                       .UseAutofac()
                       .UseNLog()
