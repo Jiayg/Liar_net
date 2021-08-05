@@ -24,9 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\infrastructures\Liar.HttpApi.Shared\Liar.HttpApi.Shared.csproj" />
 		<ProjectReference Include="..\Liar.Application\Liar.Application.csproj" />
 		<ProjectReference Include="..\Liar.EntityFrameworkCore\Liar.EntityFrameworkCore.csproj" />
-		<ProjectReference Include="..\Liar.HttpApi.Shared\Liar.HttpApi.Shared.csproj" />
 	</ItemGroup>
  
 	<ItemGroup>
