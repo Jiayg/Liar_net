@@ -1,12 +1,9 @@
 using System;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
-using Abp.AspNetCore.Mvc.ExceptionHandling;
 using Liar.Core.Helper;
 using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.UserContext;
-using Liar.EntityFrameworkCore;
 using Liar.HttpApi.Host.Authorize;
 using Liar.HttpApi.Shared.Extensions;
 using Liar.HttpApi.Shared.Middleware;
@@ -28,7 +25,7 @@ namespace Liar
         typeof(LiarApplicationModule),
         typeof(LiarConfigModule),
         typeof(LiarSwaggerModule),
-        typeof(LiarEntityFrameworkCoreDbMigrationsModule)
+        typeof(LiarEntityFrameworkCoreModule)
     )]
     public class LiarHttpApiHostModule : AbpModule
     {
