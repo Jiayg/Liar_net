@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Liar.Application.Caching.Caching;
 using Liar.Application.Contracts.Dtos.Sys.Menu;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
@@ -14,13 +15,14 @@ namespace Liar.Application.Services.Sys
 {
     public class MenuService : AppService, IMenuService
     {
-        private readonly IRepository<SysMenu> _menuRepository;
-        private readonly IRepository<SysRelation> _relationRepository;
+        private readonly IRepository<SysMenu> _menuRepository; 
+        private readonly SysCachingService _sysCachingService;
 
-        public MenuService(IRepository<SysMenu> menuRepository, IRepository<SysRelation> relationRepository)
+        public MenuService(IRepository<SysMenu> menuRepository, 
+            SysCachingService sysCachingService)
         {
-            this._menuRepository = menuRepository;
-            this._relationRepository = relationRepository;
+            this._menuRepository = menuRepository; 
+            this._sysCachingService = sysCachingService;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult<long>> CreateAsync(MenuCreationDto input)
         {
-            var allMenus = await _menuRepository.GetListAsync();
+            var allMenus = _sysCachingService.GetAllMenusFromCache();
 
             var isExistsCode = allMenus.Any(x => x.Code == input.Code);
             if (isExistsCode)
@@ -40,7 +42,7 @@ namespace Liar.Application.Services.Sys
             if (isExistsName)
                 return Problem(HttpStatusCode.Forbidden, "该菜单名称已经存在");
 
-            var parentMenu = ObjectMapper.Map<SysMenu, MenuDto>(allMenus.FirstOrDefault(x => x.Code == input.PCode));
+            var parentMenu = allMenus.FirstOrDefault(x => x.Code == input.PCode);
 
             var addDto = ProducePCodes(input, parentMenu);
             var menu = ObjectMapper.Map<MenuCreationDto, SysMenu>(addDto);
@@ -57,7 +59,8 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult> DeleteAsync(long id)
         {
-            await _menuRepository.DeleteAsync(x => x.Id == id);
+            var menu = _sysCachingService.GetAllMenusFromCache().FirstOrDefault(x => x.Id == id);
+            await _menuRepository.DeleteAsync(x => x.PCodes.Contains($"[{menu.Code}]") || x.Id == id);
 
             return AppSrvResult();
         }
@@ -70,9 +73,9 @@ namespace Liar.Application.Services.Sys
         {
             var result = new List<MenuNodeDto>();
 
-            var menus = _menuRepository.OrderBy(o => o.Levels).ThenBy(x => x.Ordinal);
+            var menus = _sysCachingService.GetAllMenusFromCache().OrderBy(o => o.Ordinal).ThenBy(x => x.Ordinal);
 
-            var menuNodes = ObjectMapper.Map<IOrderedQueryable<SysMenu>, List<MenuNodeDto>>(menus);
+            var menuNodes = ObjectMapper.Map<IEnumerable<MenuDto>, List<MenuNodeDto>>(menus);
             foreach (var node in menuNodes)
             {
                 var parentNode = menuNodes.FirstOrDefault(x => x.Code == node.PCode);
@@ -104,15 +107,15 @@ namespace Liar.Application.Services.Sys
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        public async Task<List<MenuRouterDto>> GetMenusForRouterAsync(IEnumerable<long> roleIds)
+        public async Task<List<MenuRouterDto>> GetMenusForRouterAsync(List<long> roleIds)
         {
             var result = new List<MenuRouterDto>();
             //所有菜单
-            var allMenus = await _menuRepository.GetListAsync();
+            var allMenus = _sysCachingService.GetAllMenusFromCache();
             //所有菜单角色关系
-            var allRelations = await _relationRepository.GetListAsync();
+            var allRelations = _sysCachingService.GetAllRelationsFromCache();
             //角色拥有的菜单Ids
-            var menusIds = allRelations.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.MenuId).Distinct();
+            var menusIds = allRelations.Where(x => roleIds.Contains(x.RoleId.Value)).Select(x => x.MenuId).Distinct();
             //更加菜单Id获取菜单实体
             var menus = allMenus.Where(x => menusIds.Contains(x.Id));
 
@@ -123,7 +126,7 @@ namespace Liar.Application.Services.Sys
                 var componentMenus = menus.Where(x => !string.IsNullOrWhiteSpace(x.Component));
                 foreach (var menu in componentMenus)
                 {
-                    var routerMenu = ObjectMapper.Map<SysMenu, MenuRouterDto>(menu);
+                    var routerMenu = ObjectMapper.Map<MenuDto, MenuRouterDto>(menu);
                     routerMenu.Path = menu.Url;
                     routerMenu.Meta = new MenuMetaDto
                     {
@@ -157,7 +160,7 @@ namespace Liar.Application.Services.Sys
                 }
             }
 
-            return result;
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -167,11 +170,11 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<MenuTreeDto> GetMenuTreeListByRoleIdAsync(long roleId)
         {
-            var menuIds = _relationRepository.Where(x => x.RoleId == roleId).Select(s => s.MenuId).ToList();
+            var menuIds = _sysCachingService.GetAllRelationsFromCache().Where(x => x.RoleId.Value == roleId).Select(s => s.MenuId).ToList();
 
             var roleTreeList = new List<ZTreeNodeDto<long, dynamic>>();
 
-            var menus = _menuRepository.Where(w => true).OrderBy(o => o.Ordinal);
+            var menus = _sysCachingService.GetAllMenusFromCache().OrderBy(o => o.Ordinal);
 
             foreach (var menu in menus)
             {
@@ -220,7 +223,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult> UpdateAsync(long id, MenuUpdationDto input)
         {
-            var allMenus = await _menuRepository.GetListAsync();
+            var allMenus = _sysCachingService.GetAllMenusFromCache();
 
             var isExistsCode = allMenus.Any(x => x.Code == input.Code && x.Id != id);
             if (isExistsCode)
@@ -230,7 +233,7 @@ namespace Liar.Application.Services.Sys
             if (isExistsName)
                 return Problem(HttpStatusCode.BadRequest, "该菜单名称已经存在");
 
-            var parentMenu = ObjectMapper.Map<SysMenu, MenuDto>(allMenus.FirstOrDefault(x => x.Code == input.PCode));
+            var parentMenu = allMenus.FirstOrDefault(x => x.Code == input.PCode);
             var updateDto = ProducePCodes(input, parentMenu);
             var menu = ObjectMapper.Map<MenuCreationDto, SysMenu>(updateDto);
 

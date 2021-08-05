@@ -1,4 +1,5 @@
-﻿using Liar.Application.Contracts.Dtos.Sys.Role;
+﻿using Liar.Application.Caching.Caching;
+using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Application.Contracts.ServiceResult;
@@ -20,11 +21,15 @@ namespace Liar.Application.Services.Sys
     {
         private readonly IRepository<SysUser> _userRepository;
         private readonly IRepository<SysRelation> _relationRepositoory;
+        private readonly SysCachingService _sysCachingService;
 
-        public UserService(IRepository<SysUser> userRepository, IRepository<SysRelation> relationRepositoory)
+        public UserService(IRepository<SysUser> userRepository,
+            IRepository<SysRelation> relationRepositoory,
+            SysCachingService sysCachingService)
         {
             this._userRepository = userRepository;
             this._relationRepositoory = relationRepositoory;
+            this._sysCachingService = sysCachingService;
         }
 
         /// <summary>
@@ -130,17 +135,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<List<string>> GetPermissionsAsync(long userId, IEnumerable<string> permissions)
         {
-            var userValidateInfo = _userRepository.Where(x => x.Id == userId).Select(s => new UserValidateDto()
-            {
-                Id = s.Id,
-                Account = s.Account,
-                Password = s.Password,
-                Salt = s.Salt,
-                Status = s.Status,
-                Email = s.Email,
-                Name = s.Name,
-                RoleIds = s.RoleIds
-            }).FirstOrDefault();
+            var userValidateInfo = await _sysCachingService.GetUserValidateInfoFromCacheAsync(userId);
 
             if (string.IsNullOrWhiteSpace(userValidateInfo.RoleIds))
                 return default;
@@ -150,10 +145,7 @@ namespace Liar.Application.Services.Sys
 
             var roleIds = userValidateInfo.RoleIds.Trim().Split(",", StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x));
 
-            var allMenuCodes = _relationRepositoory
-                .Where(x => x.Menu.Status == true)
-                .Select(x => new RoleMenuCodesDto { RoleId = x.RoleId, Code = x.Menu.Code })
-                .Distinct().ToList();
+            var allMenuCodes = _sysCachingService.GetAllMenuCodesFromCache();
 
             var codes = allMenuCodes?.Where(x => roleIds.Contains(x.RoleId)).Select(x => x.Code.ToUpper());
             if (codes != null && codes.Any())

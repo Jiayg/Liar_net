@@ -25,9 +25,9 @@ namespace Liar
 
             CreateMap<SysMenu, MenuDto>();
             CreateMap<MenuCreationDto, SysMenu>();
-            CreateMap<IOrderedQueryable<SysMenu>, List<MenuNodeDto>>();
+            CreateMap<IEnumerable<MenuDto>, List<MenuNodeDto>>();
             CreateMap<List<ZTreeNodeDto<long, dynamic>>, List<Node<long>>>();
-            CreateMap<SysMenu, MenuRouterDto>();
+            CreateMap<MenuDto, MenuRouterDto>();
 
             CreateMap<RoleCreationDto, SysRole>();
             CreateMap<SysRole, RoleDto>();

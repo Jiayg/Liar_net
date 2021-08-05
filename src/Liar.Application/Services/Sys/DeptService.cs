@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Liar.Application.Caching;
+using Liar.Application.Caching.Caching;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
@@ -14,10 +16,12 @@ namespace Liar.Application.Services.Sys
     public class DeptService : AppService, IDeptService
     {
         private readonly IRepository<SysDept> _deptRepository;
+        private readonly SysCachingService _sysCachingService;
 
-        public DeptService(IRepository<SysDept> deptRepository)
+        public DeptService(IRepository<SysDept> deptRepository, SysCachingService sysCachingService)
         {
             this._deptRepository = deptRepository;
+            this._sysCachingService = sysCachingService;
         }
 
         /// <summary>
@@ -27,7 +31,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult<long>> CreateAsync(DeptCreationDto input)
         {
-            var isExists = _deptRepository.Where(x => x.FullName == input.FullName).Any();
+            var isExists = _sysCachingService.GetAllDeptsFromCache().Exists(x => x.FullName == input.FullName);
             if (isExists)
                 return Problem(HttpStatusCode.BadRequest, "该部门全称已经存在");
 
@@ -46,8 +50,11 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult> DeleteAsync(long Id)
         {
-            //TODO 此处应删除缓存
-            await _deptRepository.DeleteAsync(d => d.Id == Id);
+            var dept = _sysCachingService.GetAllDeptsFromCache().FirstOrDefault(x => x.Id == Id);
+
+            var deletingPids = $"{dept.Pids}[{Id}],";
+
+            await _deptRepository.DeleteAsync(d => d.Id == Id || d.Pids.StartsWith(deletingPids));
 
             return AppSrvResult();
         }
@@ -60,8 +67,7 @@ namespace Liar.Application.Services.Sys
         {
             var result = new List<DeptTreeDto>();
 
-            var depts = await _deptRepository.GetListAsync();
-
+            var depts = _sysCachingService.GetAllDeptsFromCache();
             if (!depts.Any())
                 return result;
 
@@ -98,7 +104,7 @@ namespace Liar.Application.Services.Sys
                     }
                 }
             }
-            return result;
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -108,8 +114,8 @@ namespace Liar.Application.Services.Sys
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<AppSrvResult> UpdateAsync(long id, DeptUpdationDto input)
-        { 
-            var allDepts = await _deptRepository.GetListAsync();
+        {
+            var allDepts = _sysCachingService.GetAllDeptsFromCache();
 
             var oldDeptDto = allDepts.FirstOrDefault(x => x.Id == id);
             if (oldDeptDto.Pid == 0 && input.Pid > 0)
@@ -149,7 +155,11 @@ namespace Liar.Application.Services.Sys
             return AppSrvResult();
         }
 
-
+        /// <summary>
+        /// 私有方法
+        /// </summary>
+        /// <param name="sysDept"></param>
+        /// <returns></returns>
         private async Task<SysDept> SetDeptPids(SysDept sysDept)
         {
             if (sysDept.Pid.HasValue && sysDept.Pid.Value > 0)

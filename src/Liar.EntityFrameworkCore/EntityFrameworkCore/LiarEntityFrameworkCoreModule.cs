@@ -1,5 +1,6 @@
 ﻿using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.ConfigModels;
+using Liar.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Dapper;

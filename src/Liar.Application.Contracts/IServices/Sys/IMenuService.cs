@@ -40,7 +40,7 @@ namespace Liar.Application.Contracts.IServices.Sys
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        Task<List<MenuRouterDto>> GetMenusForRouterAsync(IEnumerable<long> roleIds);
+        Task<List<MenuRouterDto>> GetMenusForRouterAsync(List<long> roleIds);
 
         /// <summary>
         /// 获取指定角色的菜单

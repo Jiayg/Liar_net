@@ -90,7 +90,7 @@ namespace Liar.HttpApi.Host.Controllers
         {
             var userValidateInfo = await _accountService.GetUserValidateInfoAsync(_userContext.Id);
             var roleIds = userValidateInfo.RoleIds.Split(",", System.StringSplitOptions.RemoveEmptyEntries).ToList();
-            return await _menuService.GetMenusForRouterAsync(roleIds.Select(x => long.Parse(x)));
+            return await _menuService.GetMenusForRouterAsync(roleIds.Select(x => long.Parse(x)).ToList());
         }
 
         /// <summary>

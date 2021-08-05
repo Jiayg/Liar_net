@@ -1,4 +1,11 @@
-﻿using Liar.Application.Contracts.Dtos.Sys.Menu;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
+using System.Threading.Tasks;
+using Liar.Application.Caching.Caching;
+using Liar.Application.Contracts.Dtos.Sys.Menu;
 using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
@@ -6,12 +13,6 @@ using Liar.Core.Helper;
 using Liar.Core.Liar;
 using Liar.Domain.Shared;
 using Liar.Domain.Sys;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Services.Sys
@@ -21,12 +22,17 @@ namespace Liar.Application.Services.Sys
         private readonly IRepository<SysRole> _roleRepository;
         private readonly IRepository<SysUser> _userRepository;
         private readonly IRepository<SysRelation> _relationRepostory;
+        private readonly SysCachingService _sysCachingService;
 
-        public RoleService(IRepository<SysRole> roleRepository, IRepository<SysUser> userRepository, IRepository<SysRelation> relationRepostory)
+        public RoleService(IRepository<SysRole> roleRepository,
+            IRepository<SysUser> userRepository,
+            IRepository<SysRelation> relationRepostory,
+            SysCachingService sysCachingService)
         {
             this._roleRepository = roleRepository;
             this._userRepository = userRepository;
             this._relationRepostory = relationRepostory;
+            this._sysCachingService = sysCachingService;
         }
 
         /// <summary>
@@ -36,7 +42,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult<long>> CreateAsync(RoleCreationDto input)
         {
-            var isExists = _roleRepository.Where(x => x.Name == input.Name).Any();
+            var isExists = _sysCachingService.GetAllRolesFromCache().Where(x => x.Name == input.Name).Any();
             if (isExists)
                 return Problem(HttpStatusCode.BadRequest, "该角色名称已经存在");
 
@@ -99,21 +105,21 @@ namespace Liar.Application.Services.Sys
             RoleTreeDto result = null;
             IEnumerable<ZTreeNodeDto<long, dynamic>> treeNodes = null;
 
-            var user = await _userRepository.GetAsync(x => x.Id == userId);
+            var user = await _sysCachingService.GetUserValidateInfoFromCacheAsync(userId);
 
             if (user == null)
                 return null;
 
-            var roles = await _roleRepository.GetListAsync();
+            var roles = _sysCachingService.GetAllRolesFromCache();
             var roleIds = user.RoleIds?.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => long.Parse(x)) ?? new List<long>();
             if (roles.Any())
             {
                 treeNodes = roles.Select(x => new ZTreeNodeDto<long, dynamic>
                 {
                     Id = x.Id,
-                    PID = x.Pid.HasValue ? x.Pid.Value : 0,
+                    PID = x.Pid ?? 0,
                     Name = x.Name,
-                    Open = x.Pid.HasValue && x.Pid.Value > 0 ? false : true,
+                    Open = !x.Pid.HasValue || x.Pid.Value <= 0,
                     Checked = roleIds.Contains(x.Id)
                 });
 
@@ -170,7 +176,7 @@ namespace Liar.Application.Services.Sys
         /// <returns></returns>
         public async Task<AppSrvResult> UpdateAsync(long id, RoleUpdationDto input)
         {
-            var isExists = _roleRepository.Where(x => x.Name == input.Name && x.Id != id).Any();
+            var isExists = _sysCachingService.GetAllRolesFromCache().Where(x => x.Name == input.Name).Any();
             if (isExists)
                 return Problem(HttpStatusCode.BadRequest, "该角色名称已经存在");
 
