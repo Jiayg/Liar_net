@@ -1,4 +1,10 @@
-﻿using Liar.Core.Microsoft.Extensions.Configuration;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.ConfigModels;
 using Liar.Domain.Shared.UserContext;
 using Liar.HttpApi.Shared.Authorize;
@@ -8,13 +14,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Liar.HttpApi.Shared.Extensions
 {

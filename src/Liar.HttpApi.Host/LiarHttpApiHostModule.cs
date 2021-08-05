@@ -64,10 +64,9 @@ namespace Liar
                                 //匿名类型
                                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                             });
+
             context.Services.Configure<ApiBehaviorOptions>(options =>
             {
-                //关闭自动验证
-                //options.SuppressModelStateInvalidFilter = true;
                 //格式化验证信息
                 options.InvalidModelStateResponseFactory = (context) =>
                 {

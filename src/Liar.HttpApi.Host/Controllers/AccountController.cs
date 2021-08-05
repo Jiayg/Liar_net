@@ -7,7 +7,9 @@ using Liar.HttpApi.Host.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog;
 
 namespace Liar.HttpApi.Host.Controllers
 {
@@ -18,19 +20,21 @@ namespace Liar.HttpApi.Host.Controllers
         private readonly JwtConfig _jwtConfig;
         private readonly IAccountService _accountService;
         private readonly IUserContext _userContext;
+        private readonly ILogger<AccountController> logger;
 
-        public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService, IUserContext userContext)
+        public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService, IUserContext userContext, ILogger<AccountController> logger)
         {
             this._jwtConfig = jwtConfig.Value;
             this._accountService = accountService;
             this._userContext = userContext;
+            this.logger = logger;
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
-        {
+        { 
             var result = await _accountService.LoginAsync(input);
 
             return new UserTokenInfoDto

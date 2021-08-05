@@ -6,7 +6,7 @@ using Volo.Abp.Modularity;
 namespace Liar
 {
     [DependsOn(
-        typeof(LiarCachingModule),
+        typeof(LiarCachingModule), 
         typeof(LiarApplicationContractsModule),
         typeof(LiarDomainSharedModule),
         typeof(LiarDomainModule)
@@ -16,7 +16,7 @@ namespace Liar
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
-            context.Services.Configure<RedisOptions>(configuration.GetRedisSection());
+            context.Services.Configure<RedisOptions>(configuration.GetRedisSection()); 
         }
     }
 }
