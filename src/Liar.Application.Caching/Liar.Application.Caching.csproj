@@ -6,7 +6,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\..\module\Liar.Caching\Liar.Caching.csproj" />
+		<ProjectReference Include="..\..\infrastructures\Liar.Caching\Liar.Caching.csproj" />
 		<ProjectReference Include="..\Liar.Application.Contracts\Liar.Application.Contracts.csproj" />
 		<ProjectReference Include="..\Liar.Domain.Shared\Liar.Domain.Shared.csproj" />
 		<ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />

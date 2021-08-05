@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="LocalEventBus\" />
+    <Folder Include="RabbitMqEventBus\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.EventBus" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.EventBus.Abstractions" Version="4.3.3" />
+  </ItemGroup>
+
+</Project>
