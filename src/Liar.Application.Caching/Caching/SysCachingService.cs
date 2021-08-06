@@ -10,6 +10,7 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Caching.Abstractions;
 using Liar.Domain.Shared.Consts;
 using Liar.Domain.Sys;
+using Newtonsoft.Json.Linq;
 using Volo.Abp.Domain.Repositories;
 
 namespace Liar.Application.Caching.Caching
@@ -178,6 +179,16 @@ namespace Liar.Application.Caching.Caching
             }, TimeSpan.FromSeconds(CachingConsts.OneDay));
 
             return cachValue;
+        }
+
+        /// <summary>
+        /// 保存用户登录信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task SetValidateInfoToCacheAsync(UserValidateDto value)
+        {
+            var cacheKey = ConcatCacheKey(SysCachingConsts.UserValidateInfoKeyPrefix, value.Id);
+            await _redisService.SetAsync(cacheKey, value, TimeSpan.FromSeconds(CachingConsts.OneDay));
         }
     }
 }

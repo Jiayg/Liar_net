@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Application;
+﻿using Liar.Application.HostedService;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
@@ -19,6 +21,8 @@ namespace Liar
             {
                 options.AddMaps<LiarApplicationAutoMapperProfile>(validate: false);
             });
+
+            context.Services.AddHostedService<ChannelConsumersHostedService>();
         }
     }
 }

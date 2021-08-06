@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.0" />
+    <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
   </ItemGroup>
 
