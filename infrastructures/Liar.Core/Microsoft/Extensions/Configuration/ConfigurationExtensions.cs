@@ -51,7 +51,7 @@ namespace Liar.Core.Microsoft.Extensions.Configuration
         /// <returns></returns>
         public static IConfigurationSection GetMysqlSection(this IConfiguration configuration)
         {
-            return configuration.GetSection("DateBase");
+            return configuration.GetSection("Mysql");
         }
 
         /// <summary>

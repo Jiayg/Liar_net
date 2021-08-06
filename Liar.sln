@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liar.Caching", "infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liar.EventBus", "infrastructures\Liar.EventBus\Liar.EventBus.csproj", "{B821C02C-F75A-481C-8390-2D420C60C93E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liar.MongoDB", "infrastructures\Liar.MongoDB\Liar.MongoDB.csproj", "{E7408C76-4F6E-4E95-9C47-4B4122B966D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{B821C02C-F75A-481C-8390-2D420C60C93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B821C02C-F75A-481C-8390-2D420C60C93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B821C02C-F75A-481C-8390-2D420C60C93E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7408C76-4F6E-4E95-9C47-4B4122B966D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7408C76-4F6E-4E95-9C47-4B4122B966D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7408C76-4F6E-4E95-9C47-4B4122B966D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7408C76-4F6E-4E95-9C47-4B4122B966D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{CA0A963C-D878-4488-8843-8945EC014ABA} = {3F809936-0FF0-4D44-AD9A-AC260761EDB2}
 		{A24B8F8C-2EBC-4557-8239-F099783D1014} = {3F809936-0FF0-4D44-AD9A-AC260761EDB2}
 		{B821C02C-F75A-481C-8390-2D420C60C93E} = {3F809936-0FF0-4D44-AD9A-AC260761EDB2}
+		{E7408C76-4F6E-4E95-9C47-4B4122B966D3} = {3F809936-0FF0-4D44-AD9A-AC260761EDB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

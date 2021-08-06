@@ -1,14 +1,20 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Liar.Core.Helper;
-using Liar.Domain.Entities.Log;
+using Liar.MongoDB.IRepository;
+using Liar.MongoDB.MongoEntities;
 using Microsoft.Extensions.Hosting;
 
 namespace Liar.Application.HostedService
 {
     public class ChannelConsumersHostedService : BackgroundService
     {
+        private readonly ILoginLogRepository _logMongoRepository;
+
+        public ChannelConsumersHostedService(ILoginLogRepository logMongoRepository)
+        {
+            this._logMongoRepository = logMongoRepository;
+        }
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             //save loginlogs
@@ -21,17 +27,17 @@ namespace Liar.Application.HostedService
                     {
                         try
                         {
-
+                            //await _logMongoRepository.AddAsync(entity);
                         }
-                        catch (Exception ex)
-                        {
-                            throw;
+                        catch (System.Exception ex)
+                        { 
                         }
                     }
                     if (stoppingToken.IsCancellationRequested) break;
                 }
             }, stoppingToken);
 
+            await Task.CompletedTask;
         }
     }
 }

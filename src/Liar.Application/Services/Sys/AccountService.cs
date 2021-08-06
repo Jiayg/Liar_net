@@ -10,8 +10,8 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
-using Liar.Domain.Entities.Log;
 using Liar.Domain.Sys;
+using Liar.MongoDB.MongoEntities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 
@@ -66,7 +66,6 @@ namespace Liar.Application.Services.Sys
             var channelWriter = ChannelHelper<LoginLog>.Instance.Writer;
             var log = new LoginLog
             {
-                Id = IdGenerater.GetNextId(),
                 Account = input.Account,
                 Succeed = false,
                 UserId = user.Id,

@@ -7,9 +7,6 @@ using Volo.Abp.Dapper;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
-using Volo.Abp.EntityFrameworkCore.Sqlite;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 
 namespace Liar
@@ -18,9 +15,6 @@ namespace Liar
         typeof(LiarDomainModule),
         typeof(AbpEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreMySQLModule),
-        typeof(AbpEntityFrameworkCoreSqlServerModule),
-        typeof(AbpEntityFrameworkCorePostgreSqlModule),
-        typeof(AbpEntityFrameworkCoreSqliteModule),
         typeof(AbpDapperModule)
         )]
     public class LiarEntityFrameworkCoreModule : AbpModule
@@ -33,7 +27,7 @@ namespace Liar
 
             Configure<AbpDbConnectionOptions>(options =>
             {
-                options.ConnectionStrings.Default = mysqlConfig.ConnectionString;
+                options.ConnectionStrings.Default = mysqlConfig.MainConnectionString;
             });
 
             context.Services.AddAbpDbContext<LiarDbContext>(option =>
@@ -43,24 +37,7 @@ namespace Liar
 
             Configure<AbpDbContextOptions>(options =>
             {
-                switch (mysqlConfig.DBType)
-                {
-                    case "MySQL":
-                        options.UseMySQL();
-                        break;
-                    case "SqlServer":
-                        options.UseSqlServer();
-                        break;
-                    case "PostgreSql":
-                        options.UseNpgsql();
-                        break;
-                    case "Sqlite":
-                        options.UseSqlite();
-                        break;
-                    default:
-                        options.UseMySQL();
-                        break;
-                }
+                options.UseMySQL();
             });
         }
     }

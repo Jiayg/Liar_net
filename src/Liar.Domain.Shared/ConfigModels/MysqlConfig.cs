@@ -2,7 +2,14 @@
 {
     public class MysqlConfig
     {
-        public string DBType { get; set; }
-        public string ConnectionString { get; set; } 
+        /// <summary>
+        /// 主库
+        /// </summary>
+        public string MainConnectionString { get; set; }
+
+        /// <summary>
+        /// 日志库
+        /// </summary>
+        public string LogConnectionString { get; set; }
     }
 }
