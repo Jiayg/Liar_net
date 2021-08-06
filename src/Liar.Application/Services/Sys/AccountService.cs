@@ -10,6 +10,7 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
+using Liar.Domain.Entities.Log;
 using Liar.Domain.Sys;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
@@ -62,30 +63,61 @@ namespace Liar.Application.Services.Sys
                 return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");
             }
 
-            var httpContext = HttpContextUtility.GetCurrentHttpContext();
+            var channelWriter = ChannelHelper<LoginLog>.Instance.Writer;
+            var log = new LoginLog
+            {
+                Id = IdGenerater.GetNextId(),
+                Account = input.Account,
+                Succeed = false,
+                UserId = user.Id,
+                UserName = user.Name,
+                CreateTime = DateTime.Now,
+                Device = httpContent.Request.Headers["device"].FirstOrDefault() ?? "web",
+                RemoteIpAddress = httpContent.Connection.RemoteIpAddress.MapToIPv4().ToString()
+            };
 
             if (user.Status != 1)
             {
-                return ProblemFail(HttpStatusCode.TooManyRequests, "账号已锁定");
+                var problem = Problem(HttpStatusCode.TooManyRequests, "账号已锁定");
+                log.Message = problem.Detail;
+                log.StatusCode = problem.Status.Value;
+                await channelWriter.WriteAsync(log);
+                return problem;
             }
 
             var failLoginCount = 2;
             if (failLoginCount == 5)
             {
-                return ProblemFail(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+                var problem = Problem(HttpStatusCode.TooManyRequests, "连续登录失败次数超过5次，账号已锁定");
+                log.Message = problem.Detail;
+                log.StatusCode = problem.Status.Value;
+                await channelWriter.WriteAsync(log);
             }
 
             if (HashHelper.GetHashedString(HashType.MD5, input.Password, user.Salt) != user.Password)
             {
-                return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");
+                var problem = Problem(HttpStatusCode.BadRequest, "用户名或密码错误");
+                log.Message = problem.Detail;
+                log.StatusCode = problem.Status.Value;
+                await channelWriter.WriteAsync(log);
+                return problem;
             }
 
             if (user.RoleIds.IsNullOrEmpty())
             {
-                return ProblemFail(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+                var problem = Problem(HttpStatusCode.Forbidden, "未分配任务角色，请联系管理员");
+                log.Message = problem.Detail;
+                log.StatusCode = problem.Status.Value;
+                await channelWriter.WriteAsync(log);
+                return problem;
             }
 
-            //TODO 登录数据存入缓存
+            await _sysCachingService.SetValidateInfoToCacheAsync(user);
+
+            log.Message = "登录成功";
+            log.StatusCode = (int)HttpStatusCode.Created;
+            log.Succeed = true;
+            await channelWriter.WriteAsync(log);
 
             return await Task.FromResult(user);
         }

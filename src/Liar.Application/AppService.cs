@@ -4,6 +4,8 @@ using System.Net;
 using JetBrains.Annotations;
 using Liar.Application.Contracts;
 using Liar.Application.Contracts.ServiceResult;
+using Liar.Core.Helper;
+using Microsoft.AspNetCore.Http;
 using Volo.Abp.Application.Services;
 using ProblemDetails = Liar.Application.Contracts.ServiceResult.ProblemDetails;
 
@@ -11,6 +13,17 @@ namespace Liar.Application
 {
     public class AppService : ApplicationService, IAppService
     {
+        /// <summary>
+        /// 当前http请求对象
+        /// </summary>
+        public HttpContext httpContent
+        {
+            get
+            {
+                return HttpContextUtility.GetCurrentHttpContext();
+            }
+        }
+
         public AppSrvResult AppSrvResult()
         {
             return new AppSrvResult();
