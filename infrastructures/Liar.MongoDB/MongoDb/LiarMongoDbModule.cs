@@ -12,25 +12,16 @@ namespace Liar
 {
     [DependsOn(
         typeof(LiarDomainModule),
-        typeof(LiarDomainSharedModule), 
+        typeof(LiarDomainSharedModule),
         typeof(AbpMongoDbModule)
         )]
     public class LiarMongoDbModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            var configuration = context.Services.GetConfiguration();
-
-            var mongoConfig = configuration.GetMongoDbSection().Get<MongoConfig>();
-
-            Configure<AbpDbConnectionOptions>(options =>
-            {
-                options.ConnectionStrings.Default = mongoConfig.ConnectionString;
-            });
-
             context.Services.AddMongoDbContext<LiarMongoDbContext>(options =>
             {
-                options.AddDefaultRepositories(includeAllEntities: true);
+                options.AddDefaultRepositories();
             });
 
             Configure<AbpUnitOfWorkDefaultOptions>(options =>
