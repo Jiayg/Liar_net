@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\infrastructures\Liar.Core\Liar.Core.csproj" />
+    <ProjectReference Include="..\..\src\Liar.Domain\Liar.Domain.csproj" />
   </ItemGroup>
 
 </Project>

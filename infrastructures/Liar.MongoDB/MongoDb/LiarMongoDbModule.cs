@@ -12,7 +12,7 @@ namespace Liar
 {
     [DependsOn(
         typeof(LiarDomainModule),
-        typeof(LiarDomainSharedModule),
+        typeof(LiarDomainSharedModule), 
         typeof(AbpMongoDbModule)
         )]
     public class LiarMongoDbModule : AbpModule
