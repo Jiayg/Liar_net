@@ -20,14 +20,14 @@ namespace Liar.HttpApi.Host.Controllers
         private readonly JwtConfig _jwtConfig;
         private readonly IAccountService _accountService;
         private readonly IUserContext _userContext;
-        private readonly ILogger<AccountController> logger;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(IOptionsSnapshot<JwtConfig> jwtConfig, IAccountService accountService, IUserContext userContext, ILogger<AccountController> logger)
         {
             this._jwtConfig = jwtConfig.Value;
             this._accountService = accountService;
             this._userContext = userContext;
-            this.logger = logger;
+            this._logger = logger;
         }
 
         [HttpPost]

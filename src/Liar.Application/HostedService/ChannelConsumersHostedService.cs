@@ -29,8 +29,8 @@ namespace Liar.Application.HostedService
                         {
                             //await _logMongoRepository.AddAsync(entity);
                         }
-                        catch (System.Exception ex)
-                        { 
+                        catch (System.Exception)
+                        {
                         }
                     }
                     if (stoppingToken.IsCancellationRequested) break;

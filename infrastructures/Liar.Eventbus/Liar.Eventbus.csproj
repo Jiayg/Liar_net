@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EventBus" Version="4.3.3" />
-    <PackageReference Include="Volo.Abp.EventBus.Abstractions" Version="4.3.3" />
-    <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.EventBus.Abstractions" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
