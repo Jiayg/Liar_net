@@ -3,7 +3,7 @@ using Liar.Domain.Shared.ConfigModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 
-namespace Liar.HttpApi.Shared.Extensions
+namespace Liar.HttpApi.Extensions
 {
     public static class ConfigurationExtennsions
     {

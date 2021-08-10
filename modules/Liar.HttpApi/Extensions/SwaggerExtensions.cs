@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Liar.HttpApi.Shared.Extensions
+namespace Liar.HttpApi.Extensions
 {
     public static class SwaggerExtensions
     {

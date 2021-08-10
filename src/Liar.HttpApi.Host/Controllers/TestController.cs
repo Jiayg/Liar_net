@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Liar.Application.EventBus;
 using Liar.Core.Consts;
 using Liar.Core.Helper;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

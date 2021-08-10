@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Liar.Application.Contracts.IServices;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 
 namespace Liar.HttpApi.Host.Authorize
 {

@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Liar.HttpApi.Shared.Extensions
+namespace Liar.HttpApi.Extensions
 {
     public static class ModelStateExtensions
     {

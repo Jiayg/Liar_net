@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices;
 using Liar.Domain.Shared;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

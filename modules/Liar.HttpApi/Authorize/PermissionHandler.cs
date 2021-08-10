@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace Liar.HttpApi.Shared.Authorize
+namespace Liar.HttpApi.Authorize
 {
     public abstract class PermissionHandler : AuthorizationHandler<PermissionRequirement>
     {

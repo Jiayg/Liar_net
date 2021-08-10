@@ -1,4 +1,4 @@
-﻿namespace Liar.HttpApi.Shared.Authorize
+﻿namespace Liar.HttpApi.Authorize
 {
     public class Permission
     {

@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\infrastructures\Liar.Core\Liar.Core.csproj" />
+		<ProjectReference Include="..\Liar.Core\Liar.Core.csproj" />
 		<ProjectReference Include="..\Liar.Domain\Liar.Domain.csproj" />
 		<PackageReference Include="Volo.Abp.Dapper" Version="4.4.0" />
 		<PackageReference Include="Volo.Abp.EntityFrameworkCore.MySQL" Version="4.4.0" />

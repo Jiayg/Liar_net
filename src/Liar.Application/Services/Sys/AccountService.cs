@@ -10,8 +10,8 @@ using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
+using Liar.Domain.Entities;
 using Liar.Domain.Sys;
-using Liar.MongoDB.MongoEntities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 

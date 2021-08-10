@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Liar.HttpApi.Shared.Middleware
+namespace Liar.HttpApi.Middleware
 {
     public class RealIpMiddleware
     {

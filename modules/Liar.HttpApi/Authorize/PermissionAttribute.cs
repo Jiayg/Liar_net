@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Liar.HttpApi.Shared.Authorize
+namespace Liar.HttpApi.Authorize
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class PermissionAttribute: AuthorizeAttribute

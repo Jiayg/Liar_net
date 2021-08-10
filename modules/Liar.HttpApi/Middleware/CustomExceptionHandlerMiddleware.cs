@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Liar.HttpApi.Shared.Middleware
+namespace Liar.HttpApi.Middleware
 {
     public class CustomExceptionHandlerMiddleware
     {

@@ -1,4 +1,4 @@
-﻿using Liar.HttpApi.Shared.Extensions;
+﻿using Liar.HttpApi.Extensions;
 using Volo.Abp.AspNetCore;
 using Volo.Abp.Modularity;
 

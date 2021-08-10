@@ -2,7 +2,7 @@
 using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

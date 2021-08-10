@@ -7,9 +7,7 @@ using Volo.Abp.Modularity;
 namespace Liar
 {
     [DependsOn(
-        typeof(LiarEventBusModule),
         typeof(AbpAutoMapperModule),
-        typeof(LiarMongoDbModule),
         typeof(AbpDddApplicationContractsModule),
         typeof(LiarApplicationContractsModule),
         typeof(LiarApplicationCachingModule)

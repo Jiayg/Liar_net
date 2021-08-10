@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.IServices.Sys;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

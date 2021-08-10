@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.ConfigModels;
 using Liar.Domain.Shared.UserContext;
-using Liar.HttpApi.Shared.Authorize;
+using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Liar.HttpApi.Shared.Extensions
+namespace Liar.HttpApi.Extensions
 {
     public static class AuthExtensions
     {

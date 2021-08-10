@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Liar.HttpApi.Shared.Authorize
+namespace Liar.HttpApi.Authorize
 {
     public class PermissionRequirement : IAuthorizationRequirement
     {
