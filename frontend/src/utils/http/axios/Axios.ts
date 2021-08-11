@@ -152,7 +152,7 @@ export class VAxios {
             // ret !== undefined ? resolve(ret) : reject(new Error('request error!'));
             return resolve(ret)
           }
-          reject((res as unknown) as Promise<T>)
+          reject(res as unknown as Promise<T>)
         })
         .catch((e: Error) => {
           if (requestCatch && isFunction(requestCatch)) {

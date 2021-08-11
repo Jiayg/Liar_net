@@ -15,6 +15,6 @@ export const state: UserState = {
   name: '',
   avatar: '',
   roles: [],
-  permissions:[],
+  permissions: [],
   info: Storage.get(CURRENT_USER, {})
 }

@@ -1,4 +1,3 @@
-
 export const getFormSchema = (dynamicForm): FormSchema => ({
   formItemLayout: {
     labelCol: { span: 4 },
