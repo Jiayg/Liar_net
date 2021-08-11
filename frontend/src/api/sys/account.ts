@@ -1,6 +1,6 @@
 import http from '@/utils/http/axios'
-import { BasicResponseModel } from '@/api/BasicResponseModel'
-import { LoginParams, UserInfoDto, UserTokenDto } from '../model/user/Index'
+import { ResponseModel } from '@/api/ResponseModel'
+import { LoginParams, UserInfoDto, UserTokenDto } from './model/user/Index'
 
 enum api {
   account = '/account',
@@ -11,7 +11,7 @@ enum api {
  * @description: 用户登录
  */
 export function login(params: LoginParams) {
-  return http.request<BasicResponseModel<UserTokenDto>>(
+  return http.request<ResponseModel<UserTokenDto>>(
     {
       url: api.account,
       method: 'POST',
@@ -27,7 +27,7 @@ export function login(params: LoginParams) {
  * @description: 获取用户信息
  */
 export function getUserInfo() {
-  return http.request<BasicResponseModel<UserInfoDto>>(
+  return http.request<ResponseModel<UserInfoDto>>(
     {
       url: api.account,
       method: 'GET'

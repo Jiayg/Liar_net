@@ -1,4 +1,4 @@
-import { adminMenus } from '@/api/system/menu'
+import { adminMenus } from '@/api/sys/menu'
 import { constantRouterComponents } from './constantRouterComponents'
 import router from '@/router/index'
 import { routes } from '@/router/index'

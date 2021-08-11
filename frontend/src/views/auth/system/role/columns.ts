@@ -1,4 +1,4 @@
-import { delAdminRole, patchAdminRole } from '@/api/system/role'
+import { delAdminRole, patchAdminRole } from '@/api/sys/role/role/role'
 import { formatDate } from '@/utils/common'
 
 import { useFormModal } from '@/hooks/useFormModal'

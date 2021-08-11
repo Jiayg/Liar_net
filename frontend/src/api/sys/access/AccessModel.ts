@@ -1,4 +1,4 @@
-import { BasicPageParams } from '@/api/BasicResponseModel'
+import { PageParams } from '@/api/ResponseModel'
 
 export interface AccessItem {
   id: number
@@ -16,7 +16,7 @@ export interface AccessItem {
   children?: boolean
 }
 
-export interface AccessResultModel extends BasicPageParams {
+export interface AccessResultModel extends PageParams {
   data: AccessItem[]
 }
 

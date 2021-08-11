@@ -1,6 +1,6 @@
 import { ActionContext } from 'vuex'
 import { UserState } from './state'
-import { getUserInfo, login } from '@/api/system/account'
+import { getUserInfo, login } from '@/api/sys/account'
 import { ACCESS_TOKEN, CURRENT_USER, IS_LOCKSCREEN } from '@/store/mutation-types'
 import { Storage } from '@/utils/Storage'
 import store from '@/store'

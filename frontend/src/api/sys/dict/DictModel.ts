@@ -1,4 +1,4 @@
-import { BasicPageParams } from '@/api/BasicResponseModel'
+import { PageParams } from '@/api/ResponseModel'
 
 export interface DictItemModel {
   category: string
@@ -9,6 +9,6 @@ export interface DictItemModel {
   updatedAt: string
 }
 
-export interface DictListModel extends BasicPageParams {
+export interface DictListModel extends PageParams {
   data: DictItemModel[]
 }

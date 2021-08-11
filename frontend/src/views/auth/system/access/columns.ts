@@ -1,6 +1,6 @@
 import { useCreateModal } from '@/hooks'
 import AddModal from './add-modal.vue'
-import { delAdminAccess } from '@/api/system/access'
+import { delAdminAccess } from '@/api/sys/access'
 import { formatDate } from '@/utils/common'
 import { message } from 'ant-design-vue'
 import { IconFont } from '@/components/iconfont'

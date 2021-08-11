@@ -2,7 +2,7 @@ import { formatDate } from '@/utils/common'
 
 import { useFormModal } from '@/hooks/useFormModal'
 import { getFormSchema } from '@/views/auth/system/dict/form-schema'
-import { delAdminDictConfig, patchAdminDictConfig } from '@/api/system/dict'
+import { delAdminDictConfig, patchAdminDictConfig } from '@/api/sys/dict'
 
 export const columns: TableColumn[] = [
   // 字典表格
