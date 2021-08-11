@@ -1,7 +1,8 @@
-import { delAdminAccount, patchAdminAccount } from '@/api/system/account'
+// import { delAdminAccount, patchAdminAccount } from '@/api/system/account'
 import { formatDate } from '@/utils/common'
 import { useFormModal } from '@/hooks/useFormModal'
 import { getFormSchema } from './form-schema'
+import { delAdminAccount, patchAdminAccount } from '@/api/system/user'
 
 export const columns: TableColumn[] = [
   // 账号列表

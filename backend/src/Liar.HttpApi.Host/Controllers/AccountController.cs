@@ -2,6 +2,7 @@
 using Liar.Application.Contracts.Dtos.Sys.User;
 using Liar.Application.Contracts.IServices.Sys;
 using Liar.Domain.Shared.ConfigModels;
+using Liar.Domain.Shared.Dtos;
 using Liar.Domain.Shared.UserContext;
 using Liar.HttpApi.Host.Helper;
 using Microsoft.AspNetCore.Authorization;
@@ -33,17 +34,24 @@ namespace Liar.HttpApi.Host.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<UserTokenInfoDto>> LoginAsync([FromBody] UserLoginDto input)
+        public async Task<ActionResult<ResultModel>> LoginAsync([FromBody] UserLoginDto input)
         {
             var result = await _accountService.LoginAsync(input);
             if (!result.IsSuccess)
             {
                 return NoContent();
             }
-            return new UserTokenInfoDto
+
+            return new ResultModel()
             {
-                Token = JwtTokenHelper.CreateAccessToken(_jwtConfig, result.Content),
-                RefreshToken = JwtTokenHelper.CreateRefreshToken(_jwtConfig, result.Content)
+                code = 200,
+                success = true,
+                result = new UserTokenInfoDto
+                {
+                    Token = JwtTokenHelper.CreateAccessToken(_jwtConfig, result.Content),
+                    RefreshToken = JwtTokenHelper.CreateRefreshToken(_jwtConfig, result.Content)
+                },
+                message = "成功"
             };
         }
 
@@ -53,9 +61,15 @@ namespace Liar.HttpApi.Host.Controllers
         /// <returns></returns>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserInfoDto>> GetCurrentUserInfoAsync()
+        public async Task<ActionResult<ResultModel>> GetCurrentUserInfoAsync()
         {
-            return await _accountService.GetUserInfoAsync(_userContext.Id);
+            return new ResultModel()
+            {
+                code = 200,
+                success = true,
+                result = await _accountService.GetUserInfoAsync(_userContext.Id),
+                message = "成功"
+            };
         }
 
         /// <summary>

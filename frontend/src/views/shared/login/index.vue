@@ -3,11 +3,11 @@
     <div class="login-logo">
       <!--      <svg-icon name="logo" />-->
       <img src="~@/assets/images/logo.png" alt="" />
-      <h1>Antd Admin</h1>
+      <h1>Liar Admin</h1>
     </div>
     <a-form layout="horizontal" :model="formInline" @submit="handleSubmit">
       <a-form-item>
-        <a-input v-model:value="formInline.username" size="large" placeholder="admin">
+        <a-input v-model:value="formInline.username" size="large" placeholder="请输入账户">
           <template #prefix><user-outlined type="user" /></template>
         </a-input>
       </a-form-item>
@@ -16,7 +16,7 @@
           v-model:value="formInline.password"
           size="large"
           type="password"
-          placeholder="123456"
+          placeholder="请输入密码"
           autocomplete="new-password"
         >
           <template #prefix><lock-outlined type="user" /></template>
@@ -46,17 +46,17 @@ export default defineComponent({
   name: 'Login',
   components: { UserOutlined, LockOutlined, SvgIcon },
   setup() {
-    const state = reactive({
-      loading: false,
-      formInline: {
-        username: '',
-        password: ''
-      }
-    })
-
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
+
+    const state = reactive({
+      loading: false,
+      formInline: {
+        username: 'alpha2008',
+        password: 'alpha2008'
+      }
+    })
 
     const handleSubmit = async () => {
       const { username, password } = state.formInline
@@ -64,17 +64,19 @@ export default defineComponent({
         return message.warning('用户名或密码不能为空！')
       message.loading('登录中...', 0)
       state.loading = true
-      console.log(state.formInline)
       const params = {
         username,
         password
       }
-      // params.password = md5(password)
-      const { code, message: msg } = await store.dispatch('user/login', params).finally(() => {
-        state.loading = false
-        message.destroy()
-      })
-      if (code == 0) {
+
+      const { success: success, message: msg } = await store
+        .dispatch('user/login', params)
+        .finally(() => {
+          state.loading = false
+          message.destroy()
+        })
+
+      if (success) {
         const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
         message.success('登录成功！')
         router.replace(toPath).then((_) => {

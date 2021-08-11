@@ -36,6 +36,7 @@ export interface RequestOptions {
 
 export interface Result<T = any> {
   code: number
+  success: boolean
   type?: 'success' | 'error' | 'warning'
   message: string
   result?: T

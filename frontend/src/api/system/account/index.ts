@@ -1,76 +1,66 @@
 import http from '@/utils/http/axios'
-import { RequestEnum } from '@/enums/httpEnum'
+import { BasicResponseModel } from '@/api/BasicResponseModel'
+import { LoginParams, UserInfoDto, UserTokenDto } from '../model/user/Index'
 
-enum Api {
-  adminAccount = '/admin/account'
+enum api {
+  account = '/account',
+  logout = '/logout'
 }
 
 /**
- * 获取账号管理列表
- * @param params
+ * @description: 用户登录
  */
-export function getAdminAccount(params) {
-  return http.request(
+export function login(params: LoginParams) {
+  return http.request<BasicResponseModel<UserTokenDto>>(
     {
-      url: Api.adminAccount,
-      method: RequestEnum.GET,
+      url: api.account,
+      method: 'POST',
       params
     },
     {
-      isShowErrorMessage: true
+      isTransformRequestResult: false
     }
   )
 }
 
 /**
- * 删除账号
- * @param params
+ * @description: 获取用户信息
  */
-export function delAdminAccount(id: string) {
-  return http.request(
+export function getUserInfo() {
+  return http.request<BasicResponseModel<UserInfoDto>>(
     {
-      url: [Api.adminAccount, id].join('/'),
-      method: RequestEnum.DELETE
+      url: api.account,
+      method: 'GET'
     },
     {
-      isShowErrorMessage: true, // 是否显示错误提示信息
-      successMessageText: '删除成功'
+      isTransformRequestResult: false
     }
   )
 }
 
 /**
- * 修改账号
- * @param params
+ * @description: 用户修改密码
  */
-export function patchAdminAccount(id, params) {
+export function changePassword(params, uid) {
   return http.request(
     {
-      url: [Api.adminAccount, id].join('/'),
-      method: RequestEnum.PATCH,
+      url: `/user/u${uid}/changepw`,
+      method: 'POST',
       params
     },
     {
-      isShowErrorMessage: true, // 是否显示错误提示信息
-      successMessageText: '修改成功'
+      isTransformRequestResult: false
     }
   )
 }
 
 /**
- * 新建账号
- * @param params
+ * @description: 用户登出
  */
-export function postAdminAccount(params) {
-  return http.request(
-    {
-      url: Api.adminAccount,
-      method: RequestEnum.POST,
-      params
-    },
-    {
-      isShowErrorMessage: true, // 是否显示错误提示信息
-      successMessageText: '新建成功'
-    }
-  )
+export function logout(params) {
+  return http.request({
+    url: api.logout,
+    method: 'POST',
+    params
+  })
 }

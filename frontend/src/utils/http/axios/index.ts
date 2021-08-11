@@ -38,18 +38,18 @@ const transform: AxiosTransform = {
 
     const { data } = res
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data
+    const { success, code, result, message } = data
     // 请求成功
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS
+    // const success = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS
     // 是否显示提示信息
     if (isShowMessage) {
-      if (hasSuccess && (successMessageText || isShowSuccessMessage)) {
+      if (success && (successMessageText || isShowSuccessMessage)) {
         // 是否显示自定义信息提示
         Message.success(successMessageText || message || '操作成功！')
-      } else if (!hasSuccess && (errorMessageText || isShowErrorMessage)) {
+      } else if (!success && (errorMessageText || isShowErrorMessage)) {
         // 是否显示自定义信息提示
         Message.error(message || errorMessageText || '操作失败！')
-      } else if (!hasSuccess && options.errorMessageMode === 'modal') {
+      } else if (!success && options.errorMessageMode === 'modal') {
         // errorMessageMode=‘custom-modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
         Modal.confirm({ title: '错误提示', content: message })
       }
@@ -105,7 +105,7 @@ const transform: AxiosTransform = {
     }
 
     // 这里逻辑可以根据项目进行修改
-    if (!hasSuccess) {
+    if (!success) {
       return reject(new Error(message))
     }
 
@@ -157,8 +157,7 @@ const transform: AxiosTransform = {
     // 请求之前处理config
     const token = store.state.user.token
     if (token) {
-      // jwt token
-      config.headers.token = token
+      config.headers['Authorization'] = `Bearer ${token}`
     }
 
     if (config.method?.toLocaleUpperCase() !== RequestEnum.GET) {
@@ -211,7 +210,7 @@ const Axios = new VAxios({
   // baseURL: globSetting.apiUrl,
   // 接口可能会有通用的地址部分，可以统一抽取出来
   // prefixUrl: prefix,
-  headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
+  headers: { 'Content-Type': ContentTypeEnum.JSON },
   // 数据处理方式
   transform,
   // 配置项，下面的选项都可以在独立的接口请求中覆盖

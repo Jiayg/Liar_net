@@ -143,8 +143,8 @@ export class VAxios {
     }
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<any>>(conf)
-        .then((res: AxiosResponse<any>) => {
+        .request<any, AxiosResponse<Result>>(conf)
+        .then((res: AxiosResponse<Result>) => {
           // 请求是否被取消
           const isCancel = axios.isCancel(res)
           if (transformRequestData && isFunction(transformRequestData) && !isCancel) {

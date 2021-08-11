@@ -12,13 +12,13 @@ console.log(modules, 'vuex自动导包')
 //
 // export default modules
 import asyncRoute from './async-route'
-import user from './user'
+import account from './account'
 import tabsView from './tabs-view'
 import lockscreen from './lockscreen'
 
 export default {
   asyncRoute,
-  user,
+  account,
   tabsView,
   lockscreen
 }

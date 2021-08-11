@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev":"yarn serve",
     "serve": "vite",
     "build": "vite build",
     "preview": "vite preview",
