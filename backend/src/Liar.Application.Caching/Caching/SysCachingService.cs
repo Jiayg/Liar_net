@@ -50,19 +50,16 @@ namespace Liar.Application.Caching.Caching
         /// <returns></returns>
         public List<RoleDto> GetAllRolesFromCache()
         {
-            var cahceValue = _redisService.Get(SysCachingConsts.RoleListCacheKey, () =>
+            return _redisService.Get(SysCachingConsts.RoleListCacheKey, () =>
             {
-                var allRoles = _roleRepository.OrderBy(o => o.Ordinal).Select(x => new RoleDto()
+                return _roleRepository.OrderBy(o => o.Ordinal).Select(x => new RoleDto()
                 {
                     Name = x.Name,
                     Ordinal = x.Ordinal,
                     Pid = x.Pid,
                     Tips = x.Tips
                 }).ToList();
-                return allRoles;
             }, TimeSpan.FromSeconds(CachingConsts.OneYear));
-
-            return cahceValue;
         }
 
         /// <summary>
@@ -71,29 +68,23 @@ namespace Liar.Application.Caching.Caching
         /// <returns></returns>
         public List<RelationDto> GetAllRelationsFromCache()
         {
-            var cahceValue = _redisService.Get(SysCachingConsts.MenuRelationCacheKey, () =>
-           {
-               var allRelations = _relationRepository.Select(x => new RelationDto()
-               {
-                   MenuId = x.MenuId,
-                   RoleId = x.RoleId
-               }).ToList();
-
-               return allRelations;
-           }, TimeSpan.FromSeconds(CachingConsts.OneYear));
-
-            return cahceValue;
+            return _redisService.Get(SysCachingConsts.MenuRelationCacheKey, () =>
+            {
+                return _relationRepository.Select(x => new RelationDto()
+                {
+                    MenuId = x.MenuId,
+                    RoleId = x.RoleId
+                }).ToList();
+            }, TimeSpan.FromSeconds(CachingConsts.OneYear));
         }
 
         public List<RoleMenuCodesDto> GetAllMenuCodesFromCache()
         {
-            var cahceValue = _redisService.Get(SysCachingConsts.MenuCodesCacheKey, () =>
+            return _redisService.Get(SysCachingConsts.MenuCodesCacheKey, () =>
             {
                 return _relationRepository.Where(x => x.Menu.Status == true).Select(x => new RoleMenuCodesDto() { }).Distinct().ToList();
 
             }, TimeSpan.FromSeconds(CachingConsts.OneYear));
-
-            return cahceValue;
         }
 
         /// <summary>
@@ -102,30 +93,27 @@ namespace Liar.Application.Caching.Caching
         /// <returns></returns>
         public List<MenuDto> GetAllMenusFromCache()
         {
-            var cahceValue = _redisService.Get(SysCachingConsts.MenuListCacheKey, () =>
-           {
-               var allMenus = _menuRepository.OrderBy(o => o.Ordinal).Select(x => new MenuDto
-               {
-                   Id = x.Id,
-                   Code = x.Code,
-                   Component = x.Component,
-                   Hidden = x.Hidden,
-                   Icon = x.Icon,
-                   IsMenu = x.IsMenu,
-                   IsOpen = x.IsOpen,
-                   Levels = x.Levels,
-                   Name = x.Name,
-                   Ordinal = x.Ordinal,
-                   PCode = x.PCode,
-                   PCodes = x.PCodes,
-                   Status = x.Status,
-                   Tips = x.Tips,
-                   Url = x.Url
-               }).ToList();
-               return allMenus;
-           }, TimeSpan.FromSeconds(CachingConsts.OneYear));
-
-            return cahceValue;
+            return _redisService.Get(SysCachingConsts.MenuListCacheKey, () =>
+            {
+                return _menuRepository.OrderBy(o => o.Ordinal).Select(x => new MenuDto
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Component = x.Component,
+                    Hidden = x.Hidden,
+                    Icon = x.Icon,
+                    IsMenu = x.IsMenu,
+                    IsOpen = x.IsOpen,
+                    Levels = x.Levels,
+                    Name = x.Name,
+                    Ordinal = x.Ordinal,
+                    PCode = x.PCode,
+                    PCodes = x.PCodes,
+                    Status = x.Status,
+                    Tips = x.Tips,
+                    Url = x.Url
+                }).ToList();
+            }, TimeSpan.FromSeconds(CachingConsts.OneYear));
         }
 
         /// <summary>
@@ -134,9 +122,9 @@ namespace Liar.Application.Caching.Caching
         /// <returns></returns>
         public List<DeptDto> GetAllDeptsFromCache()
         {
-            var cahceValue = _redisService.Get(SysCachingConsts.DetpListCacheKey, () =>
+            return _redisService.Get(SysCachingConsts.DetpListCacheKey, () =>
             {
-                var allDepts = _deptRepository.OrderBy(o => o.Ordinal).Select(x => new DeptDto
+                return _deptRepository.OrderBy(o => o.Ordinal).Select(x => new DeptDto
                 {
                     Id = x.Id,
                     FullName = x.FullName,
@@ -147,10 +135,7 @@ namespace Liar.Application.Caching.Caching
                     Tips = x.Tips,
                     Version = x.Version
                 }).ToList();
-                return allDepts;
             }, TimeSpan.FromSeconds(CachingConsts.OneYear));
-
-            return cahceValue;
         }
 
         /// <summary>
@@ -162,7 +147,7 @@ namespace Liar.Application.Caching.Caching
         {
             var cacheKey = ConcatCacheKey(SysCachingConsts.UserValidateInfoKeyPrefix, id.ToString());
 
-            var cachValue = await _redisService.GetAsync(cacheKey, async () =>
+            return await _redisService.GetAsync(cacheKey, async () =>
             {
                 var userValidate = _userRepository.Where(x => x.Id == id).Select(x => new UserValidateDto()
                 {
@@ -177,8 +162,6 @@ namespace Liar.Application.Caching.Caching
                 }).FirstOrDefault();
                 return await Task.FromResult(userValidate);
             }, TimeSpan.FromSeconds(CachingConsts.OneDay));
-
-            return cachValue;
         }
 
         /// <summary>

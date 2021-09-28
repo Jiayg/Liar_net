@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Liar.Application.EventBus;
 using Liar.Core.Consts;
 using Liar.Core.Helper;
 using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -17,12 +19,12 @@ namespace Liar.HttpApi.Host.Controllers
     public class TestController
     {
         private readonly ILogger<TestController> _logger;
-        private readonly TestBusPublish busPublish;
+        private readonly TestBusPublish _busPublish;
 
         public TestController(ILogger<TestController> logger, TestBusPublish busPublish)
         {
             this._logger = logger;
-            this.busPublish = busPublish;
+            this._busPublish = busPublish;
         }
 
         /// <summary>
@@ -30,9 +32,9 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<string> get()
+        public async Task<string> Get()
         {
-            await busPublish.ChangeStockCountAsync("11111111", 0);
+            await _busPublish.ChangeStockCountAsync("11111111", 0);
 
             _logger.LogInformation("LogInformation");
             _logger.LogDebug("LogDebug");
@@ -46,23 +48,28 @@ namespace Liar.HttpApi.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public string post()
+        public string Post()
         {
             return "this is post request";
         }
-
+ 
         /// <summary>
-        /// 测试生成1w有序id
+        /// 测试生成10w有序id
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Idgenerater")]
-        public ActionResult<List<long>> NextId()
+        [HttpGet("Generator_ID")]
+        public ActionResult<List<long>> NextId([FromRoute] int count)
         {
-            var ids = new List<long>();
-            for (int i = 0; i < 10000; i++)
+            List<long> ids = new List<long>();
+            
+            if (count <= 0) 
+                return ids;
+            
+            for (int i = 0; i < count; i++)
             {
                 ids.Add(IdGenerater.GetNextId());
             }
+            
             return ids;
         }
     }
