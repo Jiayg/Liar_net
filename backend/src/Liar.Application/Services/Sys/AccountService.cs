@@ -59,9 +59,7 @@ namespace Liar.Application.Services.Sys
             }).FirstOrDefault();
 
             if (user == null)
-            {
                 return ProblemFail(HttpStatusCode.BadRequest, "用户名或密码错误");
-            }
 
             var channelWriter = ChannelHelper<LoginLog>.Instance.Writer;
             var log = new LoginLog
@@ -71,8 +69,8 @@ namespace Liar.Application.Services.Sys
                 UserId = user.Id,
                 UserName = user.Name,
                 CreateTime = DateTime.Now,
-                Device = httpContent.Request.Headers["device"].FirstOrDefault() ?? "web",
-                RemoteIpAddress = httpContent.Connection.RemoteIpAddress.MapToIPv4().ToString()
+                Device = CurrentHttpContext.Request.Headers["device"].FirstOrDefault() ?? "web",
+                RemoteIpAddress = CurrentHttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString()
             };
 
             if (user.Status != 1)

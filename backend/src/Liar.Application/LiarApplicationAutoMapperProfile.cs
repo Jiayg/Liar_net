@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Liar.Application.Contracts.Dtos.Sys.Dept;
 using Liar.Application.Contracts.Dtos.Sys.Menu;
 using Liar.Application.Contracts.Dtos.Sys.Role;
 using Liar.Application.Contracts.Dtos.Sys.User;
-using Liar.Domain.Shared;
 using Liar.Domain.Sys;
 
 namespace Liar

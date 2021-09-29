@@ -1,0 +1,957 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Liar.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptCreationDto.FullName">
+            <summary>
+            部门全称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptCreationDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptCreationDto.Pid">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptCreationDto.SimpleName">
+            <summary>
+            部门简称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.FullName">
+            <summary>
+            部门全称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.Ordinal">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.Pid">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.Pids">
+            <summary>
+            父级Id集合
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.SimpleName">
+            <summary>
+            部门简称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.Tips">
+            <summary>
+            部门描述
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptDto.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Dept.DeptTreeDto.Children">
+            <summary>
+            子部门
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Code">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Component">
+            <summary>
+            組件配置
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Hidden">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.IsMenu">
+            <summary>
+            是否是菜单1:菜单,0:按钮
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.IsOpen">
+            <summary>
+            是否默认打开1:是,0:否
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Levels">
+            <summary>
+            级别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.PCode">
+            <summary>
+            父菜单编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.PCodes">
+            <summary>
+            递归父级菜单编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Status">
+            <summary>
+            状态1:启用,0:禁用
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Tips">
+            <summary>
+            鼠标悬停提示信息
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto.Url">
+            <summary>
+            链接
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Code">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Component">
+            <summary>
+            組件配置
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Hidden">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.IsMenu">
+            <summary>
+            是否是菜单1:菜单,0:按钮
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.IsOpen">
+            <summary>
+            是否默认打开1:是,0:否
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Levels">
+            <summary>
+            级别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.PCode">
+            <summary>
+            父菜单编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.PCodes">
+            <summary>
+            递归父级菜单编号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Status">
+            <summary>
+            状态1:启用,0:禁用
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Tips">
+            <summary>
+            鼠标悬停提示信息
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuDto.Url">
+            <summary>
+            链接
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuMetaDto.Title">
+            <summary>
+            菜单标题
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuMetaDto.Icon">
+            <summary>
+            菜单图标
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.ParentId">
+            <summary>
+            父菜单Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Levels">
+            <summary>
+            菜单级别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.IsMenu">
+            <summary>
+            是否是菜单（菜单还是按钮）
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.IsMenuName">
+            <summary>
+            是否菜单
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Status">
+            <summary>
+            菜单状态
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.StatusName">
+            <summary>
+            菜单状态
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Url">
+            <summary>
+            菜单URL
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Path">
+            <summary>
+            菜单路径
+            </summary>
+        </member>
+        <member name="F:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto._icon">
+            <summary>
+            菜单图标
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Code">
+            <summary>
+            菜单编码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.PCode">
+            <summary>
+            父菜单编码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Component">
+            <summary>
+            菜单对饮视图组件
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Hidden">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuNodeDto.Children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.ParentId">
+            <summary>
+            父菜单Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Code">
+            <summary>
+            菜编码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.PCode">
+            <summary>
+            父菜单编码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Path">
+            <summary>
+            菜单路径
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Component">
+            <summary>
+            菜单对应视图组件
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Hidden">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Meta">
+            <summary>
+            菜单元数据
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.MenuRouterDto.Children">
+            <summary>
+            子菜单
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1">
+            <summary>
+            业务节点
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1.Id">
+            <summary>
+            节点Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1.PID">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1.Name">
+            <summary>
+            节点名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1.Checked">
+            <summary>
+            是否选中
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.Node`1.Children">
+            <summary>
+            子节点
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.Id">
+            <summary>
+            节点Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.PID">
+            <summary>
+            父节点Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.Name">
+            <summary>
+            节点名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.Open">
+            <summary>
+            是否展开
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.Checked">
+            <summary>
+            是否选中
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Menu.ZTreeNodeDto`2.Data">
+            <summary>
+            节点数据
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RelationDto.MenuId">
+            <summary>
+            菜单Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RelationDto.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleCreationDto.Name">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleCreationDto.Tips">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleCreationDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleDto.Name">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleDto.Ordinal">
+            <summary>
+            序号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleDto.Pid">
+            <summary>
+            父级角色Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleDto.Tips">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleDto.Permissions">
+            <summary>
+            权限集合
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleMenuCodesDto.Code">
+            <summary>
+            菜单Code
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RoleMenuCodesDto.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.Role.RolePagedSearchDto.RoleName">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserChangePwdDto.OldPassword">
+            <summary>
+            旧密码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserChangePwdDto.Password">
+            <summary>
+            当前密码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserChangePwdDto.RePassword">
+            <summary>
+            确认密码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.DeptId">
+            <summary>
+            部门Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Email">
+            <summary>
+            邮件地址
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationAndUpdationDto.Status">
+            <summary>
+            账户状态
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserCreationDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.Dtos.Sys.User.UserDto">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.DeptId">
+            <summary>
+            部门Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.DeptName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Email">
+            <summary>
+            邮件地址
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.RoleIds">
+            <summary>
+            角色Id列表，以逗号分隔
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.RoleNames">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.SexName">
+            <summary>
+            性别描述
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.Status">
+            <summary>
+            账户状态
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserDto.StatusName">
+            <summary>
+            账户状态描述
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.Dtos.Sys.User.UserInfoDto">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserInfoDto.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserInfoDto.Profile">
+            <summary>
+            基本信息
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserInfoDto.Roles">
+            <summary>
+            角色集合
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserInfoDto.Permissions">
+            <summary>
+            权限集合
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserLoginDto.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserLoginDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto">
+            <summary>
+            用户个人信息
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.DeptId">
+            <summary>
+            部门Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.DeptFullName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Email">
+            <summary>
+            电邮
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.RoleIds">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Roles">
+            <summary>
+            角色集合
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserProfileDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserRefreshTokenDto.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserRefreshTokenDto.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserRefreshTokenDto.RefreshToken">
+            <summary>
+            RefreshToken
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserTokenInfoDto.Token">
+            <summary>
+            访问Token
+            </summary>
+        </member>
+        <member name="P:Liar.Application.Contracts.Dtos.Sys.User.UserTokenInfoDto.RefreshToken">
+            <summary>
+            刷新Token
+            </summary>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IAccountService.LoginAsync(Liar.Application.Contracts.Dtos.Sys.User.UserLoginDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IAccountService.GetUserInfoAsync(System.Int64)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IAccountService.GetUserValidateInfoAsync(System.Int64)">
+            <summary>
+            获取登录信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IAccountService.UpdatePasswordAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.User.UserChangePwdDto)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IDeptService.CreateAsync(Liar.Application.Contracts.Dtos.Sys.Dept.DeptCreationDto)">
+            <summary>
+            新增部门
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IDeptService.UpdateAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.Dept.DeptUpdationDto)">
+            <summary>
+            修改部门
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns>  
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IDeptService.DeleteAsync(System.Int64)">
+            <summary>
+            删除部门
+            </summary>
+            <param name="Id"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IDeptService.GetTreeListAsync">
+            <summary>
+            部门树结构
+            </summary>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.CreateAsync(Liar.Application.Contracts.Dtos.Sys.Menu.MenuCreationDto)">
+            <summary>
+            新增菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.UpdateAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.Menu.MenuUpdationDto)">
+            <summary>
+            修改菜单
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.DeleteAsync(System.Int64)">
+            <summary>
+            删除菜单
+            </summary>
+            <param name="id"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.GetlistAsync">
+            <summary>
+            获取菜单列表
+            </summary>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.GetMenusForRouterAsync(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            获取左侧路由菜单
+            </summary>
+            <param name="roleIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IMenuService.GetMenuTreeListByRoleIdAsync(System.Int64)">
+            <summary>
+            获取指定角色的菜单
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.CreateAsync(Liar.Application.Contracts.Dtos.Sys.Role.RoleCreationDto)">
+            <summary>
+            新增角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.UpdateAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.Role.RoleUpdationDto)">
+            <summary>
+            修改角色
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.DeleteAsync(System.Int64)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.SetPermissonsAsync(Liar.Application.Contracts.Dtos.Sys.Role.RoleSetPermissonsDto)">
+            <summary>
+            设置角色权限
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.GetRoleTreeListByUserIdAsync(System.Int64)">
+            <summary>
+            获取用户拥有的角色
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.Sys.IRoleService.GetPagedAsync(Liar.Application.Contracts.Dtos.Sys.Role.RolePagedSearchDto)">
+            <summary>
+            获取角色列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.CreateAsync(Liar.Application.Contracts.Dtos.Sys.User.UserCreationDto)">
+            <summary>
+            新增用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.UpdateAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.User.UserUpdationDto)">
+            <summary>
+            修改用户
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.DeleteAsync(System.Int64)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.SetRoleAsync(System.Int64,Liar.Application.Contracts.Dtos.Sys.User.UserSetRoleDto)">
+            <summary>
+            设置用户角色
+            </summary>
+            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.ChangeStatusAsync(System.Int64,System.Int32)">
+            <summary>
+            修改用户状态
+            </summary>
+            <param name="id"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.ChangeStatusAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Int32)">
+            <summary>
+            修改用户状态
+            </summary>
+            <param name="id"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.GetPermissionsAsync(System.Int64,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            获取当前用户是否拥有指定权限
+            </summary>
+            <param name="userId"></param>
+            <param name="permissions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Liar.Application.Contracts.IServices.IUserService.GetPagedAsync(Liar.Application.Contracts.Dtos.Sys.User.UserSearchPagedDto)">
+            <summary>
+            分页获取列表
+            </summary>
+            <param name="search"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Liar.Application.Contracts.ServiceResult.AppSrvResult">
+            <summary>
+            Application返回结果包装类,无返回类型(void,task)
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.ServiceResult.AppSrvResult`1">
+            <summary>
+            Application返回结果包装类,有返回类型
+            </summary>
+        </member>
+        <member name="T:Liar.Application.Contracts.ServiceResult.ProblemDetails">
+            <summary>
+            错误信息类
+            </summary>
+        </member>
+    </members>
+</doc>

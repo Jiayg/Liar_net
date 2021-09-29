@@ -12,10 +12,10 @@ namespace Liar
         public static async Task Main(string[] args)
         {
             await Host.CreateDefaultBuilder(args)
-                       .ConfigureHostConfiguration(configuration =>
-                       {
-                           configuration.AddCommandLine(args);
-                       })
+                      .ConfigureHostConfiguration(configuration =>
+                      {
+                          configuration.AddCommandLine(args);
+                      })
                       .ConfigureWebHostDefaults(builder =>
                       {
                           builder.UseIISIntegration()
@@ -27,6 +27,11 @@ namespace Liar
                       })
                       .ConfigureLogging(logging =>
                       {
+                          // 1.过滤掉系统默认的一些日志 
+                          logging.AddFilter("System", LogLevel.Error);
+                          logging.AddFilter("Microsoft", LogLevel.Information);
+                          logging.AddFilter("Volo.Abp", LogLevel.Information);
+
                           logging.ClearProviders();
                           logging.AddConsole();
                           logging.AddDebug();

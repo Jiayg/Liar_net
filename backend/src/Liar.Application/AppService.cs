@@ -7,7 +7,6 @@ using Liar.Application.Contracts.ServiceResult;
 using Liar.Core.Helper;
 using Microsoft.AspNetCore.Http;
 using Volo.Abp.Application.Services;
-using ProblemDetails = Liar.Application.Contracts.ServiceResult.ProblemDetails;
 
 namespace Liar.Application
 {
@@ -16,37 +15,15 @@ namespace Liar.Application
         /// <summary>
         /// 当前http请求对象
         /// </summary>
-        public HttpContext httpContent
-        {
-            get
-            {
-                return HttpContextUtility.GetCurrentHttpContext();
-            }
-        }
+        public static HttpContext CurrentHttpContext => HttpContextUtility.GetCurrentHttpContext();
 
-        public AppSrvResult AppSrvResult()
-        {
-            return new AppSrvResult();
-        }
+        public static AppSrvResult AppSrvResult() => new();
 
-        public AppSrvResult<TValue> AppSrvResult<TValue>([NotNull] TValue value)
-        {
-            return new AppSrvResult<TValue>(value);
-        }
+        public static AppSrvResult<TValue> AppSrvResult<TValue>([NotNull] TValue value) => new(value);
 
-        public ProblemDetails ProblemFail(HttpStatusCode statusCode, string detail)
-        {
+        public static ProblemDetails ProblemFail(HttpStatusCode statusCode, string detail) => new(statusCode, detail, null, null, null);
 
-            return new ProblemDetails(statusCode, detail, null, null, null);
-        }
-        public ProblemDetails Problem(HttpStatusCode? statusCode = null, string detail = null, string title = null, string instance = null, string type = null)
-        {
-            return new ProblemDetails(statusCode, detail, title, instance, type);
-        }
+        public static ProblemDetails Problem(HttpStatusCode? statusCode = null, string detail = null, string title = null, string instance = null, string type = null) => new ProblemDetails(statusCode, detail, title, instance, type);
 
-        public Expression<Func<TEntity, object>>[] UpdatingProps<TEntity>(params Expression<Func<TEntity, object>>[] expressions)
-        {
-            return expressions;
-        }
     }
 }

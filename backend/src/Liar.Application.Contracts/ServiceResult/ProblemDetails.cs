@@ -24,7 +24,7 @@ namespace Liar.Application.Contracts.ServiceResult
             Instance = instance;
             Type = type ?? string.Concat("https://httpstatuses.com/", status);
         }
-         
+
 
         [JsonPropertyName("detail")]
         public string Detail { get; set; }

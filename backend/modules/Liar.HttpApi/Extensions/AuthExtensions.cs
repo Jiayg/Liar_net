@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Liar.Core.Microsoft.Extensions.Configuration;
 using Liar.Domain.Shared.ConfigModels;
@@ -11,6 +13,7 @@ using Liar.HttpApi.Authorize;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -61,10 +64,30 @@ namespace Liar.HttpApi.Extensions
                         // 跳过默认的处理逻辑，返回下面的模型数据
                         context.HandleResponse();
 
-                        context.Response.ContentType = "application/json;charset=utf-8";
-                        context.Response.StatusCode = StatusCodes.Status200OK;
+                        var status = (int)HttpStatusCode.Unauthorized;
+                        var hostAndPort = context.Request.Host.HasValue ? context.Request.Host.Value : string.Empty;
+                        var requestUrl = string.Concat(hostAndPort, context.Request.Path);
+                        var type = string.Concat("https://httpstatuses.com/", status);
+                        var title = "请求失败";
+                        var detial = "获取授权失败,请先登录！";
+                        var problemDetails = new ProblemDetails
+                        {
+                            Title = title
+                            ,
+                            Detail = detial
+                            ,
+                            Type = type
+                            ,
+                            Status = status
+                            ,
+                            Instance = requestUrl
+                        };
 
-                        await context.Response.WriteAsync("获取授权失败,请先登录！");
+                        context.Response.ContentType = "application/problem+json";
+                        context.Response.StatusCode = status;
+
+                        var stream = context.Response.Body;
+                        await JsonSerializer.SerializeAsync(stream, problemDetails);
                     },
                     OnAuthenticationFailed = context =>
                     {

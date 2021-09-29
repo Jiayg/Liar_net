@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>..\Liar.HttpApi.Host\bin\Debug\net5.0\Liar.Application.Contracts.xml</DocumentationFile>
+		<DocumentationFile>..\Liar.HttpApi.Host\Liar.Application.Contracts.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
