@@ -11,7 +11,7 @@ namespace Liar.HttpApi.Host.Controllers
     /// <summary>
     /// 部门管理
     /// </summary>
-    [Route("usr/depts")]
+    [Route("depts")]
     [ApiController]
     public class DeptController : BaseController
     {

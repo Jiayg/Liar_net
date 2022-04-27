@@ -39,7 +39,7 @@ namespace Liar.HttpApi.Host.Controllers
             var result = await _accountService.LoginAsync(input);
 
             if (result.IsSuccess)
-                return Created($"/usr/session"
+                return Created($"/session"
                         ,
                         new UserTokenInfoDto
                         {

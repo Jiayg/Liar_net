@@ -11,7 +11,7 @@ namespace Liar.HttpApi.Host.Controllers
     /// <summary>
     /// 角色管理
     /// </summary>
-    [Route("usr/roles")]
+    [Route("roles")]
     [ApiController]
     public class RoleController : BaseController
     {

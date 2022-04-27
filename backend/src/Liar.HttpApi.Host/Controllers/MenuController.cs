@@ -13,7 +13,7 @@ namespace Liar.HttpApi.Host.Controllers
     /// <summary>
     /// 菜单管理
     /// </summary>
-    [Route("usr/menus")]
+    [Route("menus")]
     [ApiController]
     public class MenuController : BaseController
     {
